@@ -1,0 +1,22 @@
+[
+  {
+    "title": "Paramshakti HPC Workshop",
+    "date": "2 April 2026",
+    "description": "A hands-on workshop introducing researchers and students to Paramshakti HPC usage workflows.",
+    "reference": {
+      "type": "html",
+      "url": "/references/paramshakti-workshop.html",
+      "label": "View workshop details"
+    }
+  },
+  {
+    "title": "Network Core Maintenance",
+    "date": "20 January 2026",
+    "description": "Scheduled maintenance for core network devices with temporary interruption windows in selected buildings.",
+    "reference": {
+      "type": "pdf",
+      "url": "/files/network-core-maintenance.pdf",
+      "label": "Open maintenance circular"
+    }
+  }
+]

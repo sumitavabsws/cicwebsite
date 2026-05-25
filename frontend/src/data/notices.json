@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Network Maintenance",
+    "date": "10 March 2026",
+    "description": "Campus network maintenance will occur from 2 AM to 4 AM.",
+    "reference": {
+      "type": "pdf",
+      "url": "/files/network-maintenance-notice.pdf",
+      "label": "Open official notice"
+    }
+  },
+  {
+    "title": "MATLAB License Renewal",
+    "date": "15 March 2026",
+    "description": "Students must renew MATLAB licenses before the deadline.",
+    "reference": {
+      "type": "html",
+      "url": "/references/matlab-license-renewal.html",
+      "label": "View renewal instructions"
+    }
+  },
+  {
+    "title": "VPN Access Update",
+    "date": "20 March 2026",
+    "description": "VPN configuration updated for remote users.",
+    "reference": {
+      "type": "pdf",
+      "url": "/files/vpn-access-update.pdf",
+      "label": "Open VPN update"
+    }
+  }
+]

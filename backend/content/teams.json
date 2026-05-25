@@ -1,0 +1,162 @@
+[
+  {
+    "id": "team-1-d43abed8-b360-4465-b0e5-9f0a25f1a6f2",
+    "name": "Dr. Sandip Chakraborty",
+    "role": "Head",
+    "phone": "82361/82898(O)",
+    "email": "head@cc.iitkgp.ac.in",
+    "photo": "/media/teams/1773750905-07f810fa0f.png"
+  },
+  {
+    "id": "team-2-a3b90ff1-2c6d-4d31-973a-79317f7a120f",
+    "name": "Dr. Partha Goswami",
+    "role": "Chief System Manager",
+    "phone": "82362(O), 81953(R)",
+    "email": "partha@cc.iitkgp.ac.in",
+    "photo": "/media/teams/1773751023-32c0fb1744.jpg"
+  },
+  {
+    "id": "team-3-98ee16b8-d090-4ce1-8aeb-1ef3e60b9b99",
+    "name": "Mr. Alok Baran Das",
+    "role": "Principal Network Engineer",
+    "phone": "82367(O), 60368(R)",
+    "email": "alok@cc.iitkgp.ac.in",
+    "photo": "/media/teams/1773751011-8ac3d194a0.jpg"
+  },
+  {
+    "id": "team-4-88131959-aa03-438a-846b-b3886256b881",
+    "name": "Mr. Sudipta Chowdhury",
+    "role": "Principal Network Engineer",
+    "phone": "81390(O)",
+    "email": "sudiptoc@cc.iitkgp.ac.in",
+    "photo": "/media/teams/1773751042-2c633f942c.jpg"
+  },
+  {
+    "id": "team-5-a04bf7db-7e4a-4b42-ab1f-2f122c7956d0",
+    "name": "Mr. Surid Kumar Das",
+    "role": "Senior System Engineer Grade I",
+    "phone": "81934(O), 81935(R)",
+    "email": "surid@cc.iitkgp.ac.in",
+    "photo": "/media/teams/1773750973-cd81d2bdd8.jpg"
+  },
+  {
+    "id": "team-6-d75c038e-c21e-4cc1-a1ac-28b7347d6d72",
+    "name": "Mr. Sudipto Das",
+    "role": "Senior System Engineer Grade-II",
+    "phone": "81964(O), 81965(R)",
+    "email": "sudipto@cc.iitkgp.ac.in",
+    "photo": "/media/teams/1773750963-12d7d5deef.jpg"
+  },
+  {
+    "id": "team-7-091199ab-166d-46c9-b9bf-2fb944d94f5f",
+    "name": "Mr. Uddipan Tunga",
+    "role": "Senior Network Engineer Grade-I",
+    "phone": "83047(O)",
+    "email": "uddipan@cc.iitkgp.ac.in",
+    "photo": "/media/teams/1773750949-8056bd3308.jpg"
+  },
+  {
+    "id": "team-8-30e096e4-57d2-4c56-89f4-4e55113cd16a",
+    "name": "Mr. Deepan Banerjee",
+    "role": "Senior Network Engineer Grade-II",
+    "phone": "82386(O), 60263(R)",
+    "email": "deepan@cc.iitkgp.ac.in",
+    "photo": "/media/teams/1773750939-3660ee8dee.jpg"
+  },
+  {
+    "id": "team-9-a5a464fa-8d66-4396-b50c-bae7383f5401",
+    "name": "Mr. Subhasish Chattopadhyay",
+    "role": "Senior Network Engineer Grade-II",
+    "phone": "82372(O), 50507(R)",
+    "email": "subhasish@cc.iitkgp.ac.in",
+    "photo": "/media/teams/1773750928-b316f3a3ce.jpg"
+  },
+  {
+    "id": "team-10-c5b7e70c-3eb8-40d0-b8c8-870ca8f2f99c",
+    "name": "Mr. Debnath Pramanik",
+    "role": "Senior System Engineer Grade-II",
+    "phone": "82378(O), 82379(R)",
+    "email": "debnathp@cc.iitkgp.ac.in",
+    "photo": "/media/teams/1773750738-3926537976.jpg"
+  },
+  {
+    "id": "team-11-f39dc4b0-3ce1-419c-b099-7b58ba7bb772",
+    "name": "Mr. Nikhilesh Jana",
+    "role": "Senior Software Engineer Grade-II",
+    "phone": "82366(O)",
+    "email": "nikhileshjana@cc.iitkgp.ac.in",
+    "photo": "/media/teams/1773750917-057a171597.jpg"
+  },
+  {
+    "id": "team-12-3722d0b5-5d38-4727-82ed-6f0fce313eaa",
+    "name": "Mr. Tanumoy Ghosal",
+    "role": "Network Engineer",
+    "phone": "82388(O)",
+    "email": "tanumoy@cc.iitkgp.ac.in",
+    "photo": "/media/teams/1773750696-e8cab4ede4.jpg"
+  },
+  {
+    "id": "team-13-03bb0552-e91c-44a6-a271-c51ae622a65a",
+    "name": "Mr. Gyan Singh Patel",
+    "role": "System Engineer (on Lien)",
+    "phone": "82366(O), 60611(R)",
+    "email": "gyan@cc.iitkgp.ac.in",
+    "photo": "/media/teams/1773750686-a5c16fb898.jpg"
+  },
+  {
+    "id": "team-14-984340d5-2c5c-46c1-9d12-f8fcecadd63a",
+    "name": "Mr. Debabrata Dey",
+    "role": "Software Engineer/System Engineer/Network Engineer",
+    "phone": "82387(O), 50785(R)",
+    "email": "debu@cc.iitkgp.ac.in",
+    "photo": "/media/teams/1773750677-1f34542cf2.jpg"
+  },
+  {
+    "id": "team-15-4651624b-6a27-44aa-8249-3f7231f8a3c2",
+    "name": "Mr. Sumitava Biswas",
+    "role": "Software Engineer",
+    "phone": "82376(O)",
+    "email": "sumitavabiswas@cc.iitkgp.ac.in",
+    "photo": "/media/teams/1773750670-7ba7431b2f.jpg"
+  },
+  {
+    "id": "team-16-05c64d38-d353-4b9f-ae9b-bcf9b6a05039",
+    "name": "Mr. Subhajit Chakrabortty",
+    "role": "System Engineer",
+    "phone": "82376 (O)",
+    "email": "subhajit@cc.iitkgp.ac.in",
+    "photo": "/media/teams/1773750661-5281bbc6d7.jpg"
+  },
+  {
+    "id": "team-17-05183e7d-1b8e-46e9-8203-639bef098779",
+    "name": "Mr. Sunil Patra",
+    "role": "Junior Technical Superintendent",
+    "phone": "82393(O), 50218(R)",
+    "email": "sunil@cc.iitkgp.ac.in",
+    "photo": "/media/teams/1773750650-20c1790377.jpg"
+  },
+  {
+    "id": "team-18-a616f597-c235-4f02-9072-33972f024431",
+    "name": "Mr. Sumanta Bhattacharya",
+    "role": "Senior Accounts Officer",
+    "phone": "82360(O)",
+    "email": "sumantab@adm.iitkgp.ac.in",
+    "photo": "/media/teams/1773750645-458c69eac3.png"
+  },
+  {
+    "id": "team-19-f41ea40b-77d2-4a3d-b626-b30b587a55dc",
+    "name": "Mr. Ajay Patle",
+    "role": "Executive",
+    "phone": "82360(O)",
+    "email": "ajay.patle@adm.iitkgp.ac.in",
+    "photo": "/media/teams/1773750637-117c1f15d3.png"
+  },
+  {
+    "id": "team-20-a4449df7-8e1c-46e8-a32d-42c0242115a3",
+    "name": "Mr. Bipin Gupta",
+    "role": "Junior Executive",
+    "phone": "82360(O)",
+    "email": "bipin.gupta@adm.iitkgp.ac.in",
+    "photo": "/media/teams/1773750632-fb9dec604f.jpg"
+  }
+]

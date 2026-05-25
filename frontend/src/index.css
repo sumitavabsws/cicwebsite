@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html.home-scroll-snap {
+  scroll-snap-type: y mandatory;
+  scroll-padding-top: 156px;
+  scroll-behavior: smooth;
+}
+
+html.home-scroll-snap.home-scroll-snap-release {
+  scroll-snap-type: none;
+}

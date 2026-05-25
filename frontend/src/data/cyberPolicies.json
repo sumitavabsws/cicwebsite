@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Acceptable Use Policy",
+    "date": "5 March 2026",
+    "description": "Guidelines for responsible use of institute computing, network, and internet resources.",
+    "reference": {
+      "type": "pdf",
+      "url": "/files/acceptable-use-policy.pdf",
+      "label": "Open policy PDF"
+    }
+  },
+  {
+    "title": "Password and Account Security Policy",
+    "date": "8 March 2026",
+    "description": "Standards for password hygiene, multi-factor practices, and protection of institute credentials.",
+    "reference": {
+      "type": "pdf",
+      "url": "/files/password-account-security-policy.pdf",
+      "label": "Open policy PDF"
+    }
+  },
+  {
+    "title": "Incident Reporting Procedure",
+    "date": "12 March 2026",
+    "description": "Steps to report phishing, malware, credential leaks, or suspicious network activity to CIC.",
+    "reference": {
+      "type": "pdf",
+      "url": "/files/incident-reporting-procedure.pdf",
+      "label": "Open procedure PDF"
+    }
+  }
+]
