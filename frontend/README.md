@@ -25,8 +25,15 @@ http://<your-host-ip>:5173
 
 Optional environment variables:
 
-- `CIC_ADMIN_USERNAME`
-- `CIC_ADMIN_PASSWORD`
-- `CIC_ADMIN_SECRET`
-- `CIC_ADMIN_TOKEN_TTL_SECONDS`
 - `CIC_ALLOWED_ORIGINS`
+- `ANANTA_BASE_URL` - Backend URL for Ananta passthrough auth and SSO session validation. Defaults to `http://10.72.14.39:5000/framework`.
+- `ANANTA_CLIENT_SECRET` - Optional shared secret sent by the CIC backend to Ananta as `X-Ananta-Client-Secret`.
+- `VITE_ANANTA_LOGIN_URL` - Ananta login URL for the top ribbon link. Defaults to `http://10.72.14.39:5000/framework/signin/?next=%2Fframework%2Flanding%2F`.
+
+For Ananta-backed admin login, Ananta must allow the CIC website admin URL as a
+safe redirect target, for example:
+
+```text
+SSO_ALLOWED_REDIRECT_HOSTS=localhost,127.0.0.1,<cic-website-host>:5173
+SSO_API_CLIENT_SECRET=<same-value-as-ANANTA_CLIENT_SECRET>
+```

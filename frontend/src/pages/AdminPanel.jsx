@@ -1194,14 +1194,18 @@ function AdminPanel() {
     loading: contentLoading,
     error: contentError,
   } = useSiteContent();
-  const { isAuthenticated, login, logout, adminUser, loading: authLoading } = useAdminAuth();
+  const {
+    isAuthenticated,
+    login,
+    adminUser,
+    loading: authLoading,
+    sessionWarning,
+  } = useAdminAuth();
 
   const [activeTab, setActiveTab] = useState("notices");
   const [message, setMessage] = useState(null);
-  const [loginForm, setLoginForm] = useState({
-    username: "",
-    password: "",
-  });
+  const [loginDraft, setLoginDraft] = useState({ username: "", password: "" });
+  const [loginLoading, setLoginLoading] = useState(false);
   const [noticeDraft, setNoticeDraft] = useState(createEmptyUpdateDraft());
   const [eventDraft, setEventDraft] = useState(createEmptyUpdateDraft());
   const [serviceDraft, setServiceDraft] = useState(createServiceDraft());
@@ -1217,27 +1221,6 @@ function AdminPanel() {
       [],
   );
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-
-    try {
-      await login(loginForm.username, loginForm.password);
-      setMessage({
-        type: "success",
-        text: "Admin login successful.",
-      });
-      setLoginForm({
-        username: "",
-        password: "",
-      });
-    } catch (error) {
-      setMessage({
-        type: "error",
-        text: error.message,
-      });
-    }
-  };
-
   if (authLoading) {
     return (
       <div className="bg-white py-24">
@@ -1251,19 +1234,72 @@ function AdminPanel() {
   }
 
   if (!isAuthenticated) {
+    const handleAdminLogin = async (event) => {
+      event.preventDefault();
+      setLoginLoading(true);
+      setMessage(null);
+
+      try {
+        await login(loginDraft);
+        setLoginDraft({ username: "", password: "" });
+      } catch (error) {
+        setMessage({
+          type: "error",
+          text: error.message,
+        });
+      } finally {
+        setLoginLoading(false);
+      }
+    };
+
     return (
       <div className="bg-white py-24">
         <div className="mx-auto max-w-[1640px] px-4 sm:px-6 2xl:px-10">
-        <div className="max-w-xl border-t border-slate-200 pt-8">
+        <form onSubmit={handleAdminLogin} className="max-w-xl border-t border-slate-200 pt-8">
           <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-900 text-white">
             <ShieldCheck className="h-6 w-6" />
           </div>
 
-          <h1 className="text-3xl font-black text-slate-900">Admin Panel</h1>
+          <h1 className="text-3xl font-black text-slate-900">Admin Login</h1>
           <p className="mt-3 leading-7 text-slate-600">
-            Sign in to manage notices, events, and service content for the CIC
-            website.
+            Sign in with your Ananta credentials to manage notices, events, and
+            service content for the CIC website.
           </p>
+
+          <div className="mt-6 grid gap-4">
+            <label className="grid gap-2 text-sm font-medium text-slate-700">
+              Username
+              <input
+                value={loginDraft.username}
+                onChange={(event) =>
+                  setLoginDraft((currentDraft) => ({
+                    ...currentDraft,
+                    username: event.target.value,
+                  }))
+                }
+                autoComplete="username"
+                required
+                className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
+              />
+            </label>
+
+            <label className="grid gap-2 text-sm font-medium text-slate-700">
+              Password
+              <input
+                type="password"
+                value={loginDraft.password}
+                onChange={(event) =>
+                  setLoginDraft((currentDraft) => ({
+                    ...currentDraft,
+                    password: event.target.value,
+                  }))
+                }
+                autoComplete="current-password"
+                required
+                className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
+              />
+            </label>
+          </div>
 
           {message ? (
             <div
@@ -1277,50 +1313,14 @@ function AdminPanel() {
             </div>
           ) : null}
 
-          <form onSubmit={handleLogin} className="mt-6 grid gap-4">
-            <label className="grid gap-2 text-sm font-medium text-slate-700">
-              Username
-              <input
-                value={loginForm.username}
-                onChange={(event) =>
-                  setLoginForm((currentForm) => ({
-                    ...currentForm,
-                    username: event.target.value,
-                  }))
-                }
-                className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
-              />
-            </label>
-
-            <label className="grid gap-2 text-sm font-medium text-slate-700">
-              Password
-              <input
-                type="password"
-                value={loginForm.password}
-                onChange={(event) =>
-                  setLoginForm((currentForm) => ({
-                    ...currentForm,
-                    password: event.target.value,
-                  }))
-                }
-                className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
-              />
-            </label>
-
-            <button
-              type="submit"
-              className="inline-flex items-center justify-center rounded-xl bg-cicBlue px-5 py-3 font-semibold text-white transition hover:bg-blue-900"
-            >
-              Login
-            </button>
-          </form>
-
-          <div className="mt-6 rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm leading-6 text-slate-600">
-            This admin panel now uses the Python CMS backend. Unless you override
-            backend environment variables, the default credentials are
-            <span className="font-medium text-slate-900"> admin / cic-admin123</span>.
-          </div>
-        </div>
+          <button
+            type="submit"
+            disabled={loginLoading}
+            className="mt-6 inline-flex items-center justify-center rounded-xl bg-cicBlue px-5 py-3 font-semibold text-white transition hover:bg-blue-900"
+          >
+            {loginLoading ? "Signing in..." : "Sign in"}
+          </button>
+        </form>
         </div>
       </div>
     );
@@ -1380,14 +1380,6 @@ function AdminPanel() {
             <RefreshCcw className="h-4 w-4" />
             Reset defaults
           </button>
-
-          <button
-            type="button"
-            onClick={logout}
-            className="rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
-          >
-            Logout
-          </button>
         </div>
       </div>
 
@@ -1400,6 +1392,13 @@ function AdminPanel() {
           }`}
         >
           {message.text}
+        </div>
+      ) : null}
+
+      {sessionWarning ? (
+        <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          Your Ananta session is close to expiry. Interact with this page to keep
+          working.
         </div>
       ) : null}
 

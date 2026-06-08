@@ -1,12 +1,12 @@
-import base64
-import hashlib
-import hmac
 import json
 import os
 import time
 import uuid
 from pathlib import Path
 from typing import Any
+from urllib.error import HTTPError, URLError
+from urllib.parse import urlencode, urljoin, urlsplit
+from urllib.request import Request as UrlRequest, urlopen
 
 from fastapi import Depends, FastAPI, File, Header, HTTPException, Request, UploadFile, status
 from fastapi.middleware.cors import CORSMiddleware
@@ -22,10 +22,8 @@ TEAMS_SEED_FILE = BASE_DIR / "content" / "teams.seed.json"
 MEDIA_DIR = BASE_DIR / "content" / "images"
 TEAM_IMAGES_DIR = MEDIA_DIR / "teams"
 RESOURCES_DIR = BASE_DIR / "content" / "resources"
-ADMIN_USERNAME = os.getenv("CIC_ADMIN_USERNAME", "admin")
-ADMIN_PASSWORD = os.getenv("CIC_ADMIN_PASSWORD", "cic-admin123")
-ADMIN_SECRET = os.getenv("CIC_ADMIN_SECRET", "cic-admin-secret-change-me")
-TOKEN_TTL_SECONDS = int(os.getenv("CIC_ADMIN_TOKEN_TTL_SECONDS", "43200"))
+ANANTA_BASE_URL = os.getenv("ANANTA_BASE_URL", "http://10.72.14.39:5000/framework").rstrip("/")
+ANANTA_CLIENT_SECRET = os.getenv("ANANTA_CLIENT_SECRET", "")
 MAX_TEAM_PHOTO_SIZE_BYTES = 1000 * 1024
 ALLOWED_TEAM_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
 ALLOWED_ORIGINS = [
@@ -38,11 +36,6 @@ ALLOWED_ORIGINS = [
 ]
 
 
-class LoginPayload(BaseModel):
-    username: str
-    password: str
-
-
 class ContentSectionPayload(BaseModel):
     items: list[dict[str, Any]] = Field(default_factory=list)
 
@@ -51,6 +44,12 @@ class SiteContentPayload(BaseModel):
     notices: list[dict[str, Any]] = Field(default_factory=list)
     events: list[dict[str, Any]] = Field(default_factory=list)
     services: list[dict[str, Any]] = Field(default_factory=list)
+
+
+class LoginPayload(BaseModel):
+    username: str
+    password: str
+    next: str | None = None
 
 
 def ensure_content_file() -> None:
@@ -112,55 +111,119 @@ def write_teams(teams: list[dict[str, Any]]) -> list[dict[str, Any]]:
     return teams
 
 
-def _token_signature(username: str, expires_at: int) -> str:
-    payload = f"{username}:{expires_at}".encode("utf-8")
-    digest = hmac.new(ADMIN_SECRET.encode("utf-8"), payload, hashlib.sha256).digest()
-    return base64.urlsafe_b64encode(digest).decode("utf-8").rstrip("=")
+def validate_ananta_session(session_id: str, renew: bool = True) -> dict[str, Any]:
+    query = urlencode({"renew": "1" if renew else "0"})
+    url = f"{ANANTA_BASE_URL}/api/session/{session_id}/me/?{query}"
+    request = UrlRequest(url, headers={"Accept": "application/json"})
 
-
-def create_token(username: str) -> str:
-    expires_at = int(time.time()) + TOKEN_TTL_SECONDS
-    signature = _token_signature(username, expires_at)
-    payload = f"{username}:{expires_at}:{signature}".encode("utf-8")
-    return base64.urlsafe_b64encode(payload).decode("utf-8")
-
-
-def verify_token(token: str) -> str:
     try:
-        decoded = base64.urlsafe_b64decode(token.encode("utf-8")).decode("utf-8")
-        username, expires_at_text, signature = decoded.split(":", 2)
-        expires_at = int(expires_at_text)
-    except (ValueError, UnicodeDecodeError):
+        with urlopen(request, timeout=5) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+    except HTTPError as error:
+        detail = "Ananta session expired or invalid."
+        try:
+            payload = json.loads(error.read().decode("utf-8"))
+            detail = payload.get("error") or detail
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            pass
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail=detail) from None
+    except (TimeoutError, URLError, OSError) as error:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid authentication token.",
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=f"Unable to reach Ananta SSO: {error}",
         ) from None
 
-    if expires_at < int(time.time()):
+    if not payload.get("valid"):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Authentication token expired.",
+            detail=payload.get("error") or "Ananta session expired or invalid.",
         )
 
-    expected_signature = _token_signature(username, expires_at)
-    if not hmac.compare_digest(signature, expected_signature):
+    return payload
+
+
+def verify_ananta_credentials(payload: LoginPayload) -> dict[str, Any]:
+    url = f"{ANANTA_BASE_URL}/api/auth/verify/"
+    body = json.dumps(
+        {
+            "username": payload.username,
+            "password": payload.password,
+            "next": payload.next or "/framework/landing/",
+        }
+    ).encode("utf-8")
+    request = UrlRequest(
+        url,
+        data=body,
+        method="POST",
+        headers={
+            "Accept": "application/json",
+            "Content-Type": "application/json",
+            **({"X-Ananta-Client-Secret": ANANTA_CLIENT_SECRET} if ANANTA_CLIENT_SECRET else {}),
+        },
+    )
+
+    try:
+        with urlopen(request, timeout=8) as response:
+            return json.loads(response.read().decode("utf-8"))
+    except HTTPError as error:
+        detail = "Invalid username or password."
+        try:
+            error_payload = json.loads(error.read().decode("utf-8"))
+            detail = error_payload.get("error") or error_payload.get("detail") or detail
+        except (json.JSONDecodeError, UnicodeDecodeError):
+            pass
+        raise HTTPException(status_code=error.code, detail=detail) from None
+    except (TimeoutError, URLError, OSError) as error:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid authentication token.",
-        )
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=f"Unable to reach Ananta SSO: {error}",
+        ) from None
 
-    return username
+
+def absolute_ananta_url(path_or_url: str | None) -> str | None:
+    if not path_or_url:
+        return None
+
+    if path_or_url.startswith(("http://", "https://")):
+        return path_or_url
+
+    base_parts = urlsplit(ANANTA_BASE_URL)
+    base_origin = f"{base_parts.scheme}://{base_parts.netloc}"
+    return urljoin(f"{base_origin}/", path_or_url.lstrip("/"))
+
+
+def delete_ananta_session(session_id: str) -> None:
+    url = f"{ANANTA_BASE_URL}/api/session/{session_id}/delete/"
+    request = UrlRequest(url, method="POST", headers={"Accept": "application/json"})
+
+    try:
+        with urlopen(request, timeout=5):
+            return
+    except HTTPError as error:
+        if error.code == status.HTTP_404_NOT_FOUND:
+            return
+        raise HTTPException(
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail="Unable to delete Ananta session.",
+        ) from None
+    except (TimeoutError, URLError, OSError) as error:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=f"Unable to reach Ananta SSO: {error}",
+        ) from None
 
 
 def require_admin(authorization: str | None = Header(default=None)) -> str:
     if not authorization or not authorization.startswith("Bearer "):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Missing admin authorization token.",
+            detail="Missing Ananta session token.",
         )
 
     token = authorization.split(" ", 1)[1].strip()
-    return verify_token(token)
+    payload = validate_ananta_session(token, renew=True)
+    identity = payload.get("identity") or {}
+    return identity.get("employee_code") or payload.get("employee_code") or payload.get("username") or ""
 
 
 app = FastAPI(title="CIC CMS Backend")
@@ -198,23 +261,69 @@ def get_client_ip(request: Request) -> dict[str, str]:
 
 
 @app.post("/api/auth/login")
-def login(payload: LoginPayload) -> dict[str, str]:
-    if payload.username.strip() != ADMIN_USERNAME or payload.password != ADMIN_PASSWORD:
+def login(payload: LoginPayload) -> dict[str, Any]:
+    ananta_payload = verify_ananta_credentials(payload)
+    session_id = ananta_payload.get("session_id")
+    sso = ananta_payload.get("sso") or {}
+
+    if not session_id:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid admin credentials.",
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            detail="Ananta did not return a central session token.",
         )
 
-    username = payload.username.strip()
     return {
-        "token": create_token(username),
-        "username": username,
+        "token": session_id,
+        "username": ananta_payload.get("username") or "",
+        "employee_code": ananta_payload.get("employee_code") or "",
+        "expires_at": sso.get("expires_at"),
+        "sso": {
+            "type": sso.get("type") or "central_session",
+            "token": sso.get("token") or session_id,
+            "me_url": absolute_ananta_url(sso.get("me_url")),
+            "activation_url": absolute_ananta_url(sso.get("activation_url")),
+        },
     }
 
 
 @app.get("/api/auth/me")
-def me(admin_username: str = Depends(require_admin)) -> dict[str, str]:
-    return {"username": admin_username}
+def me(
+    renew: bool = True,
+    authorization: str | None = Header(default=None),
+) -> dict[str, Any]:
+    if not authorization or not authorization.startswith("Bearer "):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Missing Ananta session token.",
+        )
+
+    session_id = authorization.split(" ", 1)[1].strip()
+    payload = validate_ananta_session(session_id, renew=renew)
+    identity = payload.get("identity") or {}
+
+    return {
+        "token": session_id,
+        "username": identity.get("display_name") or payload.get("username") or "",
+        "employee_code": identity.get("employee_code") or payload.get("employee_code") or "",
+        "expires_at": payload.get("expires_at"),
+        "seconds_remaining": payload.get("seconds_remaining"),
+        "renewed": payload.get("renewed", renew),
+        "sso": {
+            "type": "central_session",
+            "token": session_id,
+            "me_url": f"{ANANTA_BASE_URL}/api/session/{session_id}/me/",
+            "activation_url": f"{ANANTA_BASE_URL}/api/session/{session_id}/activate/",
+        },
+    }
+
+
+@app.post("/api/auth/logout")
+def logout(authorization: str | None = Header(default=None)) -> dict[str, str]:
+    if authorization and authorization.startswith("Bearer "):
+        session_id = authorization.split(" ", 1)[1].strip()
+        delete_ananta_session(session_id)
+
+    return {"status": "success"}
 
 
 @app.get("/api/content")

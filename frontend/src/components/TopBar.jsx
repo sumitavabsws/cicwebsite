@@ -37,10 +37,15 @@ const secondaryLinks = [
   },
 ];
 
+const anantaLoginUrl =
+  import.meta.env.VITE_ANANTA_LOGIN_URL ??
+  "http://10.72.14.39:5000/framework/signin/?next=%2Fframework%2Flanding%2F";
+
 function TopBar() {
-  const { isAuthenticated, logout } = useAdminAuth();
+  const { adminUser, isAuthenticated, logout } = useAdminAuth();
   const [isMoreOpen, setIsMoreOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const anantaHref = adminUser?.sso?.activation_url ?? anantaLoginUrl;
 
   useEffect(() => {
     function handlePointerDown(event) {
@@ -79,6 +84,15 @@ function TopBar() {
           </a>
         ))}
 
+        <a
+          href={anantaHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center rounded-full border border-cyan-300/60 px-3 py-1 font-semibold text-cyan-100 transition hover:border-cyan-200 hover:bg-cyan-400/10 hover:text-white"
+        >
+          Ananta
+        </a>
+
         <div ref={dropdownRef} className="relative">
           <button
             type="button"
@@ -113,7 +127,10 @@ function TopBar() {
 
         <div className="h-4 w-px bg-white/20" />
 
-        <Link to="/admin" className="font-semibold transition hover:text-cyan-200">
+        <Link
+          to={isAuthenticated ? "/admin" : "/admin/login"}
+          className="font-semibold transition hover:text-cyan-200"
+        >
           {isAuthenticated ? "Admin Panel" : "Admin Login"}
         </Link>
 
