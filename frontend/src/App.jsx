@@ -52,6 +52,7 @@ function App() {
           <Route path="/cyber-security" element={<CyberSecurity />} />
           <Route path="/policies" element={<Policies />} />
           <Route path="/notices" element={<Notices />} />
+          <Route path="/admin/login" element={<AdminPanel />} />
           <Route path="/admin" element={<AdminPanel />} />
         </Route>
       </Routes>
