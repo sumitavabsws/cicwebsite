@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainLayout from "./components/MainLayout";
 import Home from "./pages/Home";
+import Infrastructure from "./pages/Infrastructure";
 import Services from "./pages/Services";
 import CyberSecurity from "./pages/CyberSecurity";
 import DocumentViewer from "./pages/DocumentViewer";
@@ -30,6 +31,7 @@ function App() {
 
         <Route element={<MainLayout />}>
           <Route path="/" element={<Home />} />
+          <Route path="/infrastructure" element={<Infrastructure />} />
           <Route path="/services" element={<Services />} />
           <Route path="/services/internet-access" element={<InternetAccess />} />
           <Route

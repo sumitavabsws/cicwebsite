@@ -12,6 +12,10 @@ function Navbar() {
         Home
       </NavLink>
 
+      <NavLink to="/infrastructure" className={getLinkClassName}>
+        Infrastructure
+      </NavLink>
+
       <NavLink to="/services" className={getLinkClassName}>
         Services
       </NavLink>
