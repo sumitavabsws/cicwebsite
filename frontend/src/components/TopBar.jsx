@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAdminAuth } from "../context/AdminAuthContext";
+import { apiRequest } from "../lib/api";
 
 const primaryLinks = [
   {
@@ -44,8 +45,10 @@ const anantaLoginUrl =
 function TopBar() {
   const { adminUser, isAuthenticated, logout } = useAdminAuth();
   const [isMoreOpen, setIsMoreOpen] = useState(false);
+  const [isAdminLoginAllowed, setIsAdminLoginAllowed] = useState(false);
   const dropdownRef = useRef(null);
   const anantaHref = adminUser?.sso?.activation_url ?? anantaLoginUrl;
+  const showAdminLink = isAuthenticated || isAdminLoginAllowed;
 
   useEffect(() => {
     function handlePointerDown(event) {
@@ -69,6 +72,26 @@ function TopBar() {
     };
   }, []);
 
+  useEffect(() => {
+    let isMounted = true;
+
+    apiRequest("/admin-access")
+      .then((response) => {
+        if (isMounted) {
+          setIsAdminLoginAllowed(Boolean(response?.allowed));
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setIsAdminLoginAllowed(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
   return (
     <div className="border-b border-white/10 bg-slate-950 text-sm text-white">
       <div className="mx-auto flex max-w-[1640px] flex-wrap items-center justify-end gap-x-4 gap-y-2 px-4 py-2 sm:px-6 lg:pr-2 2xl:px-10 2xl:pr-6">
@@ -84,14 +107,16 @@ function TopBar() {
           </a>
         ))}
 
-        <a
-          href={anantaHref}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center rounded-full border border-cyan-300/60 px-3 py-1 font-semibold text-cyan-100 transition hover:border-cyan-200 hover:bg-cyan-400/10 hover:text-white"
-        >
-          Ananta
-        </a>
+        {showAdminLink ? (
+          <a
+            href={anantaHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center rounded-full border border-cyan-300/60 px-3 py-1 font-semibold text-cyan-100 transition hover:border-cyan-200 hover:bg-cyan-400/10 hover:text-white"
+          >
+            Ananta
+          </a>
+        ) : null}
 
         <div ref={dropdownRef} className="relative">
           <button
@@ -125,14 +150,16 @@ function TopBar() {
           ) : null}
         </div>
 
-        <div className="h-4 w-px bg-white/20" />
+        {showAdminLink ? <div className="h-4 w-px bg-white/20" /> : null}
 
-        <Link
-          to={isAuthenticated ? "/admin" : "/admin/login"}
-          className="font-semibold transition hover:text-cyan-200"
-        >
-          {isAuthenticated ? "Admin Panel" : "Admin Login"}
-        </Link>
+        {showAdminLink ? (
+          <Link
+            to={isAuthenticated ? "/admin" : "/admin/login"}
+            className="font-semibold transition hover:text-cyan-200"
+          >
+            {isAuthenticated ? "Admin Panel" : "Admin Login"}
+          </Link>
+        ) : null}
 
         {isAuthenticated ? (
           <button
