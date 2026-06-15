@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import MainLayout from "./components/MainLayout";
+import AdminAccessGate from "./components/AdminAccessGate";
 import Home from "./pages/Home";
 import Infrastructure from "./pages/Infrastructure";
 import Services from "./pages/Services";
@@ -52,8 +53,22 @@ function App() {
           <Route path="/cyber-security" element={<CyberSecurity />} />
           <Route path="/policies" element={<Policies />} />
           <Route path="/notices" element={<Notices />} />
-          <Route path="/admin/login" element={<AdminPanel />} />
-          <Route path="/admin" element={<AdminPanel />} />
+          <Route
+            path="/admin/login"
+            element={
+              <AdminAccessGate>
+                <AdminPanel />
+              </AdminAccessGate>
+            }
+          />
+          <Route
+            path="/admin"
+            element={
+              <AdminAccessGate>
+                <AdminPanel />
+              </AdminAccessGate>
+            }
+          />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -16,12 +16,14 @@ from pydantic import BaseModel, Field
 
 BASE_DIR = Path(__file__).resolve().parent
 CONTENT_FILE = BASE_DIR / "content" / "site_content.json"
+CONFIG_FILE = BASE_DIR / "content" / "site_config.json"
 SEED_CONTENT_FILE = BASE_DIR / "content" / "site_content.seed.json"
 TEAMS_FILE = BASE_DIR / "content" / "teams.json"
 TEAMS_SEED_FILE = BASE_DIR / "content" / "teams.seed.json"
 MEDIA_DIR = BASE_DIR / "content" / "images"
 TEAM_IMAGES_DIR = MEDIA_DIR / "teams"
 RESOURCES_DIR = BASE_DIR / "content" / "resources"
+VIDEOS_DIR = BASE_DIR / "content" / "videos"
 ANANTA_BASE_URL = os.getenv("ANANTA_BASE_URL", "http://10.72.14.39:5000/framework").rstrip("/")
 ANANTA_CLIENT_SECRET = os.getenv("ANANTA_CLIENT_SECRET", "")
 MAX_TEAM_PHOTO_SIZE_BYTES = 1000 * 1024
@@ -34,6 +36,9 @@ ALLOWED_ORIGINS = [
     ).split(",")
     if origin.strip()
 ]
+DEFAULT_SITE_CONFIG = {
+    "adminAllowedIps": ["10.72.14.39", "10.72.14.13"],
+}
 
 
 class ContentSectionPayload(BaseModel):
@@ -64,6 +69,14 @@ def ensure_content_file() -> None:
     CONTENT_FILE.write_text(json.dumps({"notices": [], "events": [], "services": []}, indent=2), encoding="utf-8")
 
 
+def ensure_config_file() -> None:
+    if CONFIG_FILE.exists():
+        return
+
+    CONFIG_FILE.parent.mkdir(parents=True, exist_ok=True)
+    CONFIG_FILE.write_text(json.dumps(DEFAULT_SITE_CONFIG, indent=2), encoding="utf-8")
+
+
 def ensure_teams_file() -> None:
     if TEAMS_FILE.exists():
         return
@@ -79,6 +92,7 @@ def ensure_teams_file() -> None:
 def ensure_media_dirs() -> None:
     TEAM_IMAGES_DIR.mkdir(parents=True, exist_ok=True)
     RESOURCES_DIR.mkdir(parents=True, exist_ok=True)
+    VIDEOS_DIR.mkdir(parents=True, exist_ok=True)
 
 
 def read_content() -> dict[str, list[dict[str, Any]]]:
@@ -94,6 +108,46 @@ def write_content(content: dict[str, list[dict[str, Any]]]) -> dict[str, list[di
         file.write("\n")
 
     return content
+
+
+def read_site_config() -> dict[str, Any]:
+    ensure_config_file()
+    with CONFIG_FILE.open("r", encoding="utf-8") as file:
+        config = json.load(file)
+
+    return {
+        **DEFAULT_SITE_CONFIG,
+        **config,
+    }
+
+
+def get_request_ip(request: Request) -> str:
+    forwarded_for = request.headers.get("x-forwarded-for")
+
+    if forwarded_for:
+        return forwarded_for.split(",", 1)[0].strip()
+
+    real_ip = request.headers.get("x-real-ip")
+
+    if real_ip:
+        return real_ip.strip()
+
+    return request.client.host if request.client else ""
+
+
+def is_admin_ip_allowed(ip_address: str) -> bool:
+    allowed_ips = read_site_config().get("adminAllowedIps", [])
+    return ip_address in allowed_ips
+
+
+def require_admin_ip(request: Request) -> None:
+    ip_address = get_request_ip(request)
+
+    if not is_admin_ip_allowed(ip_address):
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Admin access is restricted from this IP address.",
+        )
 
 
 def read_teams() -> list[dict[str, Any]]:
@@ -213,7 +267,12 @@ def delete_ananta_session(session_id: str) -> None:
         ) from None
 
 
-def require_admin(authorization: str | None = Header(default=None)) -> str:
+def require_admin(
+    request: Request,
+    authorization: str | None = Header(default=None),
+) -> str:
+    require_admin_ip(request)
+
     if not authorization or not authorization.startswith("Bearer "):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -238,6 +297,7 @@ app.add_middleware(
 )
 app.mount("/media", StaticFiles(directory=MEDIA_DIR), name="media")
 app.mount("/resources", StaticFiles(directory=RESOURCES_DIR), name="resources")
+app.mount("/videos", StaticFiles(directory=VIDEOS_DIR), name="videos")
 
 
 @app.get("/api/health")
@@ -247,21 +307,20 @@ def health_check() -> dict[str, str]:
 
 @app.get("/api/client-ip")
 def get_client_ip(request: Request) -> dict[str, str]:
-    forwarded_for = request.headers.get("x-forwarded-for")
+    return {"ip": get_request_ip(request)}
 
-    if forwarded_for:
-        return {"ip": forwarded_for.split(",", 1)[0].strip()}
 
-    real_ip = request.headers.get("x-real-ip")
-
-    if real_ip:
-        return {"ip": real_ip.strip()}
-
-    return {"ip": request.client.host if request.client else ""}
+@app.get("/api/admin-access")
+def get_admin_access(request: Request) -> dict[str, Any]:
+    ip_address = get_request_ip(request)
+    return {
+        "ip": ip_address,
+        "allowed": is_admin_ip_allowed(ip_address),
+    }
 
 
 @app.post("/api/auth/login")
-def login(payload: LoginPayload) -> dict[str, Any]:
+def login(payload: LoginPayload, _: None = Depends(require_admin_ip)) -> dict[str, Any]:
     ananta_payload = verify_ananta_credentials(payload)
     session_id = ananta_payload.get("session_id")
     sso = ananta_payload.get("sso") or {}
@@ -289,6 +348,7 @@ def login(payload: LoginPayload) -> dict[str, Any]:
 @app.get("/api/auth/me")
 def me(
     renew: bool = True,
+    _: None = Depends(require_admin_ip),
     authorization: str | None = Header(default=None),
 ) -> dict[str, Any]:
     if not authorization or not authorization.startswith("Bearer "):

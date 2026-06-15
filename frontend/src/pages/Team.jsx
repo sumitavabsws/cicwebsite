@@ -23,10 +23,10 @@ function TeamMemberCard({ member }) {
         <img
           src={member.photo}
           alt={member.name}
-          className="mb-4 h-16 w-16 rounded-2xl border border-slate-200 object-cover shadow-sm"
+          className="mb-4 h-24 w-20 rounded-2xl border border-slate-200 object-cover object-top shadow-sm"
         />
       ) : (
-        <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-100 text-lg font-bold text-cicBlue">
+        <div className="mb-4 flex h-24 w-20 items-center justify-center rounded-2xl bg-blue-100 text-lg font-bold text-cicBlue">
           {getInitials(member.name)}
         </div>
       )}
@@ -116,10 +116,10 @@ function Team() {
                   <img
                     src={visibleHead.photo}
                     alt={visibleHead.name}
-                    className="h-24 w-24 rounded-3xl border border-slate-200 object-cover shadow-sm"
+                    className="h-32 w-28 rounded-3xl border border-slate-200 object-cover object-top shadow-sm"
                   />
                 ) : (
-                  <div className="flex h-24 w-24 items-center justify-center rounded-3xl bg-blue-100 text-2xl font-bold text-cicBlue shadow-sm">
+                  <div className="flex h-32 w-28 items-center justify-center rounded-3xl bg-blue-100 text-2xl font-bold text-cicBlue shadow-sm">
                     {getInitials(visibleHead.name)}
                   </div>
                 )}

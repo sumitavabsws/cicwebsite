@@ -72,7 +72,7 @@ function Hero({ compact = false }) {
             className={headingClassName}
           >
             <span className="block text-blue-100">Computer &amp;</span>
-            <span className="block text-cyan-200">Informatics Centre</span>
+            <span className="block text-cyan-200">Informatics Center</span>
           </motion.h1>
 
           <motion.p
