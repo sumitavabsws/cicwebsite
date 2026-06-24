@@ -9,6 +9,7 @@ import DocumentViewer from "./pages/DocumentViewer";
 import FormsDownloads from "./pages/FormsDownloads";
 import Notices from "./pages/Notices";
 import Policies from "./pages/Policies";
+import Tenders from "./pages/Tenders";
 import Team from "./pages/Team";
 import AdminPanel from "./pages/AdminPanel";
 import CheckMyIp from "./pages/CheckMyIp";
@@ -51,7 +52,11 @@ function App() {
           <Route path="/services/:slug" element={<DynamicService />} />
           <Route path="/team" element={<Team />} />
           <Route path="/cyber-security" element={<CyberSecurity />} />
+          <Route path="/cyber-security/:section" element={<CyberSecurity />} />
           <Route path="/policies" element={<Policies />} />
+          <Route path="/policies/:section" element={<Policies />} />
+          <Route path="/policies/:section/:item" element={<Policies />} />
+          <Route path="/tenders" element={<Tenders />} />
           <Route path="/notices" element={<Notices />} />
           <Route
             path="/admin/login"

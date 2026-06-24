@@ -21,6 +21,10 @@ const primaryLinks = [
     label: "CIC Software Repository (Intranet)",
     href: "http://www.swrepo.cc.iitkgp.ernet.in/",
   },
+  {
+    label: "Lodge Your Complain",
+    href: "https://cictickets.iitkgp.ac.in/",
+  },
 ];
 
 const secondaryLinks = [

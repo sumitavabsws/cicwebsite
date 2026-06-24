@@ -20,13 +20,16 @@ CONFIG_FILE = BASE_DIR / "content" / "site_config.json"
 SEED_CONTENT_FILE = BASE_DIR / "content" / "site_content.seed.json"
 TEAMS_FILE = BASE_DIR / "content" / "teams.json"
 TEAMS_SEED_FILE = BASE_DIR / "content" / "teams.seed.json"
+TENDERS_FILE = BASE_DIR / "content" / "tenders.json"
 MEDIA_DIR = BASE_DIR / "content" / "images"
 TEAM_IMAGES_DIR = MEDIA_DIR / "teams"
 RESOURCES_DIR = BASE_DIR / "content" / "resources"
+TENDERS_DIR = RESOURCES_DIR / "tenders"
 VIDEOS_DIR = BASE_DIR / "content" / "videos"
 ANANTA_BASE_URL = os.getenv("ANANTA_BASE_URL", "http://10.72.14.39:5000/framework").rstrip("/")
 ANANTA_CLIENT_SECRET = os.getenv("ANANTA_CLIENT_SECRET", "")
 MAX_TEAM_PHOTO_SIZE_BYTES = 1000 * 1024
+MAX_TENDER_PDF_SIZE_BYTES = 25 * 1024 * 1024
 ALLOWED_TEAM_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
 ALLOWED_ORIGINS = [
     origin.strip()
@@ -89,9 +92,43 @@ def ensure_teams_file() -> None:
     TEAMS_FILE.write_text(json.dumps([], indent=2), encoding="utf-8")
 
 
+def get_default_tenders() -> list[dict[str, Any]]:
+    ai_tender_filename = "10-06-2026 AI Software Tender.pdf"
+    ai_tender_path = TENDERS_DIR / ai_tender_filename
+
+    if not ai_tender_path.exists():
+        return []
+
+    return [
+        {
+            "id": "ai-software-tender-2026",
+            "title": "AI Software Tender",
+            "refNo": "IIT/CIC/AI-SW/2026-27/06",
+            "startDate": "10 Jun 2026 10:00 AM",
+            "endDate": "02 Jul 2026 03:00 PM",
+            "bidOpeningDate": "02 Jul 2026 04:00 PM",
+            "corrigendumDetails": "",
+            "pdfUrl": f"/resources/tenders/{ai_tender_filename}",
+            "pdfLabel": "View Tender PDF",
+        }
+    ]
+
+
+def ensure_tenders_file() -> None:
+    if TENDERS_FILE.exists():
+        return
+
+    TENDERS_FILE.parent.mkdir(parents=True, exist_ok=True)
+    TENDERS_FILE.write_text(
+        json.dumps(get_default_tenders(), indent=2, ensure_ascii=True),
+        encoding="utf-8",
+    )
+
+
 def ensure_media_dirs() -> None:
     TEAM_IMAGES_DIR.mkdir(parents=True, exist_ok=True)
     RESOURCES_DIR.mkdir(parents=True, exist_ok=True)
+    TENDERS_DIR.mkdir(parents=True, exist_ok=True)
     VIDEOS_DIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -163,6 +200,21 @@ def write_teams(teams: list[dict[str, Any]]) -> list[dict[str, Any]]:
         file.write("\n")
 
     return teams
+
+
+def read_tenders() -> list[dict[str, Any]]:
+    ensure_tenders_file()
+    with TENDERS_FILE.open("r", encoding="utf-8") as file:
+        return json.load(file)
+
+
+def write_tenders(tenders: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    ensure_tenders_file()
+    with TENDERS_FILE.open("w", encoding="utf-8") as file:
+        json.dump(tenders, file, indent=2, ensure_ascii=True)
+        file.write("\n")
+
+    return tenders
 
 
 def validate_ananta_session(session_id: str, renew: bool = True) -> dict[str, Any]:
@@ -460,6 +512,19 @@ def reset_teams(_: str = Depends(require_admin)) -> list[dict[str, Any]]:
     return write_teams([])
 
 
+@app.get("/api/tenders")
+def get_tenders() -> list[dict[str, Any]]:
+    return read_tenders()
+
+
+@app.put("/api/tenders")
+def update_tenders(
+    payload: ContentSectionPayload,
+    _: str = Depends(require_admin),
+) -> list[dict[str, Any]]:
+    return write_tenders(payload.items)
+
+
 @app.post("/api/uploads/team-photo")
 async def upload_team_photo(
     file: UploadFile = File(...),
@@ -498,4 +563,32 @@ async def upload_team_photo(
 
     return {
         "url": f"/media/teams/{filename}",
+    }
+
+
+@app.post("/api/uploads/tender-pdf")
+async def upload_tender_pdf(
+    file: UploadFile = File(...),
+    _: str = Depends(require_admin),
+) -> dict[str, str]:
+    extension = Path(file.filename or "").suffix.lower()
+    if file.content_type != "application/pdf" and extension != ".pdf":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Please upload a valid PDF file.",
+        )
+
+    file_bytes = await file.read()
+    if len(file_bytes) > MAX_TENDER_PDF_SIZE_BYTES:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Tender PDF must be 25 MB or smaller.",
+        )
+
+    filename = f"{int(time.time())}-{uuid.uuid4().hex[:10]}.pdf"
+    destination = TENDERS_DIR / filename
+    destination.write_bytes(file_bytes)
+
+    return {
+        "url": f"/resources/tenders/{filename}",
     }

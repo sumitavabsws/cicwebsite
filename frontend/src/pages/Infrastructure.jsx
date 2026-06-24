@@ -1,3 +1,6 @@
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { ArrowRight, Cloud, HardDrive, Network as NetworkIcon, Server, MonitorCog } from "lucide-react";
 import networkOverviewImage from "../assets/infrastructure/iit-kgp-network-overview.png";
 
 const networkScale = [
@@ -29,26 +32,46 @@ const technologyFramework = [
 
 const infrastructureSections = [
   {
+    id: "network",
     name: "Network",
-    status: "Available",
-    description:
-      "Campus-wide optical backbone, wired access, wireless access, gateway firewalls, and digital service connectivity.",
+    description: "Campus connectivity, backbone, wired access, wireless access, and gateway services.",
+    icon: NetworkIcon,
+    badgeClassName: "bg-blue-100 text-cicBlue",
   },
   {
-    name: "Servers",
-    status: "Future",
-    description:
-      "Reserved for server, hosting, data centre, and compute infrastructure details.",
+    id: "server",
+    name: "Server",
+    description: "Server and hosting infrastructure details will be added here.",
+    icon: Server,
+    badgeClassName: "bg-slate-100 text-slate-700",
   },
   {
-    name: "Services",
-    status: "Future",
-    description:
-      "Reserved for additional CIC infrastructure service sections.",
+    id: "storage",
+    name: "Storage",
+    description: "Storage platform details will be added here.",
+    icon: HardDrive,
+    badgeClassName: "bg-emerald-100 text-emerald-700",
+  },
+  {
+    id: "private-cloud",
+    name: "Private Cloud",
+    description: "Private cloud infrastructure details will be added here.",
+    icon: Cloud,
+    badgeClassName: "bg-cyan-100 text-cyan-700",
+  },
+  {
+    id: "labs",
+    name: "Labs",
+    description: "Lab infrastructure details will be added here.",
+    icon: MonitorCog,
+    badgeClassName: "bg-violet-100 text-violet-700",
   },
 ];
 
 function Infrastructure() {
+  const [activeSection, setActiveSection] = useState("network");
+  const isNetworkActive = activeSection === "network";
+
   return (
     <div className="bg-white">
       <section className="border-b border-slate-200 bg-slate-50 py-16">
@@ -64,33 +87,60 @@ function Infrastructure() {
               </h1>
 
               <p className="mt-6 text-lg leading-9 text-slate-600">
-                The current section documents IIT Kharagpur's campus network,
-                and future sections will be added here for servers, data centre
-                systems, cloud platforms, and other CIC services.
+                Select an infrastructure area to view available details.
               </p>
             </div>
 
-            {/* <div className="grid gap-px overflow-hidden border border-slate-200 bg-slate-200 md:grid-cols-3">
-              {infrastructureSections.map((section) => (
-                <article key={section.name} className="bg-white p-5">
-                  <div className="flex items-center justify-between gap-3">
-                    <h2 className="text-xl font-bold text-slate-950">
-                      {section.name}
-                    </h2>
-                    <span className="text-xs font-semibold uppercase tracking-[0.18em] text-cicBlue">
-                      {section.status}
-                    </span>
-                  </div>
-                  <p className="mt-3 text-sm leading-6 text-slate-600">
-                    {section.description}
-                  </p>
-                </article>
-              ))}
-            </div> */}
+            <div className="grid items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5">
+              {infrastructureSections.map((section) => {
+                const Icon = section.icon;
+
+                return (
+                  <motion.div
+                    key={section.id}
+                    whileHover={{ y: -8, scale: 1.03 }}
+                    transition={{ duration: 0.18 }}
+                    className="h-full"
+                  >
+                    <button
+                      type="button"
+                      onClick={() => setActiveSection(section.id)}
+                      className={`flex h-full min-h-[148px] w-full flex-col rounded-lg border bg-white p-3.5 text-left shadow-sm transition focus:outline-none focus:ring-4 focus:ring-cyan-200 ${
+                        activeSection === section.id
+                          ? "border-cicBlue shadow-lg"
+                          : "border-gray-200 hover:border-cicBlue hover:shadow-lg"
+                      }`}
+                      aria-pressed={activeSection === section.id}
+                    >
+                      <div
+                        className={`mb-2 inline-flex h-9 w-9 items-center justify-center rounded-lg ${section.badgeClassName}`}
+                      >
+                        <Icon className="h-4 w-4" aria-hidden="true" />
+                      </div>
+
+                      <h2 className="mb-1 text-base font-semibold leading-snug text-gray-800">
+                        {section.name}
+                      </h2>
+
+                      <p className="text-xs leading-5 text-gray-600">
+                        {section.description}
+                      </p>
+
+                      <span className="mt-auto inline-flex items-center gap-2 pt-2 text-xs font-semibold text-cicBlue">
+                        {activeSection === section.id ? "Selected" : "View details"}
+                        <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
+                      </span>
+                    </button>
+                  </motion.div>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>
 
+      {isNetworkActive ? (
+      <>
       <section className="py-16">
         <div className="mx-auto max-w-[1640px] px-4 sm:px-6 2xl:px-10">
           <div className="grid gap-10 xl:grid-cols-[0.88fr_1.12fr] xl:items-start">
@@ -269,6 +319,12 @@ function Infrastructure() {
           </p>
         </div>
       </section>
+      </>
+      ) : (
+        <section className="min-h-[420px] bg-white py-16">
+          <div className="mx-auto max-w-[1640px] px-4 sm:px-6 2xl:px-10" />
+        </section>
+      )}
     </div>
   );
 }

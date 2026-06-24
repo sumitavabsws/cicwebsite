@@ -11,7 +11,7 @@ return(
 
 <footer className="bg-blue-950 text-white py-10">
 
-<div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 px-4">
+<div className="max-w-6xl mx-auto grid gap-8 px-4 md:grid-cols-3">
 
 <div>
 
@@ -72,6 +72,25 @@ Paramshakti HPC
 </a>
 </li>
 
+</ul>
+
+</div>
+
+<div>
+
+<h3 className="font-semibold mb-3 uppercase tracking-[0.16em]">
+Tenders
+</h3>
+
+<ul className="text-sm text-gray-300 space-y-1">
+<li>
+<a
+href="/tenders"
+className="transition hover:text-cyan-200"
+>
+CIC Tenders
+</a>
+</li>
 </ul>
 
 </div>
