@@ -1,9 +1,9 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Pencil, Plus, RefreshCcw, ShieldCheck, Trash2 } from "lucide-react";
 import { useAdminAuth } from "../context/AdminAuthContext";
 import { useSiteContent } from "../context/SiteContentContext";
 import { serviceIconOptions } from "../data/services";
-import { uploadFile } from "../lib/api";
+import { apiRequest, uploadFile } from "../lib/api";
 
 const MAX_TEAM_PHOTO_SIZE_BYTES = 1000 * 1024;
 
@@ -77,6 +77,20 @@ function createEmptyTeamDraft() {
   };
 }
 
+function createEmptyTenderDraft() {
+  return {
+    id: "",
+    title: "",
+    refNo: "",
+    startDate: "",
+    endDate: "",
+    bidOpeningDate: "",
+    corrigendumDetails: "",
+    pdfUrl: "",
+    pdfLabel: "View Tender PDF",
+  };
+}
+
 function createServiceDraftFromService(service) {
   return {
     id: service.id,
@@ -109,6 +123,20 @@ function createTeamDraftFromItem(team) {
     phone: team.phone,
     email: team.email,
     photo: team.photo ?? "",
+  };
+}
+
+function createTenderDraftFromItem(tender) {
+  return {
+    id: tender.id ?? "",
+    title: tender.title ?? "",
+    refNo: tender.refNo ?? "",
+    startDate: tender.startDate ?? "",
+    endDate: tender.endDate ?? "",
+    bidOpeningDate: tender.bidOpeningDate ?? "",
+    corrigendumDetails: tender.corrigendumDetails ?? "",
+    pdfUrl: tender.pdfUrl ?? "",
+    pdfLabel: tender.pdfLabel ?? "View Tender PDF",
   };
 }
 
@@ -1179,6 +1207,325 @@ function TeamManager({
   );
 }
 
+function TenderManager({
+  tenders,
+  setTenders,
+  draft,
+  setDraft,
+  setMessage,
+  adminToken,
+}) {
+  const [uploading, setUploading] = useState(false);
+  const [saving, setSaving] = useState(false);
+
+  const persistTenders = async (nextTenders) => {
+    const savedTenders = await apiRequest("/tenders", {
+      method: "PUT",
+      token: adminToken,
+      body: {
+        items: nextTenders,
+      },
+    });
+
+    setTenders(savedTenders);
+    return savedTenders;
+  };
+
+  const handlePdfChange = async (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+
+    if (!file) {
+      return;
+    }
+
+    if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
+      setMessage({
+        type: "error",
+        text: "Please upload a valid PDF file.",
+      });
+      return;
+    }
+
+    setUploading(true);
+    setMessage(null);
+
+    try {
+      const uploadedFile = await uploadFile("/uploads/tender-pdf", file, adminToken);
+      setDraft((currentDraft) => ({
+        ...currentDraft,
+        pdfUrl: uploadedFile.url,
+        pdfLabel: currentDraft.pdfLabel || "View Tender PDF",
+      }));
+      setMessage({
+        type: "success",
+        text: "Tender PDF uploaded. Complete the tender details and save it.",
+      });
+    } catch (error) {
+      setMessage({
+        type: "error",
+        text: error.message,
+      });
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleSave = async (event) => {
+    event.preventDefault();
+
+    const title = draft.title.trim();
+    const pdfUrl = draft.pdfUrl.trim();
+
+    if (!title || !pdfUrl) {
+      setMessage({
+        type: "error",
+        text: "Tender title and PDF upload are required.",
+      });
+      return;
+    }
+
+    const nextTender = {
+      id: draft.id || createId("tender"),
+      title,
+      refNo: draft.refNo.trim(),
+      startDate: draft.startDate.trim(),
+      endDate: draft.endDate.trim(),
+      bidOpeningDate: draft.bidOpeningDate.trim(),
+      corrigendumDetails: draft.corrigendumDetails.trim(),
+      pdfUrl,
+      pdfLabel: draft.pdfLabel.trim() || "View Tender PDF",
+    };
+
+    setSaving(true);
+
+    try {
+      const existingIndex = tenders.findIndex((tender) => tender.id === nextTender.id);
+      const nextTenders =
+        existingIndex >= 0
+          ? tenders.map((tender) => (tender.id === nextTender.id ? nextTender : tender))
+          : [nextTender, ...tenders];
+
+      await persistTenders(nextTenders);
+      setDraft(createEmptyTenderDraft());
+      setMessage({
+        type: "success",
+        text: draft.id ? "Tender updated successfully." : "New tender floated successfully.",
+      });
+    } catch (error) {
+      setMessage({
+        type: "error",
+        text: error.message,
+      });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDelete = async (item) => {
+    if (!window.confirm(`Delete "${item.title}"?`)) {
+      return;
+    }
+
+    try {
+      await persistTenders(tenders.filter((tender) => tender.id !== item.id));
+      setDraft((currentDraft) =>
+        currentDraft.id === item.id ? createEmptyTenderDraft() : currentDraft,
+      );
+      setMessage({
+        type: "success",
+        text: "Tender deleted.",
+      });
+    } catch (error) {
+      setMessage({
+        type: "error",
+        text: error.message,
+      });
+    }
+  };
+
+  return (
+    <div className="grid gap-6 xl:grid-cols-[0.95fr_1.2fr]">
+      <ContentList
+        title="Tender Entries"
+        description="Edit published tenders or float a new tender."
+        items={tenders}
+        getMeta={(item) => ({
+          title: item.title,
+          subtitle: item.refNo ? `Ref No: ${item.refNo}` : "Ref No pending",
+          body: item.pdfUrl,
+        })}
+        onCreate={() => {
+          setDraft(createEmptyTenderDraft());
+          setMessage(null);
+        }}
+        onEdit={(item) => {
+          setDraft(createTenderDraftFromItem(item));
+          setMessage(null);
+        }}
+        onDelete={handleDelete}
+      />
+
+      <form
+        onSubmit={handleSave}
+        className="grid gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
+      >
+        <div className="flex items-center justify-between gap-3">
+          <h3 className="text-lg font-semibold text-slate-900">
+            {draft.id ? "Update Tender" : "Float New Tender"}
+          </h3>
+
+          {draft.id ? (
+            <button
+              type="button"
+              onClick={() => setDraft(createEmptyTenderDraft())}
+              className="text-sm font-semibold text-cicBlue"
+            >
+              Clear form
+            </button>
+          ) : null}
+        </div>
+
+        <label className="grid gap-2 text-sm font-medium text-slate-700">
+          Title
+          <input
+            value={draft.title}
+            onChange={(event) =>
+              setDraft((currentDraft) => ({
+                ...currentDraft,
+                title: event.target.value,
+              }))
+            }
+            className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
+          />
+        </label>
+
+        <label className="grid gap-2 text-sm font-medium text-slate-700">
+          Ref No
+          <input
+            value={draft.refNo}
+            onChange={(event) =>
+              setDraft((currentDraft) => ({
+                ...currentDraft,
+                refNo: event.target.value,
+              }))
+            }
+            className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
+          />
+        </label>
+
+        <div className="grid gap-4 md:grid-cols-3">
+          <label className="grid gap-2 text-sm font-medium text-slate-700">
+            Start Date
+            <input
+              value={draft.startDate}
+              onChange={(event) =>
+                setDraft((currentDraft) => ({
+                  ...currentDraft,
+                  startDate: event.target.value,
+                }))
+              }
+              placeholder="23 Jun 2026 02:00 PM"
+              className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
+            />
+          </label>
+
+          <label className="grid gap-2 text-sm font-medium text-slate-700">
+            End Date
+            <input
+              value={draft.endDate}
+              onChange={(event) =>
+                setDraft((currentDraft) => ({
+                  ...currentDraft,
+                  endDate: event.target.value,
+                }))
+              }
+              placeholder="21 Jul 2026 12:00 PM"
+              className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
+            />
+          </label>
+
+          <label className="grid gap-2 text-sm font-medium text-slate-700">
+            Bid Opening Date
+            <input
+              value={draft.bidOpeningDate}
+              onChange={(event) =>
+                setDraft((currentDraft) => ({
+                  ...currentDraft,
+                  bidOpeningDate: event.target.value,
+                }))
+              }
+              placeholder="22 Jul 2026 12:00 PM"
+              className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
+            />
+          </label>
+        </div>
+
+        <label className="grid gap-2 text-sm font-medium text-slate-700">
+          Corrigendum Details
+          <textarea
+            rows="4"
+            value={draft.corrigendumDetails}
+            onChange={(event) =>
+              setDraft((currentDraft) => ({
+                ...currentDraft,
+                corrigendumDetails: event.target.value,
+              }))
+            }
+            className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
+          />
+        </label>
+
+        <div className="grid gap-4 md:grid-cols-[1fr_1.3fr]">
+          <label className="grid gap-2 text-sm font-medium text-slate-700">
+            PDF Label
+            <input
+              value={draft.pdfLabel}
+              onChange={(event) =>
+                setDraft((currentDraft) => ({
+                  ...currentDraft,
+                  pdfLabel: event.target.value,
+                }))
+              }
+              className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
+            />
+          </label>
+
+          <label className="grid gap-2 text-sm font-medium text-slate-700">
+            Tender PDF
+            <input
+              type="file"
+              accept="application/pdf,.pdf"
+              onChange={handlePdfChange}
+              disabled={uploading}
+              className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition file:mr-3 file:rounded-lg file:border-0 file:bg-blue-100 file:px-3 file:py-2 file:font-semibold file:text-cicBlue hover:file:bg-blue-200 focus:border-cicBlue"
+            />
+          </label>
+        </div>
+
+        {draft.pdfUrl ? (
+          <a
+            href={draft.pdfUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="text-sm font-semibold text-cicBlue underline-offset-4 hover:underline"
+          >
+            Current PDF: {draft.pdfUrl}
+          </a>
+        ) : null}
+
+        <button
+          type="submit"
+          disabled={saving || uploading}
+          className="inline-flex items-center justify-center rounded-xl bg-cicBlue px-5 py-3 font-semibold text-white transition hover:bg-blue-900 disabled:cursor-not-allowed disabled:bg-slate-400"
+        >
+          {saving ? "Saving..." : draft.id ? "Update Tender" : "Float New Tender"}
+        </button>
+      </form>
+    </div>
+  );
+}
+
 function AdminPanel() {
   const {
     notices,
@@ -1210,6 +1557,10 @@ function AdminPanel() {
   const [eventDraft, setEventDraft] = useState(createEmptyUpdateDraft());
   const [serviceDraft, setServiceDraft] = useState(createServiceDraft());
   const [teamDraft, setTeamDraft] = useState(createEmptyTeamDraft());
+  const [tenders, setTenders] = useState([]);
+  const [tenderDraft, setTenderDraft] = useState(createEmptyTenderDraft());
+  const [tendersLoading, setTendersLoading] = useState(false);
+  const [tendersError, setTendersError] = useState("");
 
   const tabs = useMemo(
     () => [
@@ -1217,9 +1568,43 @@ function AdminPanel() {
         { id: "events", label: "Events" },
         { id: "services", label: "Services" },
         { id: "teams", label: "Teams" },
+        { id: "tenders", label: "Tenders" },
       ],
       [],
   );
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      return;
+    }
+
+    let isMounted = true;
+    setTendersLoading(true);
+
+    async function loadTenders() {
+      try {
+        const tenderItems = await apiRequest("/tenders");
+        if (isMounted) {
+          setTenders(Array.isArray(tenderItems) ? tenderItems : []);
+          setTendersError("");
+        }
+      } catch (error) {
+        if (isMounted) {
+          setTendersError(error.message);
+        }
+      } finally {
+        if (isMounted) {
+          setTendersLoading(false);
+        }
+      }
+    }
+
+    loadTenders();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [isAuthenticated]);
 
   if (authLoading) {
     return (
@@ -1408,6 +1793,12 @@ function AdminPanel() {
         </div>
       ) : null}
 
+      {tendersError ? (
+        <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+          {tendersError}
+        </div>
+      ) : null}
+
       <AdminShell
         title="Editor Workspace"
         description="Changes are saved through the Python CMS backend and reflected across the site."
@@ -1415,6 +1806,12 @@ function AdminPanel() {
         {contentLoading ? (
           <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-5 text-sm text-slate-500">
             Loading content from the backend...
+          </div>
+        ) : null}
+
+        {tendersLoading ? (
+          <div className="mb-6 rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-5 text-sm text-slate-500">
+            Loading tenders from the backend...
           </div>
         ) : null}
 
@@ -1476,6 +1873,17 @@ function AdminPanel() {
             setTeams={setTeams}
             draft={teamDraft}
             setDraft={setTeamDraft}
+            setMessage={setMessage}
+            adminToken={adminUser?.token ?? ""}
+          />
+        ) : null}
+
+        {activeTab === "tenders" ? (
+          <TenderManager
+            tenders={tenders}
+            setTenders={setTenders}
+            draft={tenderDraft}
+            setDraft={setTenderDraft}
             setMessage={setMessage}
             adminToken={adminUser?.token ?? ""}
           />

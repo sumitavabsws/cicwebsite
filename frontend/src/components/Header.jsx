@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import TopBar from "./TopBar";
 import Navbar from "./Navbar";
 
-const cicLogoSrc = "/cic-logo.png?v=2";
 const iitKgpLogoSrc = "/resources/logo/IITKGP_LOGO.png";
+const iitKgp75LogoSrc = "/resources/logo/iitkgp75yrslogo.png";
 
 function HeaderLogo({ src, alt, fallback }) {
   const [hasLogo, setHasLogo] = useState(true);
@@ -28,16 +28,22 @@ function HeaderLogo({ src, alt, fallback }) {
 }
 function Header() {
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/85">
       <TopBar />
 
       <div className="bg-white/95">
         <div className="mx-auto flex max-w-[1640px] flex-col gap-5 px-4 py-5 sm:px-6 lg:flex-row lg:items-center lg:justify-start 2xl:px-10">
-          <Link to="/" className="flex items-center gap-3 lg:flex-none">
+          <Link to="/" className="flex -translate-x-[15px] items-center gap-3 lg:flex-none">
             <HeaderLogo
               src={iitKgpLogoSrc}
               alt="IIT Kharagpur logo"
               fallback="IIT"
+            />
+
+            <HeaderLogo
+              src={iitKgp75LogoSrc}
+              alt="IIT Kharagpur 75 years logo"
+              fallback="75"
             />
 
             <div>
@@ -47,12 +53,6 @@ function Header() {
 
               <p className="text-sm text-gray-500">IIT Kharagpur</p>
             </div>
-
-            <HeaderLogo
-              src={cicLogoSrc}
-              alt="Computer and Informatics Center logo"
-              fallback="CIC"
-            />
           </Link>
 
           <div className="lg:ml-auto">
