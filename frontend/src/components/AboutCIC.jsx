@@ -63,7 +63,7 @@ function AboutCIC() {
           </h2>
 
           <p className="mt-3 text-base leading-7 text-blue-100">
-            Track current notices and event-linked references from a single place.
+            Track current notices and references from a single place.
           </p>
 
           <div className="mt-8 flex-1">
