@@ -9,7 +9,7 @@ function UpdatesPanel({ compact = false, title, description }) {
   const [activeReference, setActiveReference] = useState(null);
   const tabs = [
     { id: "notices", label: "Notice Board", items: notices },
-    { id: "events", label: "Events", items: events },
+    // { id: "events", label: "Events", items: events },
   ];
 
   const activeTab = tabs.find((item) => item.id === tab) ?? tabs[0];

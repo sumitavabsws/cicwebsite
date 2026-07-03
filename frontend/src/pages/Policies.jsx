@@ -1,5 +1,5 @@
 import { ExternalLink } from "lucide-react";
-import { NavLink, useParams } from "react-router-dom";
+import { Navigate, NavLink, useParams } from "react-router-dom";
 import { getDocumentViewerUrl } from "../utils/references";
 
 const policyGroups = [
@@ -23,7 +23,12 @@ const policyGroups = [
         slug: "government-policies",
         title: "Government Policies",
         description:
-          "Government policy references, including DPDP and related compliance material, will be added here.",
+          "Digital Personal Data Protection Act reference document issued for government policy compliance.",
+        document: {
+          title: "Digital Personal Data Protection Act, 2023",
+          url: "/resources/policies/DPDP Act.pdf",
+        },
+        openDocumentOnRoute: true,
       },
     ],
   },
@@ -71,6 +76,18 @@ function getActivePolicy(sectionSlug, itemSlug) {
 function Policies() {
   const { section, item } = useParams();
   const { activeGroup, activeItem } = getActivePolicy(section, item);
+
+  if (activeItem?.document && activeItem.openDocumentOnRoute) {
+    return (
+      <Navigate
+        to={getDocumentViewerUrl(
+          activeItem.document.url,
+          activeItem.document.title,
+        )}
+        replace
+      />
+    );
+  }
 
   return (
     <div className="bg-white py-20">

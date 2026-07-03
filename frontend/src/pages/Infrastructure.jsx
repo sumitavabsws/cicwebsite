@@ -39,6 +39,11 @@ const networkBannerImages = [
   },
 ];
 
+const pcLabBannerImages = [1, 2, 3, 4, 5, 6, 7, 8].map((imageNumber) => ({
+  src: `/media/infrastructure/physical/pclab${imageNumber}.jpg`,
+  alt: `CIC PC Lab facility view ${imageNumber}`,
+}));
+
 const networkInlineImages = [
   {
     src: "/media/infrastructure/physical/splicetray1.jpg",
@@ -145,6 +150,121 @@ const helpdeskSupportParagraphs = [
   "Service requests are handled by diagnosing the issue, isolating the fault, and resolving it promptly, minimizing downtime and ensuring continued access to digital learning resources, research facilities, online examinations, enterprise applications, high-performance computing resources, video conferencing, and internet services.",
 ];
 
+const helpdeskImages = [
+  {
+    src: "/media/infrastructure/physical/heldesk1.jpg",
+    alt: "Campus Network Helpdesk team supporting network operations",
+    caption: "Helpdesk operations supporting campus network services.",
+  },
+  {
+    src: "/media/infrastructure/physical/heldesk2.jpg",
+    alt: "Helpdesk systems and network operations workspace",
+    caption: "Operational workspace for monitoring and support activities.",
+  },
+  {
+    src: "/media/infrastructure/physical/heldesk3.jpg",
+    alt: "Technical support and classroom network assistance",
+    caption: "Technical support during classroom and lab network activities.",
+  },
+];
+
+const pcLabOverviewParagraphs = [
+  "Welcome to the CIC, the Institute's centralized computing infrastructure, where state-of-the-art software laboratories are designed to meet diverse academic and professional needs.",
+  "Equipped with over 500 nodes, including labs with high-performance PCs, CIC offers a dual-environment setup featuring both Windows and Linux platforms to ensure versatility for all users.",
+  "These dynamic spaces serve as hubs for regular academic classes while also providing the robust infrastructure required to host specialized workshops, conferences, and high-stakes All India entrance examinations such as GATE, JEE, and NEET.",
+  "CIC also conducts online semester examinations on the Moodle platform along with the Moodle team. The labs encourage the use of free and open-source software while integrating licensed versions of essential commercial applications tailored to support specialized courses.",
+];
+
+const pcLabPlatforms = ["Windows 11", "Linux (Ubuntu 22.04)"];
+
+const pcLabSoftware = [
+  "MATLAB",
+  "IBM-SPSS",
+  "ATOM SK",
+  "ANSYS",
+  "CODE-BLOCKS",
+  "SOLIDWORKS",
+  "GHC",
+  "MS-OFFICE",
+  "GAUSSIAN",
+  "ABAQUS",
+  "GROMACS",
+  "TRENDMICRO",
+  "PACKMOL",
+  "ARC GIS PRO",
+  "PYMOL",
+  "MAX SURF",
+  "LATEX",
+  "MEGA",
+  "R",
+  "QGIS",
+  "R STUDIO",
+  "REFPROPE",
+  "VMD",
+  "ERDAS IMAGINE",
+  "PARAVIEW",
+  "STATA",
+  "PQL",
+  "RAY SUM",
+  "SEISAN",
+];
+
+const pcLabConfigurations = [
+  {
+    model: "HP Elite Tower 800G9",
+    details: [
+      "Processor: Intel i7 13th Gen",
+      "Storage: 1 TB SSD",
+      "RAM: 32 GB DDR5",
+      "GPU: 12 GB NVIDIA",
+      "Monitor: 27 inches",
+    ],
+  },
+  {
+    model: "HP Elite Tower 800 G9",
+    details: [
+      "Processor: Intel i7 14th Gen",
+      "Storage: 1 TB SSD",
+      "RAM: 16 GB DDR5",
+      "Monitor: 22 inches",
+    ],
+  },
+  {
+    model: "ACER Veriton M66 90G",
+    details: [
+      "Processor: Intel i5 12th Gen",
+      "Storage: 256 GB SSD and 1 TB HDD",
+      "RAM: 16 GB DDR5",
+      "Monitor: 21 inches",
+    ],
+  },
+  {
+    model: "HP ProDesk 600G6",
+    details: [
+      "Processor: Intel i5 10th Gen",
+      "Storage: 256 GB SSD and 1 TB HDD",
+      "RAM: 16 GB DDR5",
+      "Monitor: 22 inches",
+    ],
+  },
+];
+
+const pcLabContacts = [
+  {
+    label: "Lab In-Charge",
+    value: "Mr. Surid Kumar Das",
+  },
+  {
+    label: "Lab Support Technicians",
+    value: "Mr. Sunil Patra, Mr. Bishnu Paria, Mr. Atanu Maity",
+  },
+  {
+    label: "Lab Booking Mail-ID",
+    value: "labbooking@cc.iitkgp.ac.in",
+    href: "mailto:labbooking@cc.iitkgp.ac.in",
+  },
+];
+
 const smartRackImages = {
   rackRow: [
     {
@@ -207,6 +327,42 @@ const smartRackFacilitySections = [
   },
 ];
 
+const nknFeatureSections = [
+  {
+    title: "High-Definition Video Conferencing",
+    body:
+      "Equipped with multi-camera setups, omnidirectional tracking microphones, and high-fidelity sound systems, these rooms capture and relay lectures with crisp clarity, ensuring that participants joining remotely feel present in the room.",
+  },
+  {
+    title: "Ultra-Low Latency Connectivity",
+    body:
+      "Leveraging NKN's high-speed, secure, gigabit-capable fiber-optic backbone, these rooms support uninterrupted, real-time interaction between students and global experts, even across long distances and multiple institutional networks.",
+  },
+  {
+    title: "Dual-Screen Interactive Displays",
+    body:
+      "These dual-screen setups allow students to view high-resolution presentation slides or digital whiteboards on one screen while maintaining eye contact with the remote instructor on the other, preserving the natural feel of an in-person lecture.",
+  },
+];
+
+const nknImpactSections = [
+  {
+    title: "Collaborative Academic Programs",
+    body:
+      "Enables the joint delivery of credit courses, Global Initiative of Academic Networks (GIAN) programs, and national webcasts with other top-tier IITs, IISc, and global universities, extending the classroom well beyond the physical campus.",
+  },
+  {
+    title: "Virtual Expert Lectures",
+    body:
+      "Connects research scholars and students directly with distinguished scientists, global industry leaders, and policymakers, without the time and cost overheads of travel.",
+  },
+  {
+    title: "Resource Sharing",
+    body:
+      "Breaks institutional barriers, allowing student cohorts from remote engineering colleges across India to tune into live, high-quality lectures originating from our campus, extending the benefit of IIT Kharagpur's faculty expertise to a much wider student base.",
+  },
+];
+
 const infrastructureSections = [
   {
     id: "network",
@@ -218,7 +374,7 @@ const infrastructureSections = [
   {
     id: "firewall-security-systems",
     name: "Firewall and Security Systems",
-    description: "Firewall and security systems details will be added here.",
+    description: "NGFW security, segmented firewall zones, and HA threat protection.",
     icon: ShieldCheck,
     badgeClassName: "bg-rose-100 text-rose-700",
   },
@@ -232,28 +388,28 @@ const infrastructureSections = [
   {
     id: "pc-labs",
     name: "PC Labs",
-    description: "PC lab infrastructure details will be added here.",
+    description: "High-performance software labs for classes, workshops, exams, and computing.",
     icon: MonitorCog,
     badgeClassName: "bg-violet-100 text-violet-700",
   },
   {
     id: "upport-helpdesk",
     name: "Support and Helpdesk",
-    description: "Support and helpdesk details will be added here.",
+    description: "Network support, operations, monitoring, issue resolution, and events.",
     icon: Headphones,
     badgeClassName: "bg-amber-100 text-amber-700",
   },
   {
     id: "nkn-rooms",
     name: "NKN Rooms",
-    description: "NKN room infrastructure details will be added here.",
+    description: "Virtual classrooms for real-time collaboration, lectures, and resource sharing.",
     icon: Cloud,
     badgeClassName: "bg-cyan-100 text-cyan-700",
   },
   {
     id: "smart-rack-power-ac-systems",
     name: "Smart Rack, Power & AC Systems",
-    description: "Smart rack, power, and AC systems details will be added here.",
+    description: "Smart racks, UPS, cooling, batteries, and server-room resilience.",
     icon: ServerCog,
     badgeClassName: "bg-emerald-100 text-emerald-700",
   },
@@ -368,11 +524,212 @@ function FirewallSecurityContent() {
   );
 }
 
-function SupportHelpdeskContent() {
+function PcLabsContent({ bannerIndex }) {
   return (
     <>
       <section className="py-16">
         <div className="mx-auto max-w-[1640px] px-4 sm:px-6 2xl:px-10">
+          <div className="grid gap-10 xl:grid-cols-[0.88fr_1.12fr] xl:items-start">
+            <div className="max-w-4xl">
+              <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cicBlue">
+                PC Labs
+              </p>
+
+              <h2 className="mt-4 text-4xl font-black leading-tight text-slate-950 md:text-5xl">
+                CIC PC Labs
+              </h2>
+
+              <p className="mt-5 text-xl font-semibold leading-8 text-slate-700">
+                Centralized computing laboratories for teaching, training,
+                examinations, and specialized software access.
+              </p>
+            </div>
+
+            <figure className="overflow-hidden border border-slate-200 bg-white p-3 shadow-sm">
+              <div className="relative aspect-[3/2] overflow-hidden bg-slate-100">
+                <AnimatePresence mode="sync">
+                  <motion.img
+                    key={pcLabBannerImages[bannerIndex].src}
+                    src={pcLabBannerImages[bannerIndex].src}
+                    alt={pcLabBannerImages[bannerIndex].alt}
+                    initial={{ x: "-100%", opacity: 0.88 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: "100%", opacity: 0.88 }}
+                    transition={{ duration: 0.75, ease: "easeInOut" }}
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                </AnimatePresence>
+              </div>
+
+              <div className="mt-3 flex items-center justify-between gap-3 px-2 text-sm leading-6 text-slate-500">
+                <figcaption>
+                  CIC PC Lab teaching, training, and examination facility.
+                </figcaption>
+
+                <div className="flex items-center gap-1.5" aria-hidden="true">
+                  {pcLabBannerImages.map((image, index) => (
+                    <span
+                      key={image.src}
+                      className={`h-1.5 w-4 rounded-full transition ${
+                        index === bannerIndex ? "bg-cicBlue" : "bg-slate-300"
+                      }`}
+                    />
+                  ))}
+                </div>
+              </div>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-slate-200 bg-slate-50 py-16">
+        <div className="mx-auto grid max-w-[1640px] gap-10 px-4 sm:px-6 2xl:px-10 xl:grid-cols-[0.78fr_1.22fr]">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cicBlue">
+              Lab Overview
+            </p>
+
+            <h2 className="mt-4 text-3xl font-black leading-tight text-slate-950 md:text-4xl">
+              Academic computing at institutional scale
+            </h2>
+          </div>
+
+          <div className="space-y-6 text-lg leading-9 text-slate-600">
+            {pcLabOverviewParagraphs.map((paragraph) => (
+              <p key={paragraph}>{paragraph}</p>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16">
+        <div className="mx-auto max-w-[1640px] px-4 sm:px-6 2xl:px-10">
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cicBlue">
+              Software Environment
+            </p>
+
+            <h2 className="mt-4 text-3xl font-black leading-tight text-slate-950 md:text-4xl">
+              Windows, Linux, open-source, and licensed software support
+            </h2>
+          </div>
+
+          <div className="mt-10 grid gap-8 xl:grid-cols-[0.42fr_1fr]">
+            <div className="border border-slate-200 bg-white p-6 shadow-sm">
+              <h3 className="text-2xl font-bold text-slate-950">
+                Operating Platforms
+              </h3>
+
+              <div className="mt-5 grid gap-3">
+                {pcLabPlatforms.map((platform) => (
+                  <p
+                    key={platform}
+                    className="border border-blue-100 bg-blue-50 px-4 py-3 text-base font-semibold text-cicBlue"
+                  >
+                    {platform}
+                  </p>
+                ))}
+              </div>
+            </div>
+
+            <div className="border border-slate-200 bg-white p-6 shadow-sm">
+              <h3 className="text-2xl font-bold text-slate-950">
+                Software Used in Labs
+              </h3>
+
+              <div className="mt-5 flex flex-wrap gap-2.5">
+                {pcLabSoftware.map((software) => (
+                  <span
+                    key={software}
+                    className="border border-slate-200 bg-slate-50 px-3 py-2 text-sm font-semibold text-slate-700"
+                  >
+                    {software}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-slate-950 py-16 text-white">
+        <div className="mx-auto max-w-[1640px] px-4 sm:px-6 2xl:px-10">
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cyan-200">
+              PC Configuration
+            </p>
+
+            <h2 className="mt-4 text-3xl font-black leading-tight md:text-4xl">
+              Available workstation configurations
+            </h2>
+          </div>
+
+          <div className="mt-10 grid gap-px overflow-hidden border border-white/10 bg-white/10 md:grid-cols-2 xl:grid-cols-4">
+            {pcLabConfigurations.map((configuration) => (
+              <article key={configuration.model} className="bg-slate-950 p-6">
+                <h3 className="text-xl font-bold leading-snug text-blue-50">
+                  {configuration.model}
+                </h3>
+
+                <ul className="mt-5 space-y-3 text-base leading-7 text-slate-300">
+                  {configuration.details.map((detail) => (
+                    <li key={detail}>{detail}</li>
+                  ))}
+                </ul>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16">
+        <div className="mx-auto grid max-w-[1640px] gap-10 px-4 sm:px-6 2xl:px-10 xl:grid-cols-[0.78fr_1.22fr]">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cicBlue">
+              Lab Operations
+            </p>
+
+            <h2 className="mt-4 text-3xl font-black leading-tight text-slate-950 md:text-4xl">
+              Contact and booking support
+            </h2>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-3">
+            {pcLabContacts.map((contact) => (
+              <article
+                key={contact.label}
+                className="border border-slate-200 bg-white p-5 shadow-sm"
+              >
+                <p className="text-sm font-semibold uppercase tracking-[0.16em] text-cicBlue">
+                  {contact.label}
+                </p>
+
+                {contact.href ? (
+                  <a
+                    href={contact.href}
+                    className="mt-3 block text-lg font-bold leading-7 text-slate-950 transition hover:text-cicBlue"
+                  >
+                    {contact.value}
+                  </a>
+                ) : (
+                  <p className="mt-3 text-lg font-bold leading-7 text-slate-950">
+                    {contact.value}
+                  </p>
+                )}
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+
+function SupportHelpdeskContent() {
+  return (
+    <>
+      <section className="py-16">
+        <div className="mx-auto grid max-w-[1640px] gap-10 px-4 sm:px-6 2xl:px-10 xl:grid-cols-[0.86fr_1.14fr] xl:items-start">
           <div className="max-w-4xl">
             <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cicBlue">
               Support and Helpdesk
@@ -387,6 +744,17 @@ function SupportHelpdeskContent() {
               network connectivity.
             </p>
           </div>
+
+          <figure className="overflow-hidden border border-slate-200 bg-white p-3 shadow-sm">
+            <img
+              src={helpdeskImages[0].src}
+              alt={helpdeskImages[0].alt}
+              className="aspect-[3/2] w-full object-cover"
+            />
+            <figcaption className="border-t border-slate-200 px-2 pt-3 text-sm leading-6 text-slate-500">
+              {helpdeskImages[0].caption}
+            </figcaption>
+          </figure>
         </div>
       </section>
 
@@ -431,6 +799,8 @@ function SupportHelpdeskContent() {
             {helpdeskOperationsParagraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
+
+            <ImageFeature image={helpdeskImages[1]} />
           </div>
         </div>
       </section>
@@ -494,14 +864,18 @@ function SupportHelpdeskContent() {
             </h2>
           </div>
 
-          <p className="text-lg leading-9 text-slate-600">
-            With a strong commitment to service excellence, reliability, and
-            technological innovation, the Campus Network Helpdesk remains
-            dedicated to delivering secure, high-performance, and future-ready
-            networking services that enable the institute's teaching, research,
-            innovation, and administrative excellence while enhancing the overall
-            digital experience of the campus community.
-          </p>
+          <div className="space-y-6">
+            <p className="text-lg leading-9 text-slate-600">
+              With a strong commitment to service excellence, reliability, and
+              technological innovation, the Campus Network Helpdesk remains
+              dedicated to delivering secure, high-performance, and future-ready
+              networking services that enable the institute's teaching, research,
+              innovation, and administrative excellence while enhancing the overall
+              digital experience of the campus community.
+            </p>
+
+            <ImageFeature image={helpdeskImages[2]} />
+          </div>
         </div>
       </section>
     </>
@@ -527,6 +901,133 @@ function ImagePair({ images }) {
         </figure>
       ))}
     </div>
+  );
+}
+
+function ImageFeature({ image }) {
+  return (
+    <figure className="overflow-hidden border border-slate-200 bg-white p-3 shadow-sm">
+      <img
+        src={image.src}
+        alt={image.alt}
+        className="aspect-[3/2] w-full object-cover"
+      />
+      <figcaption className="border-t border-slate-200 px-2 pt-3 text-sm leading-6 text-slate-500">
+        {image.caption}
+      </figcaption>
+    </figure>
+  );
+}
+
+function NknRoomsContent() {
+  return (
+    <>
+      <section className="py-16">
+        <div className="mx-auto grid max-w-[1640px] gap-10 px-4 sm:px-6 2xl:px-10 xl:grid-cols-[0.92fr_1.08fr] xl:items-end">
+          <div className="max-w-4xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cicBlue">
+              NKN Rooms
+            </p>
+
+            <h2 className="mt-4 text-4xl font-black leading-tight text-slate-950 md:text-5xl">
+              Empowering Global Education: NKN Virtual Classrooms at IIT
+              Kharagpur
+            </h2>
+
+            <p className="mt-5 text-xl font-semibold leading-8 text-slate-700">
+              Three state-of-the-art virtual classrooms bridge geographical
+              gaps between premier institutions through seamless, real-time
+              knowledge sharing and collaborative learning.
+            </p>
+          </div>
+
+          <div className="border border-cyan-100 bg-cyan-50 p-8 shadow-sm">
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-cyan-700">
+              NKN PIU Initiative
+            </p>
+            <p className="mt-4 text-lg leading-9 text-slate-700">
+              The National Knowledge Network initiative, executed by the NKN
+              Project Implementation Unit, has established these high-tech
+              facilities at IIT Kharagpur to support national academic
+              collaboration.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-slate-200 bg-slate-50 py-16">
+        <div className="mx-auto max-w-[1640px] px-4 sm:px-6 2xl:px-10">
+          <div className="max-w-3xl">
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cicBlue">
+              Key Features & Capabilities
+            </p>
+
+            <h2 className="mt-4 text-3xl font-black leading-tight text-slate-950 md:text-4xl">
+              An immersive, interactive digital classroom experience
+            </h2>
+          </div>
+
+          <div className="mt-10 grid gap-px overflow-hidden border border-slate-200 bg-slate-200 lg:grid-cols-3">
+            {nknFeatureSections.map((section) => (
+              <article key={section.title} className="bg-white p-7">
+                <h3 className="text-xl font-bold leading-snug text-slate-950">
+                  {section.title}
+                </h3>
+                <p className="mt-4 text-base leading-8 text-slate-600">
+                  {section.body}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16">
+        <div className="mx-auto grid max-w-[1640px] gap-10 px-4 sm:px-6 2xl:px-10 xl:grid-cols-[0.78fr_1.22fr]">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cicBlue">
+              Impact on the Campus Ecosystem
+            </p>
+
+            <h2 className="mt-4 text-3xl font-black leading-tight text-slate-950 md:text-4xl">
+              Extending IIT Kharagpur's classroom beyond the campus
+            </h2>
+          </div>
+
+          <div className="space-y-8 text-lg leading-9 text-slate-600">
+            {nknImpactSections.map((section) => (
+              <article key={section.title}>
+                <h3 className="text-2xl font-bold leading-snug text-slate-950">
+                  {section.title}
+                </h3>
+                <p className="mt-3">{section.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-slate-950 py-16 text-white">
+        <div className="mx-auto grid max-w-[1640px] gap-10 px-4 sm:px-6 2xl:px-10 xl:grid-cols-[0.78fr_1.22fr]">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cyan-200">
+              Facility Booking
+            </p>
+
+            <h2 className="mt-4 text-3xl font-black leading-tight md:text-4xl">
+              Centrally managed classroom access
+            </h2>
+          </div>
+
+          <p className="text-lg leading-9 text-slate-300">
+            Faculty members planning to host collaborative pan-India
+            interactive sessions, thesis or project defense presentations, or
+            virtual workshops can check availability and submit booking requests
+            via the institutional internal portal.
+          </p>
+        </div>
+      </section>
+    </>
   );
 }
 
@@ -692,6 +1193,7 @@ function SmartRackPowerContent() {
 function Infrastructure() {
   const [activeSection, setActiveSection] = useState(null);
   const [networkBannerIndex, setNetworkBannerIndex] = useState(0);
+  const [pcLabBannerIndex, setPcLabBannerIndex] = useState(0);
   const blogContentRef = useRef(null);
   const activeSectionData = infrastructureSections.find(
     (section) => section.id === activeSection,
@@ -699,7 +1201,9 @@ function Infrastructure() {
   const isBlogActive = Boolean(activeSectionData);
   const isNetworkActive = activeSection === "network";
   const isFirewallSecurityActive = activeSection === "firewall-security-systems";
+  const isPcLabsActive = activeSection === "pc-labs";
   const isSupportHelpdeskActive = activeSection === "upport-helpdesk";
+  const isNknRoomsActive = activeSection === "nkn-rooms";
   const isSmartRackPowerActive = activeSection === "smart-rack-power-ac-systems";
 
   useEffect(() => {
@@ -729,6 +1233,20 @@ function Infrastructure() {
     return () => window.clearInterval(intervalId);
   }, [isNetworkActive]);
 
+  useEffect(() => {
+    if (!isPcLabsActive) {
+      return undefined;
+    }
+
+    const intervalId = window.setInterval(() => {
+      setPcLabBannerIndex(
+        (currentIndex) => (currentIndex + 1) % pcLabBannerImages.length,
+      );
+    }, 3000);
+
+    return () => window.clearInterval(intervalId);
+  }, [isPcLabsActive]);
+
   const handleSectionSelect = (sectionId) => {
     setActiveSection(sectionId);
   };
@@ -749,30 +1267,35 @@ function Infrastructure() {
     <div className="bg-white">
       <AnimatePresence mode="popLayout">
       {!isBlogActive ? (
-        <motion.section
-          key="expanded-infrastructure-header"
-          layout
-          initial={{ opacity: 0, y: -18 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -18 }}
-          transition={{ duration: 0.28, ease: "easeOut" }}
-          className="border-b border-slate-200 bg-slate-50 py-16"
+        <section
+          className="relative overflow-hidden border-b border-slate-200 bg-slate-950 py-16"
         >
-          <div className="mx-auto max-w-[1640px] px-4 sm:px-6 2xl:px-10">
+          <img
+            src="/media/infrastructure/physical/cic-lobby.jpg"
+            alt=""
+            aria-hidden="true"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
+          <div
+            className="absolute inset-0 bg-[linear-gradient(90deg,rgba(15,23,42,0.92),rgba(15,23,42,0.7),rgba(15,23,42,0.46))]"
+            aria-hidden="true"
+          />
+
+          <div className="relative z-10 mx-auto max-w-[1640px] px-4 sm:px-6 2xl:px-10">
             <div className="grid gap-10 xl:grid-cols-[0.9fr_1.1fr] xl:items-end">
               <div className="max-w-4xl">
-                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cicBlue">
+                <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cyan-200">
                   Infrastructure
                 </p>
 
                 <motion.h1
                   layoutId="infrastructure-page-title"
-                  className="mt-4 text-4xl font-black leading-tight text-slate-950 md:text-5xl"
+                  className="mt-4 text-4xl font-black leading-tight text-white md:text-5xl"
                 >
                   CIC Infrastructure
                 </motion.h1>
 
-                <p className="mt-6 text-lg leading-9 text-slate-600">
+                <p className="mt-6 text-lg leading-9 text-blue-50">
                   Select an infrastructure area to view available details.
                 </p>
               </div>
@@ -792,7 +1315,7 @@ function Infrastructure() {
                         layoutId={`infrastructure-card-${section.id}`}
                         type="button"
                         onClick={() => handleSectionSelect(section.id)}
-                        className="flex h-full min-h-[148px] w-full flex-col rounded-lg border border-gray-200 bg-white p-3.5 text-left shadow-sm transition hover:border-cicBlue hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-cyan-200"
+                        className="flex h-full min-h-[148px] w-full flex-col rounded-lg border border-white/90 bg-white/30 p-3.5 text-left shadow-[0_18px_45px_rgba(15,23,42,0.24)] backdrop-blur-md transition hover:border-cyan-200 hover:bg-white/48 hover:shadow-[0_22px_55px_rgba(15,23,42,0.32)] focus:outline-none focus:ring-4 focus:ring-cyan-200"
                         transition={{ type: "spring", stiffness: 360, damping: 34 }}
                       >
                         <motion.div
@@ -802,15 +1325,15 @@ function Infrastructure() {
                           <Icon className="h-4 w-4" aria-hidden="true" />
                         </motion.div>
 
-                        <h2 className="mb-1 text-base font-semibold leading-snug text-gray-800">
+                        <h2 className="mb-1 text-base font-bold leading-snug text-slate-950">
                           {section.name}
                         </h2>
 
-                        <p className="text-xs leading-5 text-gray-600">
+                        <p className="text-xs font-medium leading-5 text-slate-800">
                           {section.description}
                         </p>
 
-                        <span className="mt-auto inline-flex items-center gap-2 pt-2 text-xs font-semibold text-cicBlue">
+                        <span className="mt-auto inline-flex items-center gap-2 pt-2 text-xs font-bold text-cicBlue">
                           View details
                           <ArrowRight className="h-3.5 w-3.5" aria-hidden="true" />
                         </span>
@@ -821,7 +1344,7 @@ function Infrastructure() {
               </div>
             </div>
           </div>
-        </motion.section>
+        </section>
       ) : (
         <motion.div
           key="compact-infrastructure-header"
@@ -1110,8 +1633,12 @@ function Infrastructure() {
       </>
       ) : isFirewallSecurityActive ? (
         <FirewallSecurityContent />
+      ) : isPcLabsActive ? (
+        <PcLabsContent bannerIndex={pcLabBannerIndex} />
       ) : isSupportHelpdeskActive ? (
         <SupportHelpdeskContent />
+      ) : isNknRoomsActive ? (
+        <NknRoomsContent />
       ) : isSmartRackPowerActive ? (
         <SmartRackPowerContent />
       ) : (

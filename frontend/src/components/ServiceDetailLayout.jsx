@@ -852,7 +852,7 @@ function SectionBlock({
         <NestedSectionItems
           items={section.items}
           ordered={ordered}
-          hideMarkers={hideMarkers}
+          hideMarkers={hideMarkers || section.hideItemMarkers === true}
           onOpenModal={onOpenModal}
           collapsible={collapsible}
           expandedPath={expandedPath}

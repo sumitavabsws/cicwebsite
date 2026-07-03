@@ -1243,6 +1243,7 @@ export const services = [
       },
       {
         title: "VPN Client Download",
+        hideItemMarkers: true,
         items: [
           {
             text: "Download FortiClient from the Fortinet website.",
