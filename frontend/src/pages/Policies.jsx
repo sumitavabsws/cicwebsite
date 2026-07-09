@@ -28,7 +28,6 @@ const policyGroups = [
           title: "Digital Personal Data Protection Act, 2023",
           url: "/resources/policies/DPDP Act.pdf",
         },
-        openDocumentOnRoute: true,
       },
     ],
   },

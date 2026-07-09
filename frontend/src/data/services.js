@@ -1077,6 +1077,31 @@ export const services = [
             ]
           },
           {
+            "text": "CST Studio",
+            "children": [
+              {
+                "text": "Ubuntu",
+                "references": [
+                  {
+                    "label": "Open CST Studio Ubuntu installation guide",
+                    "url": "/resources/softwaresupport/cststudio/ubuntu/CST_Ubuntu_Installation_Guide.pdf",
+                    "type": "pdf"
+                  }
+                ]
+              },
+              {
+                "text": "Windows",
+                "references": [
+                  {
+                    "label": "Open CST Studio Windows installation guide",
+                    "url": "/resources/softwaresupport/cststudio/windows/CST_Windows_Installation_Guide.pdf",
+                    "type": "pdf"
+                  }
+                ]
+              }
+            ]
+          },
+          {
             "text": "IBM SPSS",
             "children": [
               {
