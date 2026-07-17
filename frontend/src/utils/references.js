@@ -26,7 +26,10 @@ export function openReference(reference, openHtmlReference = () => {}, title) {
 
   if (isPdfReference(reference)) {
     window.open(
-      getDocumentViewerUrl(reference.url, title ?? reference.label ?? "Document"),
+      getDocumentViewerUrl(
+        reference.url,
+        title ?? reference.label ?? "Document",
+      ),
       "_blank",
       "noopener,noreferrer",
     );

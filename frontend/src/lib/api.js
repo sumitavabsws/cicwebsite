@@ -21,7 +21,10 @@ export function writeStoredAdminSession(session) {
     return;
   }
 
-  window.localStorage.setItem(ADMIN_SESSION_STORAGE_KEY, JSON.stringify(session));
+  window.localStorage.setItem(
+    ADMIN_SESSION_STORAGE_KEY,
+    JSON.stringify(session),
+  );
 }
 
 export function clearStoredAdminSession() {
@@ -33,12 +36,7 @@ export function clearStoredAdminSession() {
 }
 
 export async function apiRequest(path, options = {}) {
-  const {
-    method = "GET",
-    body,
-    token,
-    headers = {},
-  } = options;
+  const { method = "GET", body, token, headers = {} } = options;
 
   const requestHeaders = {
     ...headers,

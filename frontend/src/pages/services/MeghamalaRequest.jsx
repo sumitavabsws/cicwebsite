@@ -50,7 +50,10 @@ function escapePdfText(value) {
 }
 
 function wrapText(value, maxLength) {
-  const words = String(value ?? "").replace(/\s+/g, " ").trim().split(" ");
+  const words = String(value ?? "")
+    .replace(/\s+/g, " ")
+    .trim()
+    .split(" ");
   const lines = [];
   let currentLine = "";
 
@@ -93,7 +96,14 @@ function createMeghamalaRequestPdf(formValues) {
     add(`${x} ${y} ${width} ${height} re S`);
   };
 
-  const wrappedText = (x, y, value, maxLength, lineHeight = 13, options = {}) => {
+  const wrappedText = (
+    x,
+    y,
+    value,
+    maxLength,
+    lineHeight = 13,
+    options = {},
+  ) => {
     let nextY = y;
 
     wrapText(value, maxLength).forEach((lineText) => {
@@ -412,9 +422,14 @@ function MeghamalaRequest() {
           </form>
 
           <aside className="space-y-4 lg:sticky lg:top-32 lg:self-start">
-            <h2 className="text-2xl font-bold text-slate-900">Steps to follow</h2>
+            <h2 className="text-2xl font-bold text-slate-900">
+              Steps to follow
+            </h2>
             {[
-              ["Fill out this form", "Fill out the form on the left and click Submit."],
+              [
+                "Fill out this form",
+                "Fill out the form on the left and click Submit.",
+              ],
               [
                 "Get hard copy signed",
                 "Print the generated PDF and sign it. You may save a copy for future reference.",

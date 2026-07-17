@@ -121,14 +121,13 @@ function Hero({ compact = false }) {
 
           <div className={`${compact ? "mt-4 space-y-3" : "mt-5 space-y-6"}`}>
             {focusAreas.map((area, index) => (
-              <div
-                key={area}
-                className={focusItemClassName}
-              >
+              <div key={area} className={focusItemClassName}>
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-yellow-300">
                   0{index + 1}
                 </p>
-                <p className={`${compact ? "mt-1.5 text-sm leading-6" : "mt-2 text-lg leading-7"} text-blue-50`}>
+                <p
+                  className={`${compact ? "mt-1.5 text-sm leading-6" : "mt-2 text-lg leading-7"} text-blue-50`}
+                >
                   {area}
                 </p>
               </div>

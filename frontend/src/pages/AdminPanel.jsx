@@ -1,14 +1,26 @@
 import { useEffect, useMemo, useState } from "react";
-import { Pencil, Plus, RefreshCcw, ShieldCheck, Trash2 } from "lucide-react";
+import {
+  Pencil,
+  Plus,
+  RefreshCcw,
+  Search,
+  ShieldCheck,
+  Trash2,
+} from "lucide-react";
 import { useAdminAuth } from "../context/AdminAuthContext";
 import { useSiteContent } from "../context/SiteContentContext";
 import { serviceIconOptions } from "../data/services";
 import { apiRequest, uploadFile } from "../lib/api";
 
-const MAX_TEAM_PHOTO_SIZE_BYTES = 1000 * 1024;
+const MAX_TEAM_PHOTO_SIZE_BYTES = Number(
+  import.meta.env.VITE_MAX_TEAM_PHOTO_SIZE_BYTES ?? 200 * 1024,
+);
 
 function createId(prefix = "entry") {
-  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+  if (
+    typeof crypto !== "undefined" &&
+    typeof crypto.randomUUID === "function"
+  ) {
     return `${prefix}-${crypto.randomUUID()}`;
   }
 
@@ -74,6 +86,9 @@ function createEmptyTeamDraft() {
     phone: "",
     email: "",
     photo: "",
+    category: "current",
+    formerDate: "",
+    showContact: true,
   };
 }
 
@@ -123,6 +138,9 @@ function createTeamDraftFromItem(team) {
     phone: team.phone,
     email: team.email,
     photo: team.photo ?? "",
+    category: team.category ?? "current",
+    formerDate: team.formerDate ?? "",
+    showContact: team.showContact !== false,
   };
 }
 
@@ -191,13 +209,25 @@ function ContentList({
   onCreate,
   onEdit,
   onDelete,
+  searchValue,
+  onSearchChange,
+  searchPlaceholder = "Search directory",
+  scrollable = false,
 }) {
   return (
-    <div className="rounded-3xl border border-slate-200 bg-slate-50 p-5">
+    <div
+      className={
+        scrollable
+          ? "flex min-h-0 flex-col rounded-3xl border border-slate-200 bg-slate-50 p-5 xl:h-[calc(100vh-12rem)]"
+          : "rounded-3xl border border-slate-200 bg-slate-50 p-5"
+      }
+    >
       <div className="mb-4 flex items-start justify-between gap-4">
         <div>
           <h3 className="text-lg font-semibold text-slate-900">{title}</h3>
-          {description ? <p className="mt-1 text-sm text-slate-600">{description}</p> : null}
+          {description ? (
+            <p className="mt-1 text-sm text-slate-600">{description}</p>
+          ) : null}
         </div>
 
         <button
@@ -210,7 +240,27 @@ function ContentList({
         </button>
       </div>
 
-      <div className="space-y-3">
+      {onSearchChange ? (
+        <label className="relative mb-4 block">
+          <span className="sr-only">{searchPlaceholder}</span>
+          <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+          <input
+            type="search"
+            value={searchValue}
+            onChange={(event) => onSearchChange(event.target.value)}
+            placeholder={searchPlaceholder}
+            className="w-full rounded-xl border border-slate-300 bg-white py-2.5 pl-10 pr-3 text-sm outline-none transition placeholder:text-slate-400 focus:border-cicBlue focus:ring-4 focus:ring-blue-100"
+          />
+        </label>
+      ) : null}
+
+      <div
+        className={
+          scrollable
+            ? "min-h-0 flex-1 space-y-3 overflow-y-auto pr-2"
+            : "space-y-3"
+        }
+      >
         {items.length ? (
           items.map((item) => {
             const meta = getMeta(item);
@@ -222,9 +272,13 @@ function ContentList({
               >
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <h4 className="font-semibold text-slate-900">{meta.title}</h4>
+                    <h4 className="font-semibold text-slate-900">
+                      {meta.title}
+                    </h4>
                     {meta.subtitle ? (
-                      <p className="mt-1 text-sm text-slate-500">{meta.subtitle}</p>
+                      <p className="mt-1 text-sm text-slate-500">
+                        {meta.subtitle}
+                      </p>
                     ) : null}
                   </div>
 
@@ -248,7 +302,9 @@ function ContentList({
                 </div>
 
                 {meta.body ? (
-                  <p className="mt-3 text-sm leading-6 text-slate-600">{meta.body}</p>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">
+                    {meta.body}
+                  </p>
                 ) : null}
               </article>
             );
@@ -274,7 +330,11 @@ function NoticeEventManager({
   const handleSave = async (event) => {
     event.preventDefault();
 
-    if (!draft.title.trim() || !draft.date.trim() || !draft.reference.url.trim()) {
+    if (
+      !draft.title.trim() ||
+      !draft.date.trim() ||
+      !draft.reference.url.trim()
+    ) {
       setMessage({
         type: "error",
         text: `${label} requires a title, date, and reference URL.`,
@@ -296,7 +356,9 @@ function NoticeEventManager({
 
     try {
       await setItems((previousItems) => {
-        const existingIndex = previousItems.findIndex((item) => item.id === nextEntry.id);
+        const existingIndex = previousItems.findIndex(
+          (item) => item.id === nextEntry.id,
+        );
 
         if (existingIndex >= 0) {
           const nextItems = [...previousItems];
@@ -498,7 +560,13 @@ function NoticeEventManager({
   );
 }
 
-function ServiceManager({ services, setServices, draft, setDraft, setMessage }) {
+function ServiceManager({
+  services,
+  setServices,
+  draft,
+  setDraft,
+  setMessage,
+}) {
   const handleSave = async (event) => {
     event.preventDefault();
 
@@ -555,7 +623,8 @@ function ServiceManager({ services, setServices, draft, setDraft, setMessage }) 
     };
 
     const duplicateSlug = services.find(
-      (service) => service.slug === nextService.slug && service.id !== nextService.id,
+      (service) =>
+        service.slug === nextService.slug && service.id !== nextService.id,
     );
 
     if (duplicateSlug) {
@@ -669,7 +738,9 @@ function ServiceManager({ services, setServices, draft, setDraft, setMessage }) 
                 setDraft((currentDraft) => ({
                   ...currentDraft,
                   title: event.target.value,
-                  slug: currentDraft.id ? currentDraft.slug : slugify(event.target.value),
+                  slug: currentDraft.id
+                    ? currentDraft.slug
+                    : slugify(event.target.value),
                 }))
               }
               className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
@@ -942,6 +1013,25 @@ function TeamManager({
   setMessage,
   adminToken,
 }) {
+  const [uploading, setUploading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [teamSearch, setTeamSearch] = useState("");
+  const normalizedTeamSearch = teamSearch.trim().toLowerCase();
+  const visibleTeams = normalizedTeamSearch
+    ? teams.filter((teamMember) =>
+        [
+          teamMember.name,
+          teamMember.role,
+          teamMember.phone,
+          teamMember.email,
+          teamMember.category,
+        ]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase()
+          .includes(normalizedTeamSearch),
+      )
+    : teams;
   const handlePhotoChange = async (event) => {
     const file = event.target.files?.[0];
 
@@ -961,14 +1051,19 @@ function TeamManager({
     if (file.size > MAX_TEAM_PHOTO_SIZE_BYTES) {
       setMessage({
         type: "error",
-        text: "Team photo must be 1000 KB or smaller.",
+        text: `Team photo must be ${MAX_TEAM_PHOTO_SIZE_BYTES / 1024} KB or smaller.`,
       });
       event.target.value = "";
       return;
     }
 
     try {
-      const response = await uploadFile("/uploads/team-photo", file, adminToken);
+      setUploading(true);
+      const response = await uploadFile(
+        "/uploads/team-photo",
+        file,
+        adminToken,
+      );
       setDraft((currentDraft) => ({
         ...currentDraft,
         photo: response.url,
@@ -980,6 +1075,7 @@ function TeamManager({
         text: error.message,
       });
     } finally {
+      setUploading(false);
       event.target.value = "";
     }
   };
@@ -1002,9 +1098,13 @@ function TeamManager({
       phone: draft.phone.trim(),
       email: draft.email.trim(),
       photo: draft.photo ?? "",
+      category: draft.category,
+      formerDate: draft.category === "former" ? draft.formerDate : "",
+      showContact: draft.showContact,
     };
 
     try {
+      setSaving(true);
       await setTeams((previousTeams) => {
         const existingIndex = previousTeams.findIndex(
           (teamMember) => teamMember.id === nextTeamMember.id,
@@ -1029,6 +1129,8 @@ function TeamManager({
         type: "error",
         text: error.message,
       });
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -1042,7 +1144,9 @@ function TeamManager({
         previousTeams.filter((entry) => entry.id !== teamMember.id),
       );
       setDraft((currentDraft) =>
-        currentDraft.id === teamMember.id ? createEmptyTeamDraft() : currentDraft,
+        currentDraft.id === teamMember.id
+          ? createEmptyTeamDraft()
+          : currentDraft,
       );
       setMessage({
         type: "success",
@@ -1059,13 +1163,28 @@ function TeamManager({
   return (
     <div className="grid gap-6 xl:grid-cols-[0.95fr_1.05fr]">
       <ContentList
-        title="Team Members"
-        description="Manage the public CIC team directory."
-        items={teams}
+        title="Team directory"
+        description="Add people, update their details, or move them between the public directory groups."
+        items={visibleTeams}
+        searchValue={teamSearch}
+        onSearchChange={setTeamSearch}
+        searchPlaceholder="Search name, role, contact, or status"
+        scrollable
         getMeta={(teamMember) => ({
           title: teamMember.name,
-          subtitle: teamMember.role,
-          body: [teamMember.phone, teamMember.email].filter(Boolean).join(" | "),
+          subtitle: `${teamMember.role} · ${
+            teamMember.category === "former"
+              ? "Former employee"
+              : teamMember.category === "helpdesk"
+                ? "Helpdesk team"
+                : "Current team"
+          }`,
+          body: [
+            teamMember.showContact ? teamMember.phone : "",
+            teamMember.showContact ? teamMember.email : "",
+          ]
+            .filter(Boolean)
+            .join(" | "),
         })}
         onCreate={() => {
           setDraft(createEmptyTeamDraft());
@@ -1080,82 +1199,164 @@ function TeamManager({
 
       <form
         onSubmit={handleSave}
-        className="grid gap-4 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
+        className="grid h-fit self-start content-start gap-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm xl:sticky xl:top-6"
       >
         <div className="flex items-center justify-between gap-3">
           <h3 className="text-lg font-semibold text-slate-900">
             {draft.id ? "Update Team Member" : "Add Team Member"}
           </h3>
 
-          {draft.id ? (
-            <button
-              type="button"
-              onClick={() => setDraft(createEmptyTeamDraft())}
-              className="text-sm font-semibold text-cicBlue"
-            >
-              Clear form
-            </button>
-          ) : null}
+          <button
+            type="button"
+            onClick={() => setDraft(createEmptyTeamDraft())}
+            className="text-sm font-semibold text-cicBlue"
+          >
+            Clear form
+          </button>
         </div>
 
-        <label className="grid gap-2 text-sm font-medium text-slate-700">
-          Name
-          <input
-            value={draft.name}
-            onChange={(event) =>
-              setDraft((currentDraft) => ({
-                ...currentDraft,
-                name: event.target.value,
-              }))
-            }
-            className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
-          />
-        </label>
+        <p className="-mt-3 text-sm leading-6 text-slate-600">
+          A member remains in the same record when moved to another directory
+          group.
+        </p>
 
-        <label className="grid gap-2 text-sm font-medium text-slate-700">
-          Role
-          <input
-            value={draft.role}
-            onChange={(event) =>
-              setDraft((currentDraft) => ({
-                ...currentDraft,
-                role: event.target.value,
-              }))
-            }
-            className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
-          />
-        </label>
+        <fieldset className="grid gap-4 rounded-2xl border border-slate-200 p-4">
+          <legend className="px-2 text-sm font-bold text-slate-900">
+            Profile
+          </legend>
+          <label className="grid gap-2 text-sm font-medium text-slate-700">
+            Name
+            <input
+              required
+              autoComplete="name"
+              value={draft.name}
+              onChange={(event) =>
+                setDraft((currentDraft) => ({
+                  ...currentDraft,
+                  name: event.target.value,
+                }))
+              }
+              className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
+            />
+          </label>
 
-        <label className="grid gap-2 text-sm font-medium text-slate-700">
-          Phone
-          <input
-            value={draft.phone}
-            onChange={(event) =>
-              setDraft((currentDraft) => ({
-                ...currentDraft,
-                phone: event.target.value,
-              }))
-            }
-            className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
-          />
-        </label>
+          <label className="grid gap-2 text-sm font-medium text-slate-700">
+            Role
+            <input
+              required
+              value={draft.role}
+              onChange={(event) =>
+                setDraft((currentDraft) => ({
+                  ...currentDraft,
+                  role: event.target.value,
+                }))
+              }
+              className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
+            />
+          </label>
+        </fieldset>
 
-        <label className="grid gap-2 text-sm font-medium text-slate-700">
-          Email
-          <input
-            value={draft.email}
-            onChange={(event) =>
-              setDraft((currentDraft) => ({
-                ...currentDraft,
-                email: event.target.value,
-              }))
-            }
-            className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
-          />
-        </label>
+        <fieldset className="grid gap-4 rounded-2xl border border-slate-200 p-4">
+          <legend className="px-2 text-sm font-bold text-slate-900">
+            Directory placement
+          </legend>
+          <label className="grid gap-2 text-sm font-medium text-slate-700">
+            Directory status
+            <select
+              value={draft.category}
+              onChange={(event) =>
+                setDraft((currentDraft) => ({
+                  ...currentDraft,
+                  category: event.target.value,
+                }))
+              }
+              className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
+            >
+              <option value="current">Current team member</option>
+              <option value="former">Former employee</option>
+              <option value="helpdesk">Helpdesk team</option>
+            </select>
+          </label>
 
-        <div className="grid gap-3 text-sm font-medium text-slate-700">
-          <span>Photo</span>
+          {draft.category === "former" ? (
+            <label className="grid gap-2 text-sm font-medium text-slate-700">
+              Date relieved
+              <input
+                type="date"
+                value={draft.formerDate}
+                onChange={(event) =>
+                  setDraft((currentDraft) => ({
+                    ...currentDraft,
+                    formerDate: event.target.value,
+                  }))
+                }
+                className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
+              />
+            </label>
+          ) : null}
+        </fieldset>
+
+        <fieldset className="grid gap-4 rounded-2xl border border-slate-200 p-4">
+          <legend className="px-2 text-sm font-bold text-slate-900">
+            Public contact details
+          </legend>
+          <label className="grid gap-2 text-sm font-medium text-slate-700">
+            Phone
+            <input
+              type="tel"
+              autoComplete="tel"
+              value={draft.phone}
+              onChange={(event) =>
+                setDraft((currentDraft) => ({
+                  ...currentDraft,
+                  phone: event.target.value,
+                }))
+              }
+              className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
+            />
+          </label>
+
+          <label className="grid gap-2 text-sm font-medium text-slate-700">
+            Email
+            <input
+              type="email"
+              autoComplete="email"
+              value={draft.email}
+              onChange={(event) =>
+                setDraft((currentDraft) => ({
+                  ...currentDraft,
+                  email: event.target.value,
+                }))
+              }
+              className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
+            />
+          </label>
+          <label className="flex items-start gap-3 rounded-xl bg-slate-50 p-3 text-sm text-slate-700">
+            <input
+              type="checkbox"
+              checked={draft.showContact}
+              onChange={(event) =>
+                setDraft((currentDraft) => ({
+                  ...currentDraft,
+                  showContact: event.target.checked,
+                }))
+              }
+              className="mt-0.5 h-4 w-4 rounded border-slate-300 text-cicBlue focus:ring-cicBlue"
+            />
+            <span>
+              <span className="block font-semibold">
+                Show contact details publicly
+              </span>
+              Hide the phone number and email address while retaining them in
+              the directory record.
+            </span>
+          </label>
+        </fieldset>
+
+        <fieldset className="grid gap-3 rounded-2xl border border-slate-200 p-4 text-sm font-medium text-slate-700">
+          <legend className="px-2 text-sm font-bold text-slate-900">
+            Photo
+          </legend>
 
           {draft.photo ? (
             <img
@@ -1172,13 +1373,19 @@ function TeamManager({
           <input
             type="file"
             accept="image/*"
+            disabled={uploading}
             onChange={handlePhotoChange}
             className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition file:mr-3 file:rounded-lg file:border-0 file:bg-blue-100 file:px-3 file:py-2 file:font-semibold file:text-cicBlue hover:file:bg-blue-200 focus:border-cicBlue"
           />
 
           <p className="text-xs leading-5 text-slate-500">
-            Upload JPG, PNG, or WebP. Maximum file size: 200 KB.
+            Upload JPG, PNG, or WebP. Maximum file size:{" "}
+            {MAX_TEAM_PHOTO_SIZE_BYTES / 1024} KB.
           </p>
+
+          {uploading ? (
+            <p className="text-sm text-cicBlue">Uploading photo…</p>
+          ) : null}
 
           {draft.photo ? (
             <button
@@ -1194,13 +1401,14 @@ function TeamManager({
               Remove photo
             </button>
           ) : null}
-        </div>
+        </fieldset>
 
         <button
           type="submit"
+          disabled={saving || uploading}
           className="inline-flex items-center justify-center rounded-xl bg-cicBlue px-5 py-3 font-semibold text-white transition hover:bg-blue-900"
         >
-          {draft.id ? "Update team member" : "Add team member"}
+          {saving ? "Saving…" : draft.id ? "Save changes" : "Add team member"}
         </button>
       </form>
     </div>
@@ -1239,7 +1447,10 @@ function TenderManager({
       return;
     }
 
-    if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
+    if (
+      file.type !== "application/pdf" &&
+      !file.name.toLowerCase().endsWith(".pdf")
+    ) {
       setMessage({
         type: "error",
         text: "Please upload a valid PDF file.",
@@ -1251,7 +1462,11 @@ function TenderManager({
     setMessage(null);
 
     try {
-      const uploadedFile = await uploadFile("/uploads/tender-pdf", file, adminToken);
+      const uploadedFile = await uploadFile(
+        "/uploads/tender-pdf",
+        file,
+        adminToken,
+      );
       setDraft((currentDraft) => ({
         ...currentDraft,
         pdfUrl: uploadedFile.url,
@@ -1300,17 +1515,23 @@ function TenderManager({
     setSaving(true);
 
     try {
-      const existingIndex = tenders.findIndex((tender) => tender.id === nextTender.id);
+      const existingIndex = tenders.findIndex(
+        (tender) => tender.id === nextTender.id,
+      );
       const nextTenders =
         existingIndex >= 0
-          ? tenders.map((tender) => (tender.id === nextTender.id ? nextTender : tender))
+          ? tenders.map((tender) =>
+              tender.id === nextTender.id ? nextTender : tender,
+            )
           : [nextTender, ...tenders];
 
       await persistTenders(nextTenders);
       setDraft(createEmptyTenderDraft());
       setMessage({
         type: "success",
-        text: draft.id ? "Tender updated successfully." : "New tender floated successfully.",
+        text: draft.id
+          ? "Tender updated successfully."
+          : "New tender floated successfully.",
       });
     } catch (error) {
       setMessage({
@@ -1519,7 +1740,11 @@ function TenderManager({
           disabled={saving || uploading}
           className="inline-flex items-center justify-center rounded-xl bg-cicBlue px-5 py-3 font-semibold text-white transition hover:bg-blue-900 disabled:cursor-not-allowed disabled:bg-slate-400"
         >
-          {saving ? "Saving..." : draft.id ? "Update Tender" : "Float New Tender"}
+          {saving
+            ? "Saving..."
+            : draft.id
+              ? "Update Tender"
+              : "Float New Tender"}
         </button>
       </form>
     </div>
@@ -1565,12 +1790,12 @@ function AdminPanel() {
   const tabs = useMemo(
     () => [
       { id: "notices", label: "Notices" },
-        { id: "events", label: "Events" },
-        { id: "services", label: "Services" },
-        { id: "teams", label: "Teams" },
-        { id: "tenders", label: "Tenders" },
-      ],
-      [],
+      { id: "events", label: "Events" },
+      { id: "services", label: "Services" },
+      { id: "teams", label: "Teams" },
+      { id: "tenders", label: "Tenders" },
+    ],
+    [],
   );
 
   useEffect(() => {
@@ -1610,9 +1835,9 @@ function AdminPanel() {
     return (
       <div className="bg-white py-24">
         <div className="mx-auto max-w-[1640px] px-4 sm:px-6 2xl:px-10">
-        <div className="max-w-xl border-t border-slate-200 pt-8 text-center">
-          <p className="text-slate-600">Checking admin session...</p>
-        </div>
+          <div className="max-w-xl border-t border-slate-200 pt-8 text-center">
+            <p className="text-slate-600">Checking admin session...</p>
+          </div>
         </div>
       </div>
     );
@@ -1640,72 +1865,75 @@ function AdminPanel() {
     return (
       <div className="bg-white py-24">
         <div className="mx-auto max-w-[1640px] px-4 sm:px-6 2xl:px-10">
-        <form onSubmit={handleAdminLogin} className="max-w-xl border-t border-slate-200 pt-8">
-          <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-900 text-white">
-            <ShieldCheck className="h-6 w-6" />
-          </div>
-
-          <h1 className="text-3xl font-black text-slate-900">Admin Login</h1>
-          <p className="mt-3 leading-7 text-slate-600">
-            Sign in with your Ananta credentials to manage notices, events, and
-            service content for the CIC website.
-          </p>
-
-          <div className="mt-6 grid gap-4">
-            <label className="grid gap-2 text-sm font-medium text-slate-700">
-              Username
-              <input
-                value={loginDraft.username}
-                onChange={(event) =>
-                  setLoginDraft((currentDraft) => ({
-                    ...currentDraft,
-                    username: event.target.value,
-                  }))
-                }
-                autoComplete="username"
-                required
-                className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
-              />
-            </label>
-
-            <label className="grid gap-2 text-sm font-medium text-slate-700">
-              Password
-              <input
-                type="password"
-                value={loginDraft.password}
-                onChange={(event) =>
-                  setLoginDraft((currentDraft) => ({
-                    ...currentDraft,
-                    password: event.target.value,
-                  }))
-                }
-                autoComplete="current-password"
-                required
-                className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
-              />
-            </label>
-          </div>
-
-          {message ? (
-            <div
-              className={`mt-6 rounded-2xl px-4 py-3 text-sm ${
-                message.type === "error"
-                  ? "border border-red-200 bg-red-50 text-red-700"
-                  : "border border-emerald-200 bg-emerald-50 text-emerald-700"
-              }`}
-            >
-              {message.text}
-            </div>
-          ) : null}
-
-          <button
-            type="submit"
-            disabled={loginLoading}
-            className="mt-6 inline-flex items-center justify-center rounded-xl bg-cicBlue px-5 py-3 font-semibold text-white transition hover:bg-blue-900"
+          <form
+            onSubmit={handleAdminLogin}
+            className="max-w-xl border-t border-slate-200 pt-8"
           >
-            {loginLoading ? "Signing in..." : "Sign in"}
-          </button>
-        </form>
+            <div className="mb-6 inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-900 text-white">
+              <ShieldCheck className="h-6 w-6" />
+            </div>
+
+            <h1 className="text-3xl font-black text-slate-900">Admin Login</h1>
+            <p className="mt-3 leading-7 text-slate-600">
+              Sign in with your Ananta credentials to manage notices, events,
+              and service content for the CIC website.
+            </p>
+
+            <div className="mt-6 grid gap-4">
+              <label className="grid gap-2 text-sm font-medium text-slate-700">
+                Username
+                <input
+                  value={loginDraft.username}
+                  onChange={(event) =>
+                    setLoginDraft((currentDraft) => ({
+                      ...currentDraft,
+                      username: event.target.value,
+                    }))
+                  }
+                  autoComplete="username"
+                  required
+                  className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
+                />
+              </label>
+
+              <label className="grid gap-2 text-sm font-medium text-slate-700">
+                Password
+                <input
+                  type="password"
+                  value={loginDraft.password}
+                  onChange={(event) =>
+                    setLoginDraft((currentDraft) => ({
+                      ...currentDraft,
+                      password: event.target.value,
+                    }))
+                  }
+                  autoComplete="current-password"
+                  required
+                  className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
+                />
+              </label>
+            </div>
+
+            {message ? (
+              <div
+                className={`mt-6 rounded-2xl px-4 py-3 text-sm ${
+                  message.type === "error"
+                    ? "border border-red-200 bg-red-50 text-red-700"
+                    : "border border-emerald-200 bg-emerald-50 text-emerald-700"
+                }`}
+              >
+                {message.text}
+              </div>
+            ) : null}
+
+            <button
+              type="submit"
+              disabled={loginLoading}
+              className="mt-6 inline-flex items-center justify-center rounded-xl bg-cicBlue px-5 py-3 font-semibold text-white transition hover:bg-blue-900"
+            >
+              {loginLoading ? "Signing in..." : "Sign in"}
+            </button>
+          </form>
         </div>
       </div>
     );
@@ -1714,181 +1942,185 @@ function AdminPanel() {
   return (
     <div className="bg-white py-24">
       <div className="mx-auto max-w-[1640px] px-4 sm:px-6 2xl:px-10">
-      <div className="mb-10 grid gap-8 border-b border-slate-200 pb-10 lg:grid-cols-[1fr_auto] lg:items-end">
-        <div>
-          <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cicBlue">
-            Content Administration
-          </p>
-          <h1 className="mt-2 text-3xl font-black text-slate-900">
-            Manage website content
-          </h1>
-          <p className="mt-3 max-w-3xl leading-7 text-slate-600">
-            Publish notices, update events, and manage service pages from one place.
-          </p>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600">
-            Signed in as <span className="font-semibold text-slate-900">{adminUser?.username}</span>
+        <div className="mb-10 grid gap-8 border-b border-slate-200 pb-10 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cicBlue">
+              Content Administration
+            </p>
+            <h1 className="mt-2 text-3xl font-black text-slate-900">
+              Manage website content
+            </h1>
+            <p className="mt-3 max-w-3xl leading-7 text-slate-600">
+              Publish notices, update events, and manage service pages from one
+              place.
+            </p>
           </div>
 
-          <button
-            type="button"
-            onClick={async () => {
-              if (
-                !window.confirm(
-                  "Reset all notices, events, and services to their default seed data?",
-                )
-              ) {
-                return;
-              }
+          <div className="flex flex-wrap items-center gap-3">
+            <div className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-600">
+              Signed in as{" "}
+              <span className="font-semibold text-slate-900">
+                {adminUser?.username}
+              </span>
+            </div>
 
-              try {
-                await Promise.all([resetContent(), resetTeams()]);
-                setNoticeDraft(createEmptyUpdateDraft());
-                setEventDraft(createEmptyUpdateDraft());
-                setServiceDraft(createServiceDraft());
-                setTeamDraft(createEmptyTeamDraft());
-                setMessage({
-                  type: "success",
-                  text: "All CMS content was reset to the default project data.",
-                });
-              } catch (error) {
-                setMessage({
-                  type: "error",
-                  text: error.message,
-                });
-              }
-            }}
-            className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-cicBlue hover:text-cicBlue"
-          >
-            <RefreshCcw className="h-4 w-4" />
-            Reset defaults
-          </button>
-        </div>
-      </div>
-
-      {message ? (
-        <div
-          className={`mb-6 rounded-2xl px-4 py-3 text-sm ${
-            message.type === "error"
-              ? "border border-red-200 bg-red-50 text-red-700"
-              : "border border-emerald-200 bg-emerald-50 text-emerald-700"
-          }`}
-        >
-          {message.text}
-        </div>
-      ) : null}
-
-      {sessionWarning ? (
-        <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          Your Ananta session is close to expiry. Interact with this page to keep
-          working.
-        </div>
-      ) : null}
-
-      {contentError ? (
-        <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          {contentError}
-        </div>
-      ) : null}
-
-      {tendersError ? (
-        <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
-          {tendersError}
-        </div>
-      ) : null}
-
-      <AdminShell
-        title="Editor Workspace"
-        description="Changes are saved through the Python CMS backend and reflected across the site."
-      >
-        {contentLoading ? (
-          <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-5 text-sm text-slate-500">
-            Loading content from the backend...
-          </div>
-        ) : null}
-
-        {tendersLoading ? (
-          <div className="mb-6 rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-5 text-sm text-slate-500">
-            Loading tenders from the backend...
-          </div>
-        ) : null}
-
-        <div className="mb-6 flex flex-wrap gap-3">
-          {tabs.map((tab) => (
             <button
-              key={tab.id}
               type="button"
-              onClick={() => {
-                setActiveTab(tab.id);
-                setMessage(null);
+              onClick={async () => {
+                if (
+                  !window.confirm(
+                    "Reset all notices, events, and services to their default seed data?",
+                  )
+                ) {
+                  return;
+                }
+
+                try {
+                  await Promise.all([resetContent(), resetTeams()]);
+                  setNoticeDraft(createEmptyUpdateDraft());
+                  setEventDraft(createEmptyUpdateDraft());
+                  setServiceDraft(createServiceDraft());
+                  setTeamDraft(createEmptyTeamDraft());
+                  setMessage({
+                    type: "success",
+                    text: "All CMS content was reset to the default project data.",
+                  });
+                } catch (error) {
+                  setMessage({
+                    type: "error",
+                    text: error.message,
+                  });
+                }
               }}
-              className={`rounded-full px-5 py-2 text-sm font-semibold transition ${
-                activeTab === tab.id
-                  ? "bg-cicBlue text-white"
-                  : "border border-slate-200 bg-white text-slate-600 hover:border-cicBlue hover:text-cicBlue"
-              }`}
+              className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:border-cicBlue hover:text-cicBlue"
             >
-              {tab.label}
+              <RefreshCcw className="h-4 w-4" />
+              Reset defaults
             </button>
-          ))}
+          </div>
         </div>
 
-        {activeTab === "notices" ? (
-          <NoticeEventManager
-            label="Notice"
-            items={notices}
-            setItems={setNotices}
-            draft={noticeDraft}
-            setDraft={setNoticeDraft}
-            setMessage={setMessage}
-          />
+        {message ? (
+          <div
+            className={`mb-6 rounded-2xl px-4 py-3 text-sm ${
+              message.type === "error"
+                ? "border border-red-200 bg-red-50 text-red-700"
+                : "border border-emerald-200 bg-emerald-50 text-emerald-700"
+            }`}
+          >
+            {message.text}
+          </div>
         ) : null}
 
-        {activeTab === "events" ? (
-          <NoticeEventManager
-            label="Event"
-            items={events}
-            setItems={setEvents}
-            draft={eventDraft}
-            setDraft={setEventDraft}
-            setMessage={setMessage}
-          />
+        {sessionWarning ? (
+          <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+            Your Ananta session is close to expiry. Interact with this page to
+            keep working.
+          </div>
         ) : null}
 
-        {activeTab === "services" ? (
-          <ServiceManager
-            services={services}
-            setServices={setServices}
-            draft={serviceDraft}
-            setDraft={setServiceDraft}
-            setMessage={setMessage}
-          />
+        {contentError ? (
+          <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+            {contentError}
+          </div>
         ) : null}
 
-        {activeTab === "teams" ? (
-          <TeamManager
-            teams={teams}
-            setTeams={setTeams}
-            draft={teamDraft}
-            setDraft={setTeamDraft}
-            setMessage={setMessage}
-            adminToken={adminUser?.token ?? ""}
-          />
+        {tendersError ? (
+          <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+            {tendersError}
+          </div>
         ) : null}
 
-        {activeTab === "tenders" ? (
-          <TenderManager
-            tenders={tenders}
-            setTenders={setTenders}
-            draft={tenderDraft}
-            setDraft={setTenderDraft}
-            setMessage={setMessage}
-            adminToken={adminUser?.token ?? ""}
-          />
-        ) : null}
-      </AdminShell>
+        <AdminShell
+          title="Editor Workspace"
+          description="Changes are saved through the Python CMS backend and reflected across the site."
+        >
+          {contentLoading ? (
+            <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-5 text-sm text-slate-500">
+              Loading content from the backend...
+            </div>
+          ) : null}
+
+          {tendersLoading ? (
+            <div className="mb-6 rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-5 text-sm text-slate-500">
+              Loading tenders from the backend...
+            </div>
+          ) : null}
+
+          <div className="mb-6 flex flex-wrap gap-3">
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  setMessage(null);
+                }}
+                className={`rounded-full px-5 py-2 text-sm font-semibold transition ${
+                  activeTab === tab.id
+                    ? "bg-cicBlue text-white"
+                    : "border border-slate-200 bg-white text-slate-600 hover:border-cicBlue hover:text-cicBlue"
+                }`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          {activeTab === "notices" ? (
+            <NoticeEventManager
+              label="Notice"
+              items={notices}
+              setItems={setNotices}
+              draft={noticeDraft}
+              setDraft={setNoticeDraft}
+              setMessage={setMessage}
+            />
+          ) : null}
+
+          {activeTab === "events" ? (
+            <NoticeEventManager
+              label="Event"
+              items={events}
+              setItems={setEvents}
+              draft={eventDraft}
+              setDraft={setEventDraft}
+              setMessage={setMessage}
+            />
+          ) : null}
+
+          {activeTab === "services" ? (
+            <ServiceManager
+              services={services}
+              setServices={setServices}
+              draft={serviceDraft}
+              setDraft={setServiceDraft}
+              setMessage={setMessage}
+            />
+          ) : null}
+
+          {activeTab === "teams" ? (
+            <TeamManager
+              teams={teams}
+              setTeams={setTeams}
+              draft={teamDraft}
+              setDraft={setTeamDraft}
+              setMessage={setMessage}
+              adminToken={adminUser?.token ?? ""}
+            />
+          ) : null}
+
+          {activeTab === "tenders" ? (
+            <TenderManager
+              tenders={tenders}
+              setTenders={setTenders}
+              draft={tenderDraft}
+              setDraft={setTenderDraft}
+              setMessage={setMessage}
+              adminToken={adminUser?.token ?? ""}
+            />
+          ) : null}
+        </AdminShell>
       </div>
     </div>
   );

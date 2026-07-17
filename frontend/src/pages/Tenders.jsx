@@ -70,8 +70,12 @@ function Tenders() {
               <thead className="bg-[#2e207f] text-white">
                 <tr>
                   <th className="w-20 px-4 py-4 text-sm font-black">Sl. No.</th>
-                  <th className="px-6 py-4 text-sm font-black">Title & Ref No</th>
-                  <th className="w-[330px] px-6 py-4 text-sm font-black">Critical Date</th>
+                  <th className="px-6 py-4 text-sm font-black">
+                    Title & Ref No
+                  </th>
+                  <th className="w-[330px] px-6 py-4 text-sm font-black">
+                    Critical Date
+                  </th>
                   <th className="w-[280px] px-6 py-4 text-sm font-black">
                     Corrigendum Details
                   </th>
@@ -81,7 +85,10 @@ function Tenders() {
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan="4" className="px-6 py-10 text-center text-slate-500">
+                    <td
+                      colSpan="4"
+                      className="px-6 py-10 text-center text-slate-500"
+                    >
                       Loading tenders...
                     </td>
                   </tr>
@@ -89,7 +96,10 @@ function Tenders() {
 
                 {!loading && error ? (
                   <tr>
-                    <td colSpan="4" className="px-6 py-10 text-center text-red-600">
+                    <td
+                      colSpan="4"
+                      className="px-6 py-10 text-center text-red-600"
+                    >
                       {error}
                     </td>
                   </tr>
@@ -97,7 +107,10 @@ function Tenders() {
 
                 {!loading && !error && tenders.length === 0 ? (
                   <tr>
-                    <td colSpan="4" className="px-6 py-10 text-center text-slate-500">
+                    <td
+                      colSpan="4"
+                      className="px-6 py-10 text-center text-slate-500"
+                    >
                       No tenders are available right now.
                     </td>
                   </tr>
@@ -123,12 +136,15 @@ function Tenders() {
                               {tender.title}
                             </a>
                           ) : (
-                            <p className="font-black text-[#17107a]">{tender.title}</p>
+                            <p className="font-black text-[#17107a]">
+                              {tender.title}
+                            </p>
                           )}
 
                           {tender.refNo ? (
                             <p className="mt-3 text-slate-950">
-                              <span className="font-bold">Ref No:</span> {tender.refNo}
+                              <span className="font-bold">Ref No:</span>{" "}
+                              {tender.refNo}
                             </p>
                           ) : null}
 
@@ -144,8 +160,14 @@ function Tenders() {
                           ) : null}
                         </td>
                         <td className="space-y-3 px-6 py-5 align-top text-slate-950">
-                          <TenderDateLine label="Start Date" value={tender.startDate} />
-                          <TenderDateLine label="End Date" value={tender.endDate} />
+                          <TenderDateLine
+                            label="Start Date"
+                            value={tender.startDate}
+                          />
+                          <TenderDateLine
+                            label="End Date"
+                            value={tender.endDate}
+                          />
                           <TenderDateLine
                             label="Bid Opening Date"
                             value={tender.bidOpeningDate}

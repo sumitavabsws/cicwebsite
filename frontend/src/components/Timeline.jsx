@@ -45,7 +45,9 @@ function Timeline() {
               className="grid gap-4 border-b border-slate-200 py-6 last:border-b-0 md:grid-cols-[120px_1fr]"
             >
               <div className="flex items-start">
-                <span className="text-lg font-black text-cicBlue">{event.year}</span>
+                <span className="text-lg font-black text-cicBlue">
+                  {event.year}
+                </span>
               </div>
 
               <p className="text-lg leading-8 text-slate-600">{event.text}</p>

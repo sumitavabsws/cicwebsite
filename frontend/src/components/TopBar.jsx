@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { ChevronDown, LoaderCircle, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAdminAuth } from "../context/AdminAuthContext";
@@ -23,7 +24,7 @@ const primaryLinks = [
   },
   {
     label: "Lodge Your Complain",
-    href: "https://cictickets.iitkgp.ac.in/",
+    href: "https://cichelpdesk.iitkgp.ac.in/",
   },
 ];
 
@@ -204,59 +205,62 @@ function TopBar() {
         ) : null}
       </div>
 
-      {isIpModalOpen ? (
-        <div
-          className="fixed inset-0 z-[1000] flex items-start justify-center overflow-y-auto bg-slate-950/70 px-4 py-10 sm:items-center sm:py-12"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="my-ip-modal-title"
-        >
-          <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 text-slate-900 shadow-2xl">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cicBlue">
-                  Network Information
-                </p>
-                <h2
-                  id="my-ip-modal-title"
-                  className="mt-2 text-2xl font-black text-slate-950"
-                >
-                  My IP
-                </h2>
-              </div>
+      {isIpModalOpen
+        ? createPortal(
+            <div
+              className="fixed inset-0 z-[1000] flex items-start justify-center overflow-y-auto bg-slate-950/70 px-4 py-10 sm:items-center sm:py-12"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="my-ip-modal-title"
+            >
+              <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-6 text-slate-900 shadow-2xl">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-cicBlue">
+                      Network Information
+                    </p>
+                    <h2
+                      id="my-ip-modal-title"
+                      className="mt-2 text-2xl font-black text-slate-950"
+                    >
+                      My IP
+                    </h2>
+                  </div>
 
-              <button
-                type="button"
-                onClick={() => setIsIpModalOpen(false)}
-                className="rounded-full border border-slate-200 p-2 text-slate-500 transition hover:border-slate-300 hover:text-slate-900"
-                aria-label="Close My IP modal"
-              >
-                <X className="h-4 w-4" />
-              </button>
-            </div>
-
-            <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-5 text-center">
-              {isIpLoading ? (
-                <div className="flex items-center justify-center gap-3 text-slate-600">
-                  <LoaderCircle className="h-5 w-5 animate-spin text-cicBlue" />
-                  <span className="font-semibold">Detecting IP...</span>
+                  <button
+                    type="button"
+                    onClick={() => setIsIpModalOpen(false)}
+                    className="rounded-full border border-slate-200 p-2 text-slate-500 transition hover:border-slate-300 hover:text-slate-900"
+                    aria-label="Close My IP modal"
+                  >
+                    <X className="h-4 w-4" />
+                  </button>
                 </div>
-              ) : ipError ? (
-                <p className="text-lg font-bold text-red-700">{ipError}</p>
-              ) : (
-                <>
-                  <p className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    Detected IP Address
-                  </p>
-                  <p className="mt-3 break-all text-3xl font-black tracking-tight text-slate-950">
-                    {ipAddress || "Unavailable"}
-                  </p>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      ) : null}
+
+                <div className="mt-6 rounded-xl border border-slate-200 bg-slate-50 p-5 text-center">
+                  {isIpLoading ? (
+                    <div className="flex items-center justify-center gap-3 text-slate-600">
+                      <LoaderCircle className="h-5 w-5 animate-spin text-cicBlue" />
+                      <span className="font-semibold">Detecting IP...</span>
+                    </div>
+                  ) : ipError ? (
+                    <p className="text-lg font-bold text-red-700">{ipError}</p>
+                  ) : (
+                    <>
+                      <p className="text-sm font-semibold uppercase tracking-[0.16em] text-slate-500">
+                        Detected IP Address
+                      </p>
+                      <p className="mt-3 break-all text-3xl font-black tracking-tight text-slate-950">
+                        {ipAddress || "Unavailable"}
+                      </p>
+                    </>
+                  )}
+                </div>
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
     </div>
   );
 }

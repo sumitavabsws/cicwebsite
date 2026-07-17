@@ -1,6 +1,9 @@
+import { useEffect, useState } from "react";
+import { Download, FileText, LoaderCircle } from "lucide-react";
 import { NavLink, useParams } from "react-router-dom";
 import cyberPolicies from "../data/cyberPolicies.json";
-import { openReference } from "../utils/references";
+import { apiRequest } from "../lib/api";
+import { getDocumentViewerUrl, openReference } from "../utils/references";
 
 const policyGroups = [
   {
@@ -11,11 +14,13 @@ const policyGroups = [
     items: [
       {
         title: "Institute IT Security Policy",
-        description: "Institute IT security policy document will be added here.",
+        description:
+          "Institute IT security policy document will be added here.",
       },
       {
         title: "Government Policies",
-        description: "Government policy references such as DPDP will be added here.",
+        description:
+          "Government policy references such as DPDP will be added here.",
       },
     ],
   },
@@ -65,6 +70,37 @@ function CyberSecurity() {
   const { section = "policies" } = useParams();
   const activeSection = cyberSections[section] ? section : "policies";
   const activeContent = cyberSections[activeSection];
+  const [awarenessFiles, setAwarenessFiles] = useState([]);
+  const [awarenessLoading, setAwarenessLoading] = useState(false);
+  const [awarenessError, setAwarenessError] = useState("");
+
+  useEffect(() => {
+    if (!["awareness", "guideline"].includes(activeSection)) return undefined;
+
+    let isMounted = true;
+    setAwarenessLoading(true);
+    setAwarenessError("");
+
+    apiRequest(
+      activeSection === "guideline"
+        ? "/cyber-security-guidelines"
+        : "/cyber-security-awareness",
+    )
+      .then((files) => {
+        if (isMounted) setAwarenessFiles(Array.isArray(files) ? files : []);
+      })
+      .catch(() => {
+        if (isMounted)
+          setAwarenessError("Unable to load the awareness resource library.");
+      })
+      .finally(() => {
+        if (isMounted) setAwarenessLoading(false);
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [activeSection]);
 
   return (
     <div className="bg-white py-24">
@@ -84,21 +120,32 @@ function CyberSecurity() {
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              {Object.entries(cyberSections).map(([key, item]) => (
-                <NavLink
-                  key={key}
-                  to={`/cyber-security/${key}`}
-                  className={({ isActive }) =>
-                    `rounded-lg border px-4 py-2 text-sm font-semibold transition ${
-                      isActive
-                        ? "border-cicBlue bg-blue-50 text-cicBlue"
-                        : "border-slate-200 text-slate-600 hover:border-cicBlue hover:text-cicBlue"
-                    }`
-                  }
-                >
-                  {item.label}
-                </NavLink>
-              ))}
+              {Object.entries(cyberSections).map(([key, item]) =>
+                key === "policies" ? (
+                  <span
+                    key={key}
+                    title="Policies will be visible once its uploaded"
+                    aria-disabled="true"
+                    className="cursor-not-allowed rounded-lg border border-slate-200 bg-slate-50 px-4 py-2 text-sm font-semibold text-slate-500"
+                  >
+                    {item.label}
+                  </span>
+                ) : (
+                  <NavLink
+                    key={key}
+                    to={`/cyber-security/${key}`}
+                    className={({ isActive }) =>
+                      `rounded-lg border px-4 py-2 text-sm font-semibold transition ${
+                        isActive
+                          ? "border-cicBlue bg-blue-50 text-cicBlue"
+                          : "border-slate-200 text-slate-600 hover:border-cicBlue hover:text-cicBlue"
+                      }`
+                    }
+                  >
+                    {item.label}
+                  </NavLink>
+                ),
+              )}
             </div>
           </div>
 
@@ -176,7 +223,11 @@ function CyberSecurity() {
                         rel="noreferrer"
                         onClick={(event) => {
                           event.preventDefault();
-                          openReference(policy.reference, undefined, policy.title);
+                          openReference(
+                            policy.reference,
+                            undefined,
+                            policy.title,
+                          );
                         }}
                         className="inline-flex items-center gap-2 text-sm font-semibold text-cicBlue underline decoration-cicBlue/40 underline-offset-4 transition hover:text-blue-900"
                       >
@@ -186,6 +237,70 @@ function CyberSecurity() {
                   ))}
                 </div>
               </>
+            ) : ["awareness", "guideline"].includes(activeSection) ? (
+              <section>
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5">
+                  <h2 className="text-xl font-bold text-slate-900">
+                    {activeSection === "guideline"
+                      ? "Guidelines Resource Library"
+                      : "Awareness Resource Library"}
+                  </h2>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
+                    PDF files open in the CIC document viewer. Other file types
+                    download directly.
+                  </p>
+                </div>
+
+                {awarenessLoading ? (
+                  <div className="flex items-center gap-3 py-10 text-slate-600">
+                    <LoaderCircle className="h-5 w-5 animate-spin text-cicBlue" />
+                    Loading resources...
+                  </div>
+                ) : awarenessError ? (
+                  <p className="mt-6 rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700">
+                    {awarenessError}
+                  </p>
+                ) : awarenessFiles.length ? (
+                  <div className="mt-6 divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white">
+                    {awarenessFiles.map((file) => {
+                      const isPdf = file.type === "pdf";
+                      const displayName = file.name.replace(/\.[^/.]+$/, "");
+                      return (
+                        <a
+                          key={file.url}
+                          href={
+                            isPdf
+                              ? getDocumentViewerUrl(file.url, file.name)
+                              : file.url
+                          }
+                          target={isPdf ? "_blank" : undefined}
+                          rel={isPdf ? "noreferrer" : undefined}
+                          download={isPdf ? undefined : file.name}
+                          className="flex items-center justify-between gap-4 px-5 py-4 transition hover:bg-blue-50"
+                        >
+                          <span className="flex min-w-0 items-center gap-3">
+                            <FileText className="h-5 w-5 flex-none text-cicBlue" />
+                            <span className="truncate font-semibold text-slate-800">
+                              {displayName}
+                            </span>
+                          </span>
+                          {isPdf ? (
+                            <span className="text-sm font-semibold text-cicBlue">
+                              Open PDF
+                            </span>
+                          ) : (
+                            <Download className="h-5 w-5 flex-none text-cicBlue" />
+                          )}
+                        </a>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <p className="mt-6 rounded-xl border border-dashed border-slate-300 p-5 text-sm text-slate-500">
+                    No awareness resources are available yet.
+                  </p>
+                )}
+              </section>
             ) : (
               <div className="min-h-[320px] border border-dashed border-slate-300 bg-slate-50" />
             )}

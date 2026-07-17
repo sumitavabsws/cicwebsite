@@ -1,5 +1,12 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useCallback, useContext, useEffect, useRef, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   apiRequest,
   clearStoredAdminSession,
@@ -47,9 +54,12 @@ export function AdminAuthProvider({ children }) {
   const validateSession = useCallback(
     async (sessionId, { renew = false } = {}) => {
       try {
-        const response = await apiRequest(`/auth/me?renew=${renew ? "1" : "0"}`, {
-          token: sessionId,
-        });
+        const response = await apiRequest(
+          `/auth/me?renew=${renew ? "1" : "0"}`,
+          {
+            token: sessionId,
+          },
+        );
 
         const nextSession = {
           token: sessionId,
@@ -123,15 +133,19 @@ export function AdminAuthProvider({ children }) {
       validateSession(session.token, { renew: true }).catch(() => {});
     }
 
-    ["click", "keydown", "mousemove", "scroll", "touchstart"].forEach((eventName) => {
-      document.addEventListener(eventName, handleActivity, { passive: true });
-    });
+    ["click", "keydown", "mousemove", "scroll", "touchstart"].forEach(
+      (eventName) => {
+        document.addEventListener(eventName, handleActivity, { passive: true });
+      },
+    );
 
     return () => {
       window.clearInterval(checkTimer);
-      ["click", "keydown", "mousemove", "scroll", "touchstart"].forEach((eventName) => {
-        document.removeEventListener(eventName, handleActivity);
-      });
+      ["click", "keydown", "mousemove", "scroll", "touchstart"].forEach(
+        (eventName) => {
+          document.removeEventListener(eventName, handleActivity);
+        },
+      );
     };
   }, [session?.token, validateSession]);
 

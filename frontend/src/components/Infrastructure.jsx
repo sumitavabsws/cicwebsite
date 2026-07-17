@@ -43,7 +43,9 @@ function Infrastructure() {
               key={item.title}
               className="border-b border-slate-200 py-6 last:border-b-0"
             >
-              <h3 className="text-2xl font-bold text-slate-900">{item.title}</h3>
+              <h3 className="text-2xl font-bold text-slate-900">
+                {item.title}
+              </h3>
               <p className="mt-3 max-w-3xl text-lg leading-8 text-slate-600">
                 {item.description}
               </p>

@@ -31,9 +31,9 @@ function AboutCIC() {
           <p className="mt-8 max-w-4xl text-lg leading-9 text-slate-600">
             CIC operates as a shared institutional service layer connecting
             classrooms, offices, laboratories, research environments, and campus
-            users. Its work spans network access, software enablement, data-centre
-            operations, secure service delivery, and the digital reliability
-            expected across IIT Kharagpur.
+            users. Its work spans network access, software enablement,
+            data-centre operations, secure service delivery, and the digital
+            reliability expected across IIT Kharagpur.
           </p>
 
           <div className="mt-8 max-w-xl overflow-hidden border border-slate-200 bg-slate-950 shadow-sm">
@@ -58,16 +58,14 @@ function AboutCIC() {
             Live Information
           </p>
 
-          <h2 className="mt-3 text-3xl font-black text-white">
-            Updates
-          </h2>
+          <h2 className="mt-3 text-3xl font-black text-white">Updates</h2>
 
           <p className="mt-3 text-base leading-7 text-blue-100">
             Track current notices and references from a single place.
           </p>
 
           <div className="mt-8 flex-1">
-            <Updates/>
+            <Updates />
           </div>
         </div>
       </div>

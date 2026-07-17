@@ -35,7 +35,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/infrastructure" element={<Infrastructure />} />
           <Route path="/services" element={<Services />} />
-          <Route path="/services/internet-access" element={<InternetAccess />} />
+          <Route
+            path="/services/internet-access"
+            element={<InternetAccess />}
+          />
           <Route
             path="/services/wifi-authentication"
             element={<WiFiAuthentication />}
@@ -48,7 +51,10 @@ function App() {
           />
           <Route path="/services/vpn" element={<Vpn />} />
           <Route path="/services/ntp" element={<Ntp />} />
-          <Route path="/services/meghamala/request" element={<MeghamalaRequest />} />
+          <Route
+            path="/services/meghamala/request"
+            element={<MeghamalaRequest />}
+          />
           <Route path="/services/:slug" element={<DynamicService />} />
           <Route path="/team" element={<Team />} />
           <Route path="/cyber-security" element={<CyberSecurity />} />

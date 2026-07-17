@@ -19,7 +19,9 @@ function ServicesGrid({ compact = false, dense = false }) {
   const visibleServices = compact ? services.slice(0, 5) : services;
   const cardMinHeight = dense ? "min-h-[184px]" : "min-h-[252px]";
   const cardPadding = dense ? "p-4" : "p-6";
-  const iconSize = dense ? "mb-2.5 h-10 w-10 rounded-lg" : "mb-4 h-14 w-14 rounded-2xl";
+  const iconSize = dense
+    ? "mb-2.5 h-10 w-10 rounded-lg"
+    : "mb-4 h-14 w-14 rounded-2xl";
   const iconInnerSize = dense ? "h-5 w-5" : "h-7 w-7";
   const titleClassName = dense
     ? "mb-1 text-base font-semibold leading-snug text-gray-800"
@@ -51,19 +53,23 @@ function ServicesGrid({ compact = false, dense = false }) {
                 <div
                   className={`inline-flex items-center justify-center ${iconSize} ${iconMeta.badgeClassName}`}
                 >
-                  <Icon className={`${iconInnerSize} ${iconMeta.iconClassName}`} />
+                  <Icon
+                    className={`${iconInnerSize} ${iconMeta.iconClassName}`}
+                  />
                 </div>
               ) : null}
 
-              <h3 className={titleClassName}>
-                {service.title}
-              </h3>
+              <h3 className={titleClassName}>{service.title}</h3>
 
-              <p className={`${dense ? "text-xs leading-5" : "text-sm leading-6"} text-gray-600`}>
+              <p
+                className={`${dense ? "text-xs leading-5" : "text-sm leading-6"} text-gray-600`}
+              >
                 {truncateWords(service.description, descriptionLimit)}
               </p>
 
-              <span className={`mt-auto inline-flex items-center gap-2 ${ctaPadding} ${dense ? "text-xs" : "text-sm"} font-semibold text-cicBlue`}>
+              <span
+                className={`mt-auto inline-flex items-center gap-2 ${ctaPadding} ${dense ? "text-xs" : "text-sm"} font-semibold text-cicBlue`}
+              >
                 {service.linkLabel}
                 <ExternalLink className={dense ? "h-3.5 w-3.5" : "h-4 w-4"} />
               </span>
