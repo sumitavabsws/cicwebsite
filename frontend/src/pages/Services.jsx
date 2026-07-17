@@ -25,13 +25,20 @@ function Services() {
               Announcements
             </p>
             <p className="mt-4 max-w-3xl text-base leading-8 text-slate-600">
-              The Institute only provides the Microsoft Teams account and does not support other online Microsoft products. If anybody is using the other Microsoft online services, he/she may be doing this at his/her own risk. The Microsoft Teams account will be deleted immediately after a student's convocation process.
+              The Institute only provides the Microsoft Teams account and does
+              not support other online Microsoft products. If anybody is using
+              the other Microsoft online services, he/she may be doing this at
+              his/her own risk. The Microsoft Teams account will be deleted
+              immediately after a student's convocation process.
             </p>
             <p className="mt-4 max-w-3xl text-base leading-8 text-slate-600">
-              The institute email ID will be deleted after one year of a student’s convocation process. After email ID deletion, a lifetime alumni mail ID will be given with limited space.
+              The institute email ID will be deleted after one year of a
+              student’s convocation process. After email ID deletion, a lifetime
+              alumni mail ID will be given with limited space.
             </p>
             <p className="mt-4 max-w-3xl text-base leading-8 text-slate-600">
-              One drive storage limit in m.s.team : 50 GB per user for faculty account only and 10 GB per user for all other accounts.
+              One drive storage limit in m.s.team : 50 GB per user for faculty
+              account only and 10 GB per user for all other accounts.
             </p>
           </div>
         </div>

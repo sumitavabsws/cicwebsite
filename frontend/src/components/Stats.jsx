@@ -41,30 +41,30 @@ function Stats() {
           const Icon = stat.icon;
 
           return (
-          <article
-            key={stat.title}
-            className="item wow zoomIn flex min-h-[112px] items-center gap-4 bg-white px-4 py-5 md:px-6"
-          >
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-cicBlue">
-              <Icon className="h-7 w-7" aria-hidden="true" />
-            </div>
+            <article
+              key={stat.title}
+              className="item wow zoomIn flex min-h-[112px] items-center gap-4 bg-white px-4 py-5 md:px-6"
+            >
+              <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-cicBlue">
+                <Icon className="h-7 w-7" aria-hidden="true" />
+              </div>
 
-            <div>
-              <h4 className="text-3xl font-black leading-none text-slate-950">
-                <span title={stat.title} className="counter">
-                  {stat.value}
-                </span>
-              </h4>
+              <div>
+                <h4 className="text-3xl font-black leading-none text-slate-950">
+                  <span title={stat.title} className="counter">
+                    {stat.value}
+                  </span>
+                </h4>
 
-              <h5 className="mt-2 text-sm font-bold uppercase tracking-[0.12em] text-slate-900">
-                {stat.title}
-              </h5>
+                <h5 className="mt-2 text-sm font-bold uppercase tracking-[0.12em] text-slate-900">
+                  {stat.title}
+                </h5>
 
-              <p className="mt-1 text-xs leading-5 text-slate-500">
-                {stat.description}
-              </p>
-            </div>
-          </article>
+                <p className="mt-1 text-xs leading-5 text-slate-500">
+                  {stat.description}
+                </p>
+              </div>
+            </article>
           );
         })}
       </div>

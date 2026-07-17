@@ -7,7 +7,9 @@ function DocumentViewer() {
   const title = searchParams.get("title") || "Document";
   const url = searchParams.get("url") || "";
   const isAllowedDocument =
-    url.startsWith("/") || url.startsWith("https://") || url.startsWith("blob:");
+    url.startsWith("/") ||
+    url.startsWith("https://") ||
+    url.startsWith("blob:");
   const isImageDocument = /\.(avif|gif|jpe?g|png|webp)$/i.test(url);
 
   useEffect(() => {

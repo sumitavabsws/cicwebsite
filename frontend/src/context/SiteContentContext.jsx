@@ -1,14 +1,17 @@
 import { createContext, useContext, useEffect, useRef, useState } from "react";
+import teamsSeed from "../../../backend/content/teams.json";
 import eventsSeed from "../data/events.json";
 import noticesSeed from "../data/notices.json";
-import teamsSeed from "../data/teams.json";
 import { services as servicesSeed, serviceIconOptions } from "../data/services";
 import { apiRequest, readStoredAdminSession } from "../lib/api";
 
 const SiteContentContext = createContext(null);
 
 function createId(prefix = "item") {
-  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+  if (
+    typeof crypto !== "undefined" &&
+    typeof crypto.randomUUID === "function"
+  ) {
     return `${prefix}-${crypto.randomUUID()}`;
   }
 
@@ -67,11 +70,7 @@ function hasRichItemContent(item) {
     return false;
   }
 
-  return Boolean(
-    item.text ||
-      item.references?.length ||
-      item.children?.length,
-  );
+  return Boolean(item.text || item.references?.length || item.children?.length);
 }
 
 function normalizeNoticeOrEvent(item, index, prefix) {
@@ -151,9 +150,7 @@ function normalizeSection(section, index, fallbackPrefix) {
   return {
     title: section?.title?.trim() ?? `${fallbackPrefix} ${index + 1}`,
     items: Array.isArray(section?.items)
-      ? section.items
-          .map(normalizeRichItem)
-          .filter(hasRichItemContent)
+      ? section.items.map(normalizeRichItem).filter(hasRichItemContent)
       : [],
     tables: Array.isArray(section?.tables)
       ? section.tables.map(normalizeTable).filter((table) => table.rows.length)
@@ -294,6 +291,11 @@ function normalizeTeams(items) {
         phone: team?.phone?.trim() ?? "",
         email: team?.email?.trim() ?? "",
         photo: team?.photo?.trim() ?? "",
+        category: ["current", "former", "helpdesk"].includes(team?.category)
+          ? team.category
+          : "current",
+        formerDate: team?.formerDate?.trim() ?? "",
+        showContact: team?.showContact !== false,
       }))
     : [];
 }

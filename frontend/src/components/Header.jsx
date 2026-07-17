@@ -33,7 +33,10 @@ function Header() {
 
       <div className="bg-white/95">
         <div className="mx-auto flex max-w-[1640px] flex-col gap-5 px-4 py-5 sm:px-6 lg:flex-row lg:items-center lg:justify-start 2xl:px-10">
-          <Link to="/" className="flex -translate-x-[15px] items-center gap-3 lg:flex-none">
+          <Link
+            to="/"
+            className="flex -translate-x-[15px] items-center gap-3 lg:flex-none"
+          >
             <HeaderLogo
               src={iitKgpLogoSrc}
               alt="IIT Kharagpur logo"

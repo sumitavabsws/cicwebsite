@@ -2,19 +2,22 @@ import json
 import os
 import time
 import uuid
+from ipaddress import ip_address
 from pathlib import Path
 from typing import Any
 from urllib.error import HTTPError, URLError
-from urllib.parse import urlencode, urljoin, urlsplit
+from urllib.parse import quote, urlencode, urljoin, urlsplit
 from urllib.request import Request as UrlRequest, urlopen
 
 from fastapi import Depends, FastAPI, File, Header, HTTPException, Request, UploadFile, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
+from dotenv import load_dotenv
 
 
 BASE_DIR = Path(__file__).resolve().parent
+load_dotenv(BASE_DIR / ".env")
 CONTENT_FILE = BASE_DIR / "content" / "site_content.json"
 CONFIG_FILE = BASE_DIR / "content" / "site_config.json"
 SEED_CONTENT_FILE = BASE_DIR / "content" / "site_content.seed.json"
@@ -26,22 +29,24 @@ TEAM_IMAGES_DIR = MEDIA_DIR / "teams"
 RESOURCES_DIR = BASE_DIR / "content" / "resources"
 TENDERS_DIR = RESOURCES_DIR / "tenders"
 VIDEOS_DIR = BASE_DIR / "content" / "videos"
-ANANTA_BASE_URL = os.getenv("ANANTA_BASE_URL", "http://10.72.14.39:5000/framework").rstrip("/")
+CYBER_SECURITY_AWARENESS_DIR = RESOURCES_DIR / "policies" / "cybersecurityawareness"
+CYBER_SECURITY_GUIDELINES_DIR = RESOURCES_DIR / "policies" / "cybersecurityguidelines"
+ANANTA_BASE_URL = os.getenv("ANANTA_BASE_URL", "http://127.0.0.1:8000/framework").rstrip("/")
 ANANTA_CLIENT_SECRET = os.getenv("ANANTA_CLIENT_SECRET", "")
-MAX_TEAM_PHOTO_SIZE_BYTES = 1000 * 1024
-MAX_TENDER_PDF_SIZE_BYTES = 25 * 1024 * 1024
+MAX_TEAM_PHOTO_SIZE_BYTES = int(os.getenv("CIC_MAX_TEAM_PHOTO_SIZE_BYTES", str(200 * 1024)))
+MAX_TENDER_PDF_SIZE_BYTES = int(os.getenv("CIC_MAX_TENDER_PDF_SIZE_BYTES", str(25 * 1024 * 1024)))
+ANANTA_SESSION_TIMEOUT_SECONDS = float(os.getenv("ANANTA_SESSION_TIMEOUT_SECONDS", "5"))
+ANANTA_LOGIN_TIMEOUT_SECONDS = float(os.getenv("ANANTA_LOGIN_TIMEOUT_SECONDS", "8"))
 ALLOWED_TEAM_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
 ALLOWED_ORIGINS = [
     origin.strip()
     for origin in os.getenv(
         "CIC_ALLOWED_ORIGINS",
-        "http://localhost:5173,http://127.0.0.1:5173,http://10.72.14.56:5173/",
+        "http://localhost:5173,http://127.0.0.1:5173",
     ).split(",")
     if origin.strip()
 ]
-DEFAULT_SITE_CONFIG = {
-    "adminAllowedIps": ["10.72.14.39", "10.72.14.13"],
-}
+DEFAULT_SITE_CONFIG = {"adminAllowedIps": []}
 
 
 class ContentSectionPayload(BaseModel):
@@ -162,14 +167,27 @@ def get_request_ip(request: Request) -> str:
     forwarded_for = request.headers.get("x-forwarded-for")
 
     if forwarded_for:
-        return forwarded_for.split(",", 1)[0].strip()
+        return normalize_ip_address(forwarded_for.split(",", 1)[0].strip())
 
     real_ip = request.headers.get("x-real-ip")
 
     if real_ip:
-        return real_ip.strip()
+        return normalize_ip_address(real_ip.strip())
 
-    return request.client.host if request.client else ""
+    return normalize_ip_address(request.client.host) if request.client else ""
+
+
+def normalize_ip_address(value: str) -> str:
+    """Return a canonical address, converting IPv4-mapped IPv6 to IPv4."""
+    try:
+        parsed = ip_address(value.strip())
+    except ValueError:
+        return value.strip()
+
+    if getattr(parsed, "ipv4_mapped", None):
+        return str(parsed.ipv4_mapped)
+
+    return str(parsed)
 
 
 def is_admin_ip_allowed(ip_address: str) -> bool:
@@ -223,7 +241,7 @@ def validate_ananta_session(session_id: str, renew: bool = True) -> dict[str, An
     request = UrlRequest(url, headers={"Accept": "application/json"})
 
     try:
-        with urlopen(request, timeout=5) as response:
+        with urlopen(request, timeout=ANANTA_SESSION_TIMEOUT_SECONDS) as response:
             payload = json.loads(response.read().decode("utf-8"))
     except HTTPError as error:
         detail = "Ananta session expired or invalid."
@@ -269,7 +287,7 @@ def verify_ananta_credentials(payload: LoginPayload) -> dict[str, Any]:
     )
 
     try:
-        with urlopen(request, timeout=8) as response:
+        with urlopen(request, timeout=ANANTA_LOGIN_TIMEOUT_SECONDS) as response:
             return json.loads(response.read().decode("utf-8"))
     except HTTPError as error:
         detail = "Invalid username or password."
@@ -303,7 +321,7 @@ def delete_ananta_session(session_id: str) -> None:
     request = UrlRequest(url, method="POST", headers={"Accept": "application/json"})
 
     try:
-        with urlopen(request, timeout=5):
+        with urlopen(request, timeout=ANANTA_SESSION_TIMEOUT_SECONDS):
             return
     except HTTPError as error:
         if error.code == status.HTTP_404_NOT_FOUND:
@@ -355,6 +373,41 @@ app.mount("/videos", StaticFiles(directory=VIDEOS_DIR), name="videos")
 @app.get("/api/health")
 def health_check() -> dict[str, str]:
     return {"status": "ok"}
+
+
+def list_cyber_security_library(directory: Path, library: str) -> list[dict[str, str]]:
+    if not directory.exists():
+        return []
+
+    files = sorted(
+        (path for path in directory.rglob("*") if path.is_file()),
+        key=lambda path: path.name.lower(),
+    )
+    return [
+        {
+            "name": path.name,
+            "type": "pdf" if path.suffix.lower() == ".pdf" else "download",
+            "url": f"/resources/policies/{library}/"
+            + quote(path.relative_to(directory).as_posix()),
+        }
+        for path in files
+    ]
+
+
+@app.get("/api/cyber-security-awareness")
+def get_cyber_security_awareness_files() -> list[dict[str, str]]:
+    return list_cyber_security_library(
+        CYBER_SECURITY_AWARENESS_DIR,
+        "cybersecurityawareness",
+    )
+
+
+@app.get("/api/cyber-security-guidelines")
+def get_cyber_security_guideline_files() -> list[dict[str, str]]:
+    return list_cyber_security_library(
+        CYBER_SECURITY_GUIDELINES_DIR,
+        "cybersecurityguidelines",
+    )
 
 
 @app.get("/api/client-ip")
@@ -540,7 +593,7 @@ async def upload_team_photo(
     if len(file_bytes) > MAX_TEAM_PHOTO_SIZE_BYTES:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Team photo must be 200 KB or smaller.",
+            detail=f"Team photo must be {MAX_TEAM_PHOTO_SIZE_BYTES // 1024} KB or smaller.",
         )
 
     extension = Path(file.filename or "").suffix.lower()

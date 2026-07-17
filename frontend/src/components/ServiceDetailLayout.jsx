@@ -87,7 +87,12 @@ function normalizeReference(reference, fallbackLabel) {
   return {
     label: reference.label ?? fallbackLabel ?? "Open reference",
     href,
-    type: reference.type === "image" ? "image" : reference.type === "pdf" ? "pdf" : "link",
+    type:
+      reference.type === "image"
+        ? "image"
+        : reference.type === "pdf"
+          ? "pdf"
+          : "link",
   };
 }
 
@@ -119,7 +124,10 @@ function normalizeSectionItem(item) {
   };
 }
 
-function getReferenceOpenHref(reference, title = reference?.label ?? "Document") {
+function getReferenceOpenHref(
+  reference,
+  title = reference?.label ?? "Document",
+) {
   if (!reference?.href) {
     return "#";
   }
@@ -210,7 +218,10 @@ function ItemImages({ references }) {
       {imageReferences.map((reference, index) => (
         <a
           key={`${reference.href}-${index}`}
-          href={getDocumentViewerUrl(reference.href, reference.label ?? "Image")}
+          href={getDocumentViewerUrl(
+            reference.href,
+            reference.label ?? "Image",
+          )}
           target="_blank"
           rel="noreferrer"
           className="block transition hover:opacity-90"
@@ -474,7 +485,9 @@ function ServiceModal({ modal, onClose }) {
             <p className="text-sm font-semibold uppercase tracking-[0.16em] text-cicBlue">
               Software Catalog
             </p>
-            <h3 className="mt-1 text-2xl font-bold text-slate-900">{modal.title}</h3>
+            <h3 className="mt-1 text-2xl font-bold text-slate-900">
+              {modal.title}
+            </h3>
           </div>
 
           <button
@@ -513,11 +526,9 @@ function ServiceModal({ modal, onClose }) {
               ))}
             </div>
           ) : (
-              <div
-                className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-8 text-center text-sm text-slate-500"
-              >
-                No products match your search.
-              </div>
+            <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-8 text-center text-sm text-slate-500">
+              No products match your search.
+            </div>
           )}
         </div>
       </div>
@@ -582,9 +593,13 @@ function NestedSectionItems({
                     onClick={() => onToggleNode?.(nodeKey, depth)}
                   />
                 </div>
-                <MoreDetailsButton item={normalizedItem} onOpenModal={onOpenModal} />
+                <MoreDetailsButton
+                  item={normalizedItem}
+                  onOpenModal={onOpenModal}
+                />
               </div>
-            ) : normalizedItem.text && (normalizedItem.moreText || normalizedItem.moreItems.length) ? (
+            ) : normalizedItem.text &&
+              (normalizedItem.moreText || normalizedItem.moreItems.length) ? (
               <ExpandableItemLabel
                 item={normalizedItem}
                 hasChildren={hasChildren}
@@ -592,10 +607,16 @@ function NestedSectionItems({
                 onOpenModal={onOpenModal}
               />
             ) : collapsible && normalizedItem.text && primaryReference?.href ? (
-              <SoftwareDocumentLink item={normalizedItem} reference={primaryReference} />
+              <SoftwareDocumentLink
+                item={normalizedItem}
+                reference={primaryReference}
+              />
             ) : normalizedItem.text && primaryReference?.href ? (
               <a
-                href={getReferenceOpenHref(primaryReference, normalizedItem.text)}
+                href={getReferenceOpenHref(
+                  primaryReference,
+                  normalizedItem.text,
+                )}
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 rounded-xl bg-white px-3 py-2 font-semibold text-cicBlue shadow-sm ring-1 ring-blue-100 transition hover:bg-blue-50 hover:text-blue-900"
@@ -622,8 +643,13 @@ function NestedSectionItems({
               <ItemReferences references={normalizedItem.references} />
             )}
             <ItemImages references={normalizedItem.references} />
-            {normalizedItem.moreText || normalizedItem.moreItems.length || (collapsible && hasChildren) ? null : (
-              <ItemModalButton modal={normalizedItem.modal} onOpen={onOpenModal} />
+            {normalizedItem.moreText ||
+            normalizedItem.moreItems.length ||
+            (collapsible && hasChildren) ? null : (
+              <ItemModalButton
+                modal={normalizedItem.modal}
+                onOpen={onOpenModal}
+              />
             )}
 
             {shouldShowChildren ? (
@@ -663,7 +689,10 @@ function SectionTables({ tables }) {
   return (
     <div className="mt-5 space-y-5">
       {tables.map((table) => (
-        <div key={table.title} className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
+        <div
+          key={table.title}
+          className="overflow-hidden rounded-2xl border border-slate-200 bg-white"
+        >
           <div className="border-b border-slate-200 bg-slate-100 px-4 py-3">
             <h4 className="text-sm font-bold uppercase tracking-[0.14em] text-slate-700">
               {table.title}
@@ -807,7 +836,9 @@ function PriorityNotes({ notes, compact = false }) {
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-amber-800">
             Notes / Warnings / Remarks
           </p>
-          <h2 className={`${compact ? "text-lg" : "text-2xl"} font-bold text-slate-900`}>
+          <h2
+            className={`${compact ? "text-lg" : "text-2xl"} font-bold text-slate-900`}
+          >
             High Priority
           </h2>
         </div>
@@ -816,10 +847,10 @@ function PriorityNotes({ notes, compact = false }) {
       <ul className="space-y-4">
         {notes.map((note, index) => (
           <li
-            key={`${typeof note === "string" ? note : note.text ?? index}`}
+            key={`${typeof note === "string" ? note : (note.text ?? index)}`}
             className="rounded-2xl border border-amber-200 bg-white px-4 py-3 leading-7 text-slate-700"
           >
-            {typeof note === "string" ? note : note.text ?? ""}
+            {typeof note === "string" ? note : (note.text ?? "")}
           </li>
         ))}
       </ul>
@@ -838,7 +869,11 @@ function SectionBlock({
   onToggleNode,
   variant = "default",
 }) {
-  if (!section?.items?.length && !section?.tables?.length && !section?.highPriorityNotes?.length) {
+  if (
+    !section?.items?.length &&
+    !section?.tables?.length &&
+    !section?.highPriorityNotes?.length
+  ) {
     return null;
   }
 
@@ -1011,9 +1046,11 @@ function ServiceDetailLayout({ service }) {
               <div className="space-y-5">
                 {(service.details ?? []).map((section) => {
                   const isSoftwareFamiliesSection =
-                    usesSoftwareAccordion && section.title === "Supported Software Families";
+                    usesSoftwareAccordion &&
+                    section.title === "Supported Software Families";
                   const isMeghamalaServicesSection =
-                    service.slug === "meghamala" && section.title === "Services Offered";
+                    service.slug === "meghamala" &&
+                    section.title === "Services Offered";
 
                   return (
                     <SectionBlock
@@ -1023,8 +1060,14 @@ function ServiceDetailLayout({ service }) {
                       hideMarkers={hideListMarkers}
                       onOpenModal={setActiveModal}
                       collapsible={isSoftwareFamiliesSection}
-                      expandedPath={isSoftwareFamiliesSection ? expandedTreePath : []}
-                      onToggleNode={isSoftwareFamiliesSection ? handleToggleTreeNode : undefined}
+                      expandedPath={
+                        isSoftwareFamiliesSection ? expandedTreePath : []
+                      }
+                      onToggleNode={
+                        isSoftwareFamiliesSection
+                          ? handleToggleTreeNode
+                          : undefined
+                      }
                       variant={
                         isMeghamalaServicesSection
                           ? "meghamala-services"
@@ -1067,17 +1110,19 @@ function ServiceDetailLayout({ service }) {
               <ul className="space-y-4">
                 {(service.importantNotes ?? []).map((note) => (
                   <li
-                    key={typeof note === "string" ? note : note.text ?? note}
+                    key={typeof note === "string" ? note : (note.text ?? note)}
                     className="rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 leading-7 text-slate-600"
                   >
-                    {typeof note === "string" ? note : note.text ?? ""}
+                    {typeof note === "string" ? note : (note.text ?? "")}
                   </li>
                 ))}
               </ul>
             </section>
 
             <section className="border-t border-slate-200 pt-8">
-              <h2 className="mb-5 text-2xl font-bold text-slate-900">Contact</h2>
+              <h2 className="mb-5 text-2xl font-bold text-slate-900">
+                Contact
+              </h2>
 
               <div className="space-y-4 text-slate-600">
                 <div>

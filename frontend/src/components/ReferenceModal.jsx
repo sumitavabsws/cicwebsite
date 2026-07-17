@@ -29,11 +29,7 @@ function ReferenceModal({ isOpen, title, url, onClose }) {
           </button>
         </div>
 
-        <iframe
-          title={title}
-          src={url}
-          className="min-h-0 flex-1 bg-white"
-        />
+        <iframe title={title} src={url} className="min-h-0 flex-1 bg-white" />
       </div>
     </div>
   );

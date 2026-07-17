@@ -20,7 +20,9 @@ function UpdatesPanel({ compact = false, title, description }) {
         {title ? (
           <div className="space-y-2">
             <h1 className="text-3xl font-bold text-slate-900">{title}</h1>
-            {description ? <p className="text-slate-600">{description}</p> : null}
+            {description ? (
+              <p className="text-slate-600">{description}</p>
+            ) : null}
           </div>
         ) : null}
 
@@ -31,7 +33,9 @@ function UpdatesPanel({ compact = false, title, description }) {
               : "overflow-hidden rounded-2xl border bg-white shadow-sm"
           }
         >
-          <div className={`flex ${compact ? "border-b border-white/15" : "border-b"}`}>
+          <div
+            className={`flex ${compact ? "border-b border-white/15" : "border-b"}`}
+          >
             {tabs.map((item) => (
               <button
                 key={item.id}
@@ -54,9 +58,7 @@ function UpdatesPanel({ compact = false, title, description }) {
 
           <div
             className={
-              compact
-                ? "flex-1 space-y-4 overflow-y-auto p-5"
-                : "space-y-4 p-6"
+              compact ? "flex-1 space-y-4 overflow-y-auto p-5" : "space-y-4 p-6"
             }
           >
             {activeTab.items.map((item, index) => (
@@ -72,7 +74,9 @@ function UpdatesPanel({ compact = false, title, description }) {
                     : "block w-full rounded-xl border p-5 text-left transition hover:border-cicBlue hover:shadow-md"
                 }
               >
-                <p className={`text-sm ${compact ? "text-blue-100/65" : "text-gray-500"}`}>
+                <p
+                  className={`text-sm ${compact ? "text-blue-100/65" : "text-gray-500"}`}
+                >
                   {item.date}
                 </p>
                 <p

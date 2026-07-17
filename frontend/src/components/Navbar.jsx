@@ -3,15 +3,11 @@ import { NavLink, useLocation } from "react-router-dom";
 function Navbar() {
   const location = useLocation();
   const isCyberSecurityActive = location.pathname.startsWith("/cyber-security");
-  const isPoliciesActive = location.pathname.startsWith("/policies");
   const getLinkClassName = ({ isActive }) =>
     isActive
       ? "border-b-2 border-cicBlue pb-1 text-blue-900"
       : "border-b-2 border-transparent pb-1 text-gray-700 transition hover:border-cicBlue/40 hover:text-blue-900";
   const cyberSecurityClassName = isCyberSecurityActive
-    ? "border-b-2 border-cicBlue pb-1 text-blue-900"
-    : "border-b-2 border-transparent pb-1 text-gray-700 transition hover:border-cicBlue/40 hover:text-blue-900";
-  const policiesClassName = isPoliciesActive
     ? "border-b-2 border-cicBlue pb-1 text-blue-900"
     : "border-b-2 border-transparent pb-1 text-gray-700 transition hover:border-cicBlue/40 hover:text-blue-900";
 
@@ -45,9 +41,13 @@ function Navbar() {
         Cyber Security
       </NavLink>
 
-      <NavLink to="/policies" className={policiesClassName}>
+      <span
+        title="Policies will be visible once its uploaded"
+        aria-disabled="true"
+        className="cursor-not-allowed border-b-2 border-transparent pb-1 text-gray-500"
+      >
         Policies
-      </NavLink>
+      </span>
     </nav>
   );
 }

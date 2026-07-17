@@ -56,550 +56,565 @@ export const serviceIconOptions = Object.keys(serviceIconMeta);
 
 export const services = [
   {
-    "id": "internet-access",
-    "slug": "internet-access",
-    "title": "Internet Access",
-    "description": "Captive portal authentication for wired and wireless internet access using ERP login and campus network password.",
-    "linkLabel": "Explore service",
-    "iconKey": "globe",
-    "eyebrow": "Network Services",
-    "summary": "Internet access in IIT Kharagpur uses web-based Captive Portal Authentication for both wired and wireless networks. Users authenticate with their ERP user ID and the campus network password set through ERP.",
-    "details": [
+    id: "internet-access",
+    slug: "internet-access",
+    title: "Internet Access",
+    description:
+      "Captive portal authentication for wired and wireless internet access using ERP login and campus network password.",
+    linkLabel: "Explore service",
+    iconKey: "globe",
+    eyebrow: "Network Services",
+    summary:
+      "Internet access in IIT Kharagpur uses web-based Captive Portal Authentication for both wired and wireless networks. Users authenticate with their ERP user ID and the campus network password set through ERP.",
+    details: [
       {
-        "title": "General Information",
-        "items": [
-          "Internet access in IIT Kharagpur will use web-based authentication mechanism i.e. via Captive Portal Authentication. All users of both WiFi and wired network must finally connect to internet using a valid user id and password. At this time, users with ERP login are requested to authenticate to avail the institute Internet facility from both the wireless and wired networks."
-        ]
+        title: "General Information",
+        items: [
+          "Internet access in IIT Kharagpur will use web-based authentication mechanism i.e. via Captive Portal Authentication. All users of both WiFi and wired network must finally connect to internet using a valid user id and password. At this time, users with ERP login are requested to authenticate to avail the institute Internet facility from both the wireless and wired networks.",
+        ],
       },
       {
-        "title": "Authentication Requirement",
-        "items": [
+        title: "Authentication Requirement",
+        items: [
           "The campus network password is created in ERP and should be different from the ERP password.",
           "This same campus network password is used for both internet access and Wi-Fi authentication.",
-          "You have to create this password only once unless you want to change it later. It can be changed anytime from ERP in the same manner."
-        ]
+          "You have to create this password only once unless you want to change it later. It can be changed anytime from ERP in the same manner.",
+        ],
       },
       {
-        "title": "Session Timeout",
-        "items": [
-          "There is a 45 days session timeout present in the Captive Portal. You will have to repeat the authentication steps every 45 days on a particular device or machine to continue internet access."
-        ]
-      }
+        title: "Session Timeout",
+        items: [
+          "There is a 45 days session timeout present in the Captive Portal. You will have to repeat the authentication steps every 45 days on a particular device or machine to continue internet access.",
+        ],
+      },
     ],
-    "instructions": [
+    instructions: [
       {
-        "title": "To access the internet from wired network",
-        "items": [
+        title: "To access the internet from wired network",
+        items: [
           {
-            "text": "Create your network access password in ERP.",
-            "children": [
+            text: "Create your network access password in ERP.",
+            children: [
               {
-                "text": "Log in to your ERP account.",
-                "references": [
+                text: "Log in to your ERP account.",
+                references: [
                   {
-                    "label": "Open ERP",
-                    "url": "https://erp.iitkgp.ac.in/",
-                    "type": "link"
-                  }
-                ]
+                    label: "Open ERP",
+                    url: "https://erp.iitkgp.ac.in/",
+                    type: "link",
+                  },
+                ],
               },
               {
-                "text": "Click on the link \"Set Campus Network Password\" under menu item \"Other Actions\".",
-                "references": [
+                text: 'Click on the link "Set Campus Network Password" under menu item "Other Actions".',
+                references: [
                   {
-                    "label": "View ERP password setup image",
-                    "url": "internet-password-step.jpeg",
-                    "type": "image"
-                  }
-                ]
+                    label: "View ERP password setup image",
+                    url: "internet-password-step.jpeg",
+                    type: "image",
+                  },
+                ],
               },
               {
-                "text": "Set a password you will use for internet access. It should be different from your ERP password. This same password will also be used for WiFi Authentication."
-              }
-            ]
+                text: "Set a password you will use for internet access. It should be different from your ERP password. This same password will also be used for WiFi Authentication.",
+              },
+            ],
           },
           {
-            "text": "Authenticate your device for internet access using the guide for your location.",
-            "children": [
+            text: "Authenticate your device for internet access using the guide for your location.",
+            children: [
               {
-                "text": "Academic areas, offices, hostels, and guest houses.",
-                "references": [
+                text: "Academic areas, offices, hostels, and guest houses.",
+                references: [
                   {
-                    "label": "Authentication Steps for Academic areas/Offices/Hostels/Guest houses",
-                    "url": "/resources/Captive_Portal_Autentication_for_internet_access.pdf",
-                    "type": "pdf"
-                  }
-                ]
+                    label:
+                      "Authentication Steps for Academic areas/Offices/Hostels/Guest houses",
+                    url: "/resources/Captive_Portal_Autentication_for_internet_access.pdf",
+                    type: "pdf",
+                  },
+                ],
               },
               {
-                "text": "Residential areas.",
-                "references": [
+                text: "Residential areas.",
+                references: [
                   {
-                    "label": "Authentication Steps for Residential areas",
-                    "url": "/resources/residential-captive-portal-authentication.pdf",
-                    "type": "pdf"
-                  }
-                ]
-              }
-            ]
+                    label: "Authentication Steps for Residential areas",
+                    url: "/resources/residential-captive-portal-authentication.pdf",
+                    type: "pdf",
+                  },
+                ],
+              },
+            ],
           },
           {
-            "text": "Connect to the internet using your ERP login as user id and the network password that you set in ERP. It may take 5-10 seconds for connection, please be patient."
-          }
-        ]
+            text: "Connect to the internet using your ERP login as user id and the network password that you set in ERP. It may take 5-10 seconds for connection, please be patient.",
+          },
+        ],
       },
       {
-        "title": "To access the internet from wireless network",
-        "items": [
+        title: "To access the internet from wireless network",
+        items: [
           {
-            "text": "Connect your device to secured SSIDs for wireless network access.",
-            "children": [
+            text: "Connect your device to secured SSIDs for wireless network access.",
+            children: [
               {
-                "text": "Use the Wi-Fi Authentication manuals to configure your device.",
-                "references": [
+                text: "Use the Wi-Fi Authentication manuals to configure your device.",
+                references: [
                   {
-                    "label": "Open Wi-Fi Authentication manuals",
-                    "url": "/services/wifi-authentication",
-                    "type": "link"
-                  }
-                ]
-              }
-            ]
+                    label: "Open Wi-Fi Authentication manuals",
+                    url: "/services/wifi-authentication",
+                    type: "link",
+                  },
+                ],
+              },
+            ],
           },
           {
-            "text": "Authenticate your device for internet access using the guide for your location.",
-            "children": [
+            text: "Authenticate your device for internet access using the guide for your location.",
+            children: [
               {
-                "text": "Academic areas, offices, hostels, and guest houses.",
-                "references": [
+                text: "Academic areas, offices, hostels, and guest houses.",
+                references: [
                   {
-                    "label": "Authentication Steps for Academic areas/Offices/Hostels/Guest houses",
-                    "url": "/resources/Captive_Portal_Autentication_for_internet_access.pdf",
-                    "type": "pdf"
-                  }
-                ]
+                    label:
+                      "Authentication Steps for Academic areas/Offices/Hostels/Guest houses",
+                    url: "/resources/Captive_Portal_Autentication_for_internet_access.pdf",
+                    type: "pdf",
+                  },
+                ],
               },
               {
-                "text": "Residential areas.",
-                "references": [
+                text: "Residential areas.",
+                references: [
                   {
-                    "label": "Authentication Steps for Residential areas",
-                    "url": "/resources/residential-captive-portal-authentication.pdf",
-                    "type": "pdf"
-                  }
-                ]
-              }
-            ]
+                    label: "Authentication Steps for Residential areas",
+                    url: "/resources/residential-captive-portal-authentication.pdf",
+                    type: "pdf",
+                  },
+                ],
+              },
+            ],
           },
           {
-            "text": "Connect to the internet using your ERP login as user id and the network password that you set in ERP. It may take 5-10 seconds for connection, please be patient."
-          }
-        ]
-      }
+            text: "Connect to the internet using your ERP login as user id and the network password that you set in ERP. It may take 5-10 seconds for connection, please be patient.",
+          },
+        ],
+      },
     ],
-    "documents": [
+    documents: [
       {
-        "title": "Official Internet Access Authentication Page",
-        "description": "Primary CIC page for internet access authentication workflow.",
-        "assetName": "",
-        "fallbackUrl": "https://cic.iitkgp.ac.in/?q=InternetAccess",
-        "kind": "Open page"
+        title: "Official Internet Access Authentication Page",
+        description:
+          "Primary CIC page for internet access authentication workflow.",
+        assetName: "",
+        fallbackUrl: "https://cic.iitkgp.ac.in/?q=InternetAccess",
+        kind: "Open page",
       },
       {
-        "title": "Authentication Steps for Academic Areas, Offices, Hostels, and Guest Houses",
-        "description": "Official CIC PDF for regular internet access authentication.",
-        "assetName": "internet-access-captive-portal.pdf",
-        "fallbackUrl": "/resources/Captive_Portal_Autentication_for_internet_access.pdf",
-        "kind": "Open PDF"
+        title:
+          "Authentication Steps for Academic Areas, Offices, Hostels, and Guest Houses",
+        description:
+          "Official CIC PDF for regular internet access authentication.",
+        assetName: "internet-access-captive-portal.pdf",
+        fallbackUrl:
+          "/resources/Captive_Portal_Autentication_for_internet_access.pdf",
+        kind: "Open PDF",
       },
       {
-        "title": "Authentication Steps for Residential Areas",
-        "description": "Official CIC PDF for residential-area internet access authentication.",
-        "assetName": "internet-access-residential.pdf",
-        "fallbackUrl": "/resources/residential-captive-portal-authentication.pdf",
-        "kind": "Open PDF"
+        title: "Authentication Steps for Residential Areas",
+        description:
+          "Official CIC PDF for residential-area internet access authentication.",
+        assetName: "internet-access-residential.pdf",
+        fallbackUrl: "/resources/residential-captive-portal-authentication.pdf",
+        kind: "Open PDF",
       },
       {
-        "title": "Wi-Fi Authentication Manuals",
-        "description": "Official CIC Wi-Fi Authentication page linked from the wireless internet access steps.",
-        "assetName": "",
-        "fallbackUrl": "/services/wifi-authentication",
-        "kind": "Open page"
-      }
+        title: "Wi-Fi Authentication Manuals",
+        description:
+          "Official CIC Wi-Fi Authentication page linked from the wireless internet access steps.",
+        assetName: "",
+        fallbackUrl: "/services/wifi-authentication",
+        kind: "Open page",
+      },
     ],
-    "importantNotes": [
+    importantNotes: [
       "There will be no authentication or password required for accessing the IITKGP local resources like Zimbra mail, Apna, IITKGP websites etc. from wired network.",
       "If user is already logged in, do not refresh the captive portal page or open the captive portal page again. It will be logged out and the user will need to login again to get the institute internet service.",
       "New WiFi user need to authenticate two times to gain internet access. One for the first time WiFi access and second for the usual internet access. Second time onwards the WiFi user need to login only in captive portal to get the internet service.",
       "There is no browser dependency for captive portal authentication but it is always recommended to use an updated browser for best user experience.",
       "Faculty and staff may share their password with their family members for internet access. However, in order to avoid password misuse, there will be a limit for number of simultaneous connections.",
-      "The user with the user id used for logging in is solely responsible for any misuse of the internet when connected with that user id."
+      "The user with the user id used for logging in is solely responsible for any misuse of the internet when connected with that user id.",
     ],
-    "highPriorityNotes": [
+    highPriorityNotes: [
       "Do not refresh or reopen the captive portal page while already logged in; it can log the user out.",
-      "The user id used for login is solely responsible for any misuse of internet access through that session."
+      "The user id used for login is solely responsible for any misuse of internet access through that session.",
     ],
-    "contact": {
-      "name": "CIC Internet Access Support",
-      "role": "Primary contact persons for internet access authentication",
-      "email": "debnathp@cc.iitkgp.ac.in",
-      "phone": "82378",
-      "note": "Please contact CIC to report problems or for any other queries. Primary contact persons are Mr. Debnath Pramanik (debnathp@cc.iitkgp.ac.in, Ph: 82378), Mr. Uddipan Tunga (uddipan@cc.iitkgp.ac.in, Ph: 83047), and Mr. Alokes Chattopadhyay (alokes@cc.iitkgp.ac.in, Ph: 82376)."
-    }
+    contact: {
+      name: "CIC Internet Access Support",
+      role: "Primary contact persons for internet access authentication",
+      email: "debnathp@cc.iitkgp.ac.in",
+      phone: "82378",
+      note: "Please contact CIC to report problems or for any other queries. Primary contact persons are Mr. Debnath Pramanik (debnathp@cc.iitkgp.ac.in, Ph: 82378), Mr. Uddipan Tunga (uddipan@cc.iitkgp.ac.in, Ph: 83047), and Mr. Alokes Chattopadhyay (alokes@cc.iitkgp.ac.in, Ph: 82376).",
+    },
   },
   {
-    "id": "wifi-authentication",
-    "slug": "wifi-authentication",
-    "title": "Wi-Fi Authentication",
-    "description": "802.1x based wireless authentication for secured SSIDs using ERP login and campus network password.",
-    "linkLabel": "Explore service",
-    "iconKey": "wifi",
-    "eyebrow": "Wireless Access",
-    "summary": "Wireless network access in IIT Kharagpur uses 802.1x based authentication. Users with ERP login should connect to the secured SSIDs using their ERP user ID and campus network password.",
-    "details": [
+    id: "wifi-authentication",
+    slug: "wifi-authentication",
+    title: "Wi-Fi Authentication",
+    description:
+      "802.1x based wireless authentication for secured SSIDs using ERP login and campus network password.",
+    linkLabel: "Explore service",
+    iconKey: "wifi",
+    eyebrow: "Wireless Access",
+    summary:
+      "Wireless network access in IIT Kharagpur uses 802.1x based authentication. Users with ERP login should connect to the secured SSIDs using their ERP user ID and campus network password.",
+    details: [
       {
-        "title": "General Information",
-        "items": [
-          "Wireless network access in IIT Kharagpur will use 802.1x based authentication. All users of the Wi-Fi network must finally connect using a valid user id and password. At this time, users with ERP login are requested to connect to the secured SSIDs for all wireless network access."
-        ]
+        title: "General Information",
+        items: [
+          "Wireless network access in IIT Kharagpur will use 802.1x based authentication. All users of the Wi-Fi network must finally connect using a valid user id and password. At this time, users with ERP login are requested to connect to the secured SSIDs for all wireless network access.",
+        ],
       },
       {
-        "title": "Secured SSIDs",
-        "items": [
+        title: "Secured SSIDs",
+        items: [
           "ACADEMIC_SECURED",
           "STUDENT_SECURED",
           "CAMPUS_SECURED",
-          "GUEST_SECURED"
-        ]
+          "GUEST_SECURED",
+        ],
       },
       {
-        "title": "Authentication Requirement",
-        "items": [
+        title: "Authentication Requirement",
+        items: [
           "The campus network password is created in ERP and should be different from the ERP password.",
           "This same campus network password is also used for Internet Access Authentication.",
-          "You have to create this password only once unless you want to change it later. It can be changed anytime from ERP in the same manner."
-        ]
-      }
+          "You have to create this password only once unless you want to change it later. It can be changed anytime from ERP in the same manner.",
+        ],
+      },
     ],
-    "instructions": [
+    instructions: [
       {
-        "title": "To access the wireless network",
-        "items": [
+        title: "To access the wireless network",
+        items: [
           {
-            "text": "Create your network access password in ERP.",
-            "children": [
+            text: "Create your network access password in ERP.",
+            children: [
               {
-                "text": "Log in to your ERP account.",
-                "references": [
+                text: "Log in to your ERP account.",
+                references: [
                   {
-                    "label": "Open ERP",
-                    "url": "https://erp.iitkgp.ac.in/",
-                    "type": "link"
-                  }
-                ]
+                    label: "Open ERP",
+                    url: "https://erp.iitkgp.ac.in/",
+                    type: "link",
+                  },
+                ],
               },
               {
-                "text": "Click on the link \"Set Campus Network Password\" under menu item \"Other Actions\"."
+                text: 'Click on the link "Set Campus Network Password" under menu item "Other Actions".',
               },
               {
-                "text": "Set a password you will use for network access. It should be different from your ERP password. This same password will also be used for Internet Access Authentication."
-              }
-            ]
+                text: "Set a password you will use for network access. It should be different from your ERP password. This same password will also be used for Internet Access Authentication.",
+              },
+            ],
           },
           {
-            "text": "Configure your device for Wi-Fi authentication using the relevant instruction guide.",
-            "children": [
+            text: "Configure your device for Wi-Fi authentication using the relevant instruction guide.",
+            children: [
               {
-                "text": "Android devices.",
-                "references": [
+                text: "Android devices.",
+                references: [
                   {
-                    "label": "Configuration Instruction for Android devices",
-                    "url": "/resources/AndroidConfigurationWiFi.pdf",
-                    "type": "pdf"
-                  }
-                ]
+                    label: "Configuration Instruction for Android devices",
+                    url: "/resources/AndroidConfigurationWiFi.pdf",
+                    type: "pdf",
+                  },
+                ],
               },
               {
-                "text": "Windows 10 machines.",
-                "references": [
+                text: "Windows 10 machines.",
+                references: [
                   {
-                    "label": "Configuration Instruction for Windows 10 machines (pdf)",
-                    "url": "/resources/wifiauthentication/Windows10ConfigurationWiFi.pdf",
-                    "type": "pdf"
-                  }
-                ]
+                    label:
+                      "Configuration Instruction for Windows 10 machines (pdf)",
+                    url: "/resources/wifiauthentication/Windows10ConfigurationWiFi.pdf",
+                    type: "pdf",
+                  },
+                ],
               },
               {
-                "text": "Linux machines.",
-                "references": [
+                text: "Linux machines.",
+                references: [
                   {
-                    "label": "Configuration Instruction for Linux machines",
-                    "url": "/resources/wifiauthentication/LinuxConfigurationWiFi.pdf",
-                    "type": "pdf"
-                  }
-                ]
+                    label: "Configuration Instruction for Linux machines",
+                    url: "/resources/wifiauthentication/LinuxConfigurationWiFi.pdf",
+                    type: "pdf",
+                  },
+                ],
               },
               {
-                "text": "Windows 7 machines.",
-                "references": [
+                text: "Windows 7 machines.",
+                references: [
                   {
-                    "label": "Configuration Instruction for Windows 7 machines",
-                    "url": "/resources/wifiauthentication/Windows7ConfigurationWiFim2.pdf",
-                    "type": "pdf"
-                  }
-                ]
+                    label: "Configuration Instruction for Windows 7 machines",
+                    url: "/resources/wifiauthentication/Windows7ConfigurationWiFim2.pdf",
+                    type: "pdf",
+                  },
+                ],
               },
               {
-                "text": "Windows Lumia based phones.",
-                "references": [
+                text: "Windows Lumia based phones.",
+                references: [
                   {
-                    "label": "Configuration Instruction for Windows Lumia based phones",
-                    "url": "/resources/wifiauthentication/LumiaConfigurationWiFi.pdf",
-                    "type": "pdf"
-                  }
-                ]
+                    label:
+                      "Configuration Instruction for Windows Lumia based phones",
+                    url: "/resources/wifiauthentication/LumiaConfigurationWiFi.pdf",
+                    type: "pdf",
+                  },
+                ],
               },
               {
-                "text": "Mac devices.",
-                "references": [
+                text: "Mac devices.",
+                references: [
                   {
-                    "label": "Configuration Instruction for Mac devices",
-                    "url": "/resources/MacConfigurationWiFi.pdf",
-                    "type": "pdf"
-                  }
-                ]
-              }
-            ]
+                    label: "Configuration Instruction for Mac devices",
+                    url: "/resources/MacConfigurationWiFi.pdf",
+                    type: "pdf",
+                  },
+                ],
+              },
+            ],
           },
           {
-            "text": "You have to do this configuration only once on a device or machine per secured SSID unless you change your password or want to login with another user id."
+            text: "You have to do this configuration only once on a device or machine per secured SSID unless you change your password or want to login with another user id.",
           },
           {
-            "text": "Connect to the desired SSID using your ERP login as user id and the network password that you set in ERP. It may take 10-15 seconds for connection the first time you configure and connect, so please be patient. Normally the device will remember the user id and password and will automatically connect with this in future."
-          }
-        ]
-      }
+            text: "Connect to the desired SSID using your ERP login as user id and the network password that you set in ERP. It may take 10-15 seconds for connection the first time you configure and connect, so please be patient. Normally the device will remember the user id and password and will automatically connect with this in future.",
+          },
+        ],
+      },
     ],
-    "documents": [
+    documents: [
       {
-        "title": "Configuration Instruction for Android devices",
-        "description": "Configuration instruction for Android devices.",
-        "assetName": "",
-        "fallbackUrl": "/resources/AndroidConfigurationWiFi.pdf",
-        "kind": "Open PDF"
+        title: "Configuration Instruction for Android devices",
+        description: "Configuration instruction for Android devices.",
+        assetName: "",
+        fallbackUrl: "/resources/AndroidConfigurationWiFi.pdf",
+        kind: "Open PDF",
       },
       {
-        "title": "Configuration Instruction for Windows 10 machines (pdf)",
-        "description": "Configuration instruction for Windows 10 machines.",
-        "assetName": "",
-        "fallbackUrl": "/resources/wifiauthentication/Windows10ConfigurationWiFi.pdf",
-        "kind": "Open PDF"
+        title: "Configuration Instruction for Windows 10 machines (pdf)",
+        description: "Configuration instruction for Windows 10 machines.",
+        assetName: "",
+        fallbackUrl:
+          "/resources/wifiauthentication/Windows10ConfigurationWiFi.pdf",
+        kind: "Open PDF",
       },
       {
-        "title": "Configuration Instruction for Linux machines",
-        "description": "Configuration instruction for Linux machines.",
-        "assetName": "",
-        "fallbackUrl": "/resources/wifiauthentication/LinuxConfigurationWiFi.pdf",
-        "kind": "Open PDF"
+        title: "Configuration Instruction for Linux machines",
+        description: "Configuration instruction for Linux machines.",
+        assetName: "",
+        fallbackUrl: "/resources/wifiauthentication/LinuxConfigurationWiFi.pdf",
+        kind: "Open PDF",
       },
       {
-        "title": "Configuration Instruction for Windows 7 machines",
-        "description": "Configuration instruction for Windows 7 machines.",
-        "assetName": "",
-        "fallbackUrl": "/resources/wifiauthentication/Windows7ConfigurationWiFim2.pdf",
-        "kind": "Open PDF"
+        title: "Configuration Instruction for Windows 7 machines",
+        description: "Configuration instruction for Windows 7 machines.",
+        assetName: "",
+        fallbackUrl:
+          "/resources/wifiauthentication/Windows7ConfigurationWiFim2.pdf",
+        kind: "Open PDF",
       },
       {
-        "title": "Configuration Instruction for Windows Lumia based phones",
-        "description": "Configuration instruction for Windows Lumia based phones.",
-        "assetName": "",
-        "fallbackUrl": "/resources/wifiauthentication/LumiaConfigurationWiFi.pdf",
-        "kind": "Open PDF"
+        title: "Configuration Instruction for Windows Lumia based phones",
+        description:
+          "Configuration instruction for Windows Lumia based phones.",
+        assetName: "",
+        fallbackUrl: "/resources/wifiauthentication/LumiaConfigurationWiFi.pdf",
+        kind: "Open PDF",
       },
       {
-        "title": "Configuration Instruction for Mac devices",
-        "description": "Configuration instruction for Mac devices.",
-        "assetName": "",
-        "fallbackUrl": "/resources/MacConfigurationWiFi.pdf",
-        "kind": "Open PDF"
-      }
+        title: "Configuration Instruction for Mac devices",
+        description: "Configuration instruction for Mac devices.",
+        assetName: "",
+        fallbackUrl: "/resources/MacConfigurationWiFi.pdf",
+        kind: "Open PDF",
+      },
     ],
-    "importantNotes": [
+    importantNotes: [
       "Wi-Fi access uses the ERP user ID and campus network password; keep the password secure, and update saved device credentials whenever the password is changed.",
       "Device configuration is usually required only once per secured SSID, unless the password changes or the device needs to connect with another user ID.",
-      "Faculty and staff may share access with family members, subject to simultaneous-connection limits, but the logged-in user ID remains solely responsible for all Wi-Fi activity and misuse."
+      "Faculty and staff may share access with family members, subject to simultaneous-connection limits, but the logged-in user ID remains solely responsible for all Wi-Fi activity and misuse.",
     ],
-    "highPriorityNotes": [
-      "The user id used for Wi-Fi login is solely responsible for any misuse of the Wi-Fi network through that connection."
+    highPriorityNotes: [
+      "The user id used for Wi-Fi login is solely responsible for any misuse of the Wi-Fi network through that connection.",
     ],
-    "contact": {
-      "name": "CIC Wi-Fi Authentication Support",
-      "role": "Primary contact persons for Wi-Fi authentication",
-      "email": "debnathp@cc.iitkgp.ac.in",
-      "phone": "82378",
-      "note": "Please contact CIC to report problems or for any other queries. Primary contact persons are Mr. Debnath Pramanik (debnathp@cc.iitkgp.ac.in, Ph: 82378) and Mr. Alokes Chattopadhyay (alokes@cc.iitkgp.ac.in, Ph: 82376)."
-    }
+    contact: {
+      name: "CIC Wi-Fi Authentication Support",
+      role: "Primary contact persons for Wi-Fi authentication",
+      email: "debnathp@cc.iitkgp.ac.in",
+      phone: "82378",
+      note: "Please contact CIC to report problems or for any other queries. Primary contact persons are Mr. Debnath Pramanik (debnathp@cc.iitkgp.ac.in, Ph: 82378) and Mr. Alokes Chattopadhyay (alokes@cc.iitkgp.ac.in, Ph: 82376).",
+    },
   },
   {
-    "id": "mail-access",
-    "slug": "mail-access",
-    "title": "Mail Access",
-    "description": "Institute-managed mail services for faculty, staff, and students through Zimbra and Google mail workflows.",
-    "linkLabel": "Explore service",
-    "iconKey": "mail",
-    "eyebrow": "Messaging Services",
-    "summary": "CIC centrally manages institute mail services using Zimbra for faculty, staff, and students enrolled before 2020-21, and G-Suite for students from the 2020-21 Autumn session onward.",
-    "details": [
+    id: "mail-access",
+    slug: "mail-access",
+    title: "Mail Access",
+    description:
+      "Institute-managed mail services for faculty, staff, and students through Zimbra and Google mail workflows.",
+    linkLabel: "Explore service",
+    iconKey: "mail",
+    eyebrow: "Messaging Services",
+    summary:
+      "CIC centrally manages institute mail services using Zimbra for faculty, staff, and students enrolled before 2020-21, and G-Suite for students from the 2020-21 Autumn session onward.",
+    details: [
       {
-        "title": "General Information",
-        "items": [
+        title: "General Information",
+        items: [
           "The institute provides mail services to faculty, staff, and students using Zimbra, an enterprise class email, calendar, and collaboration solution, and G-Suite for students from the 2020-21 Autumn session onward.",
-          "The mail messaging facility is centrally managed by CIC."
-        ]
+          "The mail messaging facility is centrally managed by CIC.",
+        ],
       },
       {
-        "title": "Mail Platform Split",
-        "items": [
+        title: "Mail Platform Split",
+        items: [
           "Faculty, staff, and students enrolled before 2020-21 use the institute Zimbra mail workflow.",
-          "Students enrolled from the 2020-21 Autumn session onward use the Google mail workflow."
-        ]
-      }
+          "Students enrolled from the 2020-21 Autumn session onward use the Google mail workflow.",
+        ],
+      },
     ],
-    "instructions": [
+    instructions: [
       {
-        "title": "Web Based Mail Access",
-        "items": [
+        title: "Web Based Mail Access",
+        items: [
           {
-            "text": "Faculty, staff, and students enrolled before 2020-21 can access institute webmail through the Zimbra mail service.",
-            "references": [
+            text: "Faculty, staff, and students enrolled before 2020-21 can access institute webmail through the Zimbra mail service.",
+            references: [
               {
-                "label": "Open Zimbra webmail",
-                "url": "https://iitkgpmail.iitkgp.ac.in",
-                "type": "link"
-              }
-            ]
+                label: "Open Zimbra webmail",
+                url: "https://iitkgpmail.iitkgp.ac.in",
+                type: "link",
+              },
+            ],
           },
           {
-            "text": "Students enrolled from the 2020-21 Autumn session onward can access mail through Google Mail.",
-            "references": [
+            text: "Students enrolled from the 2020-21 Autumn session onward can access mail through Google Mail.",
+            references: [
               {
-                "label": "Open Google Mail",
-                "url": "https://mail.google.com",
-                "type": "link"
-              }
-            ]
+                label: "Open Google Mail",
+                url: "https://mail.google.com",
+                type: "link",
+              },
+            ],
           },
           {
-            "text": "Outlook users can follow the setup and archiving references.",
-            "references": [
+            text: "Outlook users can follow the setup and archiving references.",
+            references: [
               {
-                "label": "Outlook mail client setup",
-                "url": "/resources/mailaccess/Microsoft_Outlook_Setup.pdf",
-                "type": "pdf"
+                label: "Outlook mail client setup",
+                url: "/resources/mailaccess/Microsoft_Outlook_Setup.pdf",
+                type: "pdf",
               },
               {
-                "label": "Archiving emails using Outlook",
-                "url": "/resources/mailaccess/MicrosoftOutlookArchiving.pdf",
-                "type": "pdf"
-              }
-            ]
-          }
-        ]
+                label: "Archiving emails using Outlook",
+                url: "/resources/mailaccess/MicrosoftOutlookArchiving.pdf",
+                type: "pdf",
+              },
+            ],
+          },
+        ],
       },
       {
-        "title": "Third Party Mail Client Configuration",
-        "items": [
+        title: "Third Party Mail Client Configuration",
+        items: [
           "Use these settings to access mail services through third-party utilities, mail clients, or mobile devices from both inside and outside the IIT Kharagpur network.",
-          "Select the configuration table that matches the account category."
+          "Select the configuration table that matches the account category.",
         ],
-        "tables": [
+        tables: [
           {
-            "title": "Faculty, Staff, and Students Enrolled Before 2020-21",
-            "columns": [
-              "Setting",
-              "Configuration"
-            ],
-            "rows": [
+            title: "Faculty, Staff, and Students Enrolled Before 2020-21",
+            columns: ["Setting", "Configuration"],
+            rows: [
               [
                 "Incoming Mail (IMAP) Server",
-                "iitkgpmail.iitkgp.ac.in\nRequires SSL: Yes\nPort: 993"
+                "iitkgpmail.iitkgp.ac.in\nRequires SSL: Yes\nPort: 993",
               ],
               [
                 "Incoming Mail (POP) Server",
-                "iitkgpmail.iitkgp.ac.in\nRequires SSL: Yes\nPort: 995"
+                "iitkgpmail.iitkgp.ac.in\nRequires SSL: Yes\nPort: 995",
               ],
               [
                 "Outgoing Mail (SMTP) Server",
-                "iitkgpmail.iitkgp.ac.in\nRequires SSL: Yes\nRequires TLS: Yes (if available)\nRequires Authentication: Yes\nPort for SSL: 465\nPort for TLS/STARTTLS: 587"
-              ]
-            ]
+                "iitkgpmail.iitkgp.ac.in\nRequires SSL: Yes\nRequires TLS: Yes (if available)\nRequires Authentication: Yes\nPort for SSL: 465\nPort for TLS/STARTTLS: 587",
+              ],
+            ],
           },
           {
-            "title": "Students Enrolled From 2020-21 Autumn Session Onward",
-            "columns": [
-              "Setting",
-              "Configuration"
-            ],
-            "rows": [
+            title: "Students Enrolled From 2020-21 Autumn Session Onward",
+            columns: ["Setting", "Configuration"],
+            rows: [
               [
                 "Incoming Mail (IMAP) Server",
-                "imap.gmail.com\nRequires SSL: Yes\nPort: 993"
+                "imap.gmail.com\nRequires SSL: Yes\nPort: 993",
               ],
               [
                 "Incoming Mail (POP) Server",
-                "pop.gmail.com\nRequires SSL: Yes\nPort: 995"
+                "pop.gmail.com\nRequires SSL: Yes\nPort: 995",
               ],
               [
                 "Outgoing Mail (SMTP) Server",
-                "smtp.gmail.com\nRequires SSL: Yes\nRequires TLS: Yes (if available)\nRequires Authentication: Yes\nPort for SSL: 465\nPort for TLS/STARTTLS: 587"
-              ]
-            ]
-          }
-        ]
-      }
+                "smtp.gmail.com\nRequires SSL: Yes\nRequires TLS: Yes (if available)\nRequires Authentication: Yes\nPort for SSL: 465\nPort for TLS/STARTTLS: 587",
+              ],
+            ],
+          },
+        ],
+      },
     ],
-    "documents": [
+    documents: [
       {
-        "title": "Zimbra Webmail",
-        "description": "Web based mail access for faculty, staff, and students enrolled before 2020-21.",
-        "assetName": "",
-        "fallbackUrl": "https://iitkgpmail.iitkgp.ac.in",
-        "kind": "Open mail"
+        title: "Zimbra Webmail",
+        description:
+          "Web based mail access for faculty, staff, and students enrolled before 2020-21.",
+        assetName: "",
+        fallbackUrl: "https://iitkgpmail.iitkgp.ac.in",
+        kind: "Open mail",
       },
       {
-        "title": "Google Mail",
-        "description": "Web based mail access for students enrolled from the 2020-21 Autumn session onward.",
-        "assetName": "",
-        "fallbackUrl": "https://mail.google.com",
-        "kind": "Open mail"
+        title: "Google Mail",
+        description:
+          "Web based mail access for students enrolled from the 2020-21 Autumn session onward.",
+        assetName: "",
+        fallbackUrl: "https://mail.google.com",
+        kind: "Open mail",
       },
       {
-        "title": "Outlook mail client setup",
-        "description": "Reference PDF for setting up Outlook as a mail client.",
-        "assetName": "",
-        "fallbackUrl": "/resources/mailaccess/Microsoft_Outlook_Setup.pdf",
-        "kind": "Open PDF"
+        title: "Outlook mail client setup",
+        description: "Reference PDF for setting up Outlook as a mail client.",
+        assetName: "",
+        fallbackUrl: "/resources/mailaccess/Microsoft_Outlook_Setup.pdf",
+        kind: "Open PDF",
       },
       {
-        "title": "Archiving emails using Outlook",
-        "description": "Reference PDF for archiving emails using Outlook.",
-        "assetName": "",
-        "fallbackUrl": "/resources/mailaccess/MicrosoftOutlookArchiving.pdf",
-        "kind": "Open PDF"
-      }
+        title: "Archiving emails using Outlook",
+        description: "Reference PDF for archiving emails using Outlook.",
+        assetName: "",
+        fallbackUrl: "/resources/mailaccess/MicrosoftOutlookArchiving.pdf",
+        kind: "Open PDF",
+      },
     ],
-    "importantNotes": [
+    importantNotes: [
       "Choose the correct mail workflow before configuring webmail or a third-party mail client.",
       "Use SSL-enabled IMAP, POP, and SMTP settings when configuring third-party mail utilities or mobile clients.",
-      "Outgoing SMTP requires authentication, and TLS/STARTTLS should be used where available."
+      "Outgoing SMTP requires authentication, and TLS/STARTTLS should be used where available.",
     ],
-    "contact": {
-      "name": "CIC Mail Support",
-      "role": "Institute mail and client configuration support",
-      "email": "",
-      "phone": "",
-      "note": "For account-specific mail access issues, contact CIC through the official mail support workflow."
-    }
+    contact: {
+      name: "CIC Mail Support",
+      role: "Institute mail and client configuration support",
+      email: "",
+      phone: "",
+      note: "For account-specific mail access issues, contact CIC through the official mail support workflow.",
+    },
   },
   {
     slug: "labs",
@@ -648,7 +663,8 @@ export const services = [
       },
       {
         title: "Software Repository",
-        description: "Repository site commonly referenced in the lab ecosystem.",
+        description:
+          "Repository site commonly referenced in the lab ecosystem.",
         fallbackUrl: "https://swrepo.iitkgp.ac.in/",
         kind: "Open site",
       },
@@ -663,8 +679,7 @@ export const services = [
       role: "Senior System Engineer Grade I",
       email: "surid@cc.iitkgp.ac.in",
       phone: "81934(O)",
-      note:
-        "For any further query related to the labs, contact Mr. Surid Kumar Das.",
+      note: "For any further query related to the labs, contact Mr. Surid Kumar Das.",
     },
   },
   {
@@ -762,73 +777,74 @@ export const services = [
             ],
           },
           {
-            "text": "Matlab",
-            "children": [
+            text: "Matlab",
+            children: [
               {
-                "text": "Matlab Campus License",
-                "moreText": "CIC provides a Matlab Campus License centrally as a facility for the students and faculty members of the Institute. For latest version of Matlab, check CIC software repo (http://swrepo.iitkgp.ac.in). This product should not be used for any of the following applications:",
-                "moreItems": [
+                text: "Matlab Campus License",
+                moreText:
+                  "CIC provides a Matlab Campus License centrally as a facility for the students and faculty members of the Institute. For latest version of Matlab, check CIC software repo (http://swrepo.iitkgp.ac.in). This product should not be used for any of the following applications:",
+                moreItems: [
                   "Chemical or Biogological Weapons of Mass Destruction",
                   "Missile Technology",
                   "Nuclear End Users",
                   "Civil or Military Satellite projects",
-                  "Maritime Nuclear Propulsion Projects"
+                  "Maritime Nuclear Propulsion Projects",
                 ],
-                "children": [
+                children: [
                   {
-                    "text": "Click here for a list of products on the R2023a campus-wide licenses",
-                    "references": [
+                    text: "Click here for a list of products on the R2023a campus-wide licenses",
+                    references: [
                       {
-                        "label": "Open R2023a campus-wide license products list",
-                        "url": "/resources/softwaresupport/matlab/campus-wide-license-products-R2023A.pdf",
-                        "type": "pdf"
-                      }
-                    ]
+                        label: "Open R2023a campus-wide license products list",
+                        url: "/resources/softwaresupport/matlab/campus-wide-license-products-R2023A.pdf",
+                        type: "pdf",
+                      },
+                    ],
                   },
                   {
-                    "text": "Click here for Matlab Installation Instructions on Windows (From Campus Network)",
-                    "references": [
+                    text: "Click here for Matlab Installation Instructions on Windows (From Campus Network)",
+                    references: [
                       {
-                        "label": "Open Windows installation instructions",
-                        "url": "/resources/softwaresupport/matlab/MATLAB_2024a_Windows_Installation_Guide.pdf",
-                        "type": "pdf"
-                      }
-                    ]
+                        label: "Open Windows installation instructions",
+                        url: "/resources/softwaresupport/matlab/MATLAB_2024a_Windows_Installation_Guide.pdf",
+                        type: "pdf",
+                      },
+                    ],
                   },
                   {
-                    "text": "Click here for Matlab Installation Instructions on Linux (From Campus Network)",
-                    "references": [
+                    text: "Click here for Matlab Installation Instructions on Linux (From Campus Network)",
+                    references: [
                       {
-                        "label": "Open Linux installation instructions",
-                        "url": "/resources/softwaresupport/matlab/MATLAB_Linux_Installation_Guide.pdf",
-                        "type": "pdf"
-                      }
-                    ]
+                        label: "Open Linux installation instructions",
+                        url: "/resources/softwaresupport/matlab/MATLAB_Linux_Installation_Guide.pdf",
+                        type: "pdf",
+                      },
+                    ],
                   },
                   {
-                    "text": "Click here for Matlab Installation Instructions (From outside Network)",
-                    "references": [
+                    text: "Click here for Matlab Installation Instructions (From outside Network)",
+                    references: [
                       {
-                        "label": "Open MathWorks IIT Kharagpur portal",
-                        "url": "https://in.mathworks.com/academia/tah-portal/indian-institute-of-technology-kharagpur-40524247.html",
-                        "type": "link"
-                      }
-                    ]
+                        label: "Open MathWorks IIT Kharagpur portal",
+                        url: "https://in.mathworks.com/academia/tah-portal/indian-institute-of-technology-kharagpur-40524247.html",
+                        type: "link",
+                      },
+                    ],
                   },
                   {
-                    "text": "Click here for MATLAB Academy",
-                    "references": [
+                    text: "Click here for MATLAB Academy",
+                    references: [
                       {
-                        "label": "Open MATLAB Academy",
-                        "url": "https://matlabacademy.mathworks.com/",
-                        "type": "link"
-                      }
-                    ]
-                  }
+                        label: "Open MATLAB Academy",
+                        url: "https://matlabacademy.mathworks.com/",
+                        type: "link",
+                      },
+                    ],
+                  },
                 ],
-                "modal": {
-                  "title": "Products on Campus License",
-                  "items": [
+                modal: {
+                  title: "Products on Campus License",
+                  items: [
                     "MATLAB",
                     "SIMULINK",
                     "MATLAB 5G Toolbox",
@@ -938,248 +954,256 @@ export const services = [
                     "WLAN System Toolbox",
                     "Wavelet Toolbox",
                     "LTE HDL Toolbox",
-                    "Wireless Testbench"
-                  ]
-                }
+                    "Wireless Testbench",
+                  ],
+                },
               },
               {
-                "text": "Steps to update MATLAB license",
-                "moreText": "Campus-wide licenses for MATLAB and Simulink have been renewed. For continued access to MATLAB, update the license file by following these steps:",
-                "moreItems": [
+                text: "Steps to update MATLAB license",
+                moreText:
+                  "Campus-wide licenses for MATLAB and Simulink have been renewed. For continued access to MATLAB, update the license file by following these steps:",
+                moreItems: [
                   "Open MATLAB. If the license has already expired, the activation client will launch and you can skip the next step.",
                   "Navigate to the Help menu and select Licensing.",
                   "Click Activate Software.",
                   "Choose Activate using Internet.",
-                  "Restart MATLAB."
+                  "Restart MATLAB.",
                 ],
-                "moreItemsOrdered": true,
-                "children": [
+                moreItemsOrdered: true,
+                children: [
                   {
-                    "text": "For more information on the MATLAB Campus-Wide License, refer to the IIT Kharagpur MATLAB Portal.",
-                    "references": [
+                    text: "For more information on the MATLAB Campus-Wide License, refer to the IIT Kharagpur MATLAB Portal.",
+                    references: [
                       {
-                        "label": "Open MATLAB Portal",
-                        "url": "https://in.mathworks.com/academia/tah-portal/indian-institute-of-technology-kharagpur-40524247.html",
-                        "type": "link"
-                      }
-                    ]
+                        label: "Open MATLAB Portal",
+                        url: "https://in.mathworks.com/academia/tah-portal/indian-institute-of-technology-kharagpur-40524247.html",
+                        type: "link",
+                      },
+                    ],
                   },
                   {
-                    "text": "For issues related to your MATLAB installation, contact MathWorks Support.",
-                    "references": [
+                    text: "For issues related to your MATLAB installation, contact MathWorks Support.",
+                    references: [
                       {
-                        "label": "Open MathWorks Support",
-                        "url": "https://in.mathworks.com/support/contact_us.html?s_tid=tah_po_helpbutton",
-                        "type": "link"
-                      }
-                    ]
+                        label: "Open MathWorks Support",
+                        url: "https://in.mathworks.com/support/contact_us.html?s_tid=tah_po_helpbutton",
+                        type: "link",
+                      },
+                    ],
                   },
                   {
-                    "text": "If the installation had already expired, you will be prompted to activate when attempting to launch MATLAB. Proceed by reactivating MATLAB using your MathWorks account credentials."
-                  }
-                ]
-              }
-            ]
+                    text: "If the installation had already expired, you will be prompted to activate when attempting to launch MATLAB. Proceed by reactivating MATLAB using your MathWorks account credentials.",
+                  },
+                ],
+              },
+            ],
           },
           {
-            "text": "SolidWorks",
-            "children": [
+            text: "SolidWorks",
+            children: [
               {
-                "text": "SolidWorks 2015 SP02",
-                "references": [
+                text: "SolidWorks 2015 SP02",
+                references: [
                   {
-                    "label": "Open SolidWorks 2015 SP02 installation guide",
-                    "url": "/resources/softwaresupport/solidworks/SolidWorks_2015_SP2_Installation_Guide.pdf",
-                    "type": "pdf"
-                  }
-                ]
+                    label: "Open SolidWorks 2015 SP02 installation guide",
+                    url: "/resources/softwaresupport/solidworks/SolidWorks_2015_SP2_Installation_Guide.pdf",
+                    type: "pdf",
+                  },
+                ],
               },
               {
-                "text": "SolidWorks 2020 SP04",
-                "references": [
+                text: "SolidWorks 2020 SP04",
+                references: [
                   {
-                    "label": "Open SolidWorks 2020 SP04 installation guide",
-                    "url": "/resources/softwaresupport/solidworks/SolidWorks_2020_SP4_Installation_Guide.pdf",
-                    "type": "pdf"
-                  }
-                ]
+                    label: "Open SolidWorks 2020 SP04 installation guide",
+                    url: "/resources/softwaresupport/solidworks/SolidWorks_2020_SP4_Installation_Guide.pdf",
+                    type: "pdf",
+                  },
+                ],
               },
               {
-                "text": "SolidWorks 2022 SP02",
-                "references": [
+                text: "SolidWorks 2022 SP02",
+                references: [
                   {
-                    "label": "Open SolidWorks 2022 SP02 installation guide",
-                    "url": "/resources/softwaresupport/solidworks/SolidWorks_2022_SP02_Installation_Guide.pdf",
-                    "type": "pdf"
-                  }
-                ]
-              }
-            ]
+                    label: "Open SolidWorks 2022 SP02 installation guide",
+                    url: "/resources/softwaresupport/solidworks/SolidWorks_2022_SP02_Installation_Guide.pdf",
+                    type: "pdf",
+                  },
+                ],
+              },
+            ],
           },
           {
-            "text": "Ansys",
-            "children": [
+            text: "Ansys",
+            children: [
               {
-                "text": "Ansys 2025",
-                "children": [
+                text: "Ansys 2025",
+                children: [
                   {
-                    "text": "Electronics",
-                    "references": [
+                    text: "Electronics",
+                    references: [
                       {
-                        "label": "Open Ansys Electronics 2025 R2 installation guide",
-                        "url": "/resources/softwaresupport/ansys/2025/Ansys_Electronics_2025R2_Installation_Guide.pdf",
-                        "type": "pdf"
-                      }
-                    ]
+                        label:
+                          "Open Ansys Electronics 2025 R2 installation guide",
+                        url: "/resources/softwaresupport/ansys/2025/Ansys_Electronics_2025R2_Installation_Guide.pdf",
+                        type: "pdf",
+                      },
+                    ],
                   },
                   {
-                    "text": "Fluid Structures",
-                    "references": [
+                    text: "Fluid Structures",
+                    references: [
                       {
-                        "label": "Open Ansys Fluid Structures 2025 R2 installation guide",
-                        "url": "/resources/softwaresupport/ansys/2025/Ansys_FluidStructures_2025_R2_Installation_Guide.pdf",
-                        "type": "pdf"
-                      }
-                    ]
+                        label:
+                          "Open Ansys Fluid Structures 2025 R2 installation guide",
+                        url: "/resources/softwaresupport/ansys/2025/Ansys_FluidStructures_2025_R2_Installation_Guide.pdf",
+                        type: "pdf",
+                      },
+                    ],
                   },
                   {
-                    "text": "Motorcad",
-                    "references": [
+                    text: "Motorcad",
+                    references: [
                       {
-                        "label": "Open Ansys MotorCAD 2025 R2 installation guide",
-                        "url": "/resources/softwaresupport/ansys/2025/Ansys_MotorCAD_2025_R2_Installation_Guide.pdf",
-                        "type": "pdf"
-                      }
-                    ]
+                        label: "Open Ansys MotorCAD 2025 R2 installation guide",
+                        url: "/resources/softwaresupport/ansys/2025/Ansys_MotorCAD_2025_R2_Installation_Guide.pdf",
+                        type: "pdf",
+                      },
+                    ],
                   },
                   {
-                    "text": "Lumerical",
-                    "references": [
+                    text: "Lumerical",
+                    references: [
                       {
-                        "label": "Open Ansys Lumerical 2025 R2 installation guide",
-                        "url": "/resources/softwaresupport/ansys/2025/Ansys_Lumerical_2025_R2_Installation_Guide.pdf",
-                        "type": "pdf"
-                      }
-                    ]
+                        label:
+                          "Open Ansys Lumerical 2025 R2 installation guide",
+                        url: "/resources/softwaresupport/ansys/2025/Ansys_Lumerical_2025_R2_Installation_Guide.pdf",
+                        type: "pdf",
+                      },
+                    ],
                   },
                   {
-                    "text": "Scade",
-                    "references": [
+                    text: "Scade",
+                    references: [
                       {
-                        "label": "Open Ansys SCADE 2025 R2 installation guide",
-                        "url": "/resources/softwaresupport/ansys/2025/Ansys_SCADE_2025_R2_Installation_Guide.pdf",
-                        "type": "pdf"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
+                        label: "Open Ansys SCADE 2025 R2 installation guide",
+                        url: "/resources/softwaresupport/ansys/2025/Ansys_SCADE_2025_R2_Installation_Guide.pdf",
+                        type: "pdf",
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
           },
           {
-            "text": "CST Studio",
-            "children": [
+            text: "CST Studio",
+            children: [
               {
-                "text": "Ubuntu",
-                "references": [
+                text: "Ubuntu",
+                references: [
                   {
-                    "label": "Open CST Studio Ubuntu installation guide",
-                    "url": "/resources/softwaresupport/cststudio/ubuntu/CST_Ubuntu_Installation_Guide.pdf",
-                    "type": "pdf"
-                  }
-                ]
+                    label: "Open CST Studio Ubuntu installation guide",
+                    url: "/resources/softwaresupport/cststudio/ubuntu/CST_Ubuntu_Installation_Guide.pdf",
+                    type: "pdf",
+                  },
+                ],
               },
               {
-                "text": "Windows",
-                "references": [
+                text: "Windows",
+                references: [
                   {
-                    "label": "Open CST Studio Windows installation guide",
-                    "url": "/resources/softwaresupport/cststudio/windows/CST_Windows_Installation_Guide.pdf",
-                    "type": "pdf"
-                  }
-                ]
-              }
-            ]
+                    label: "Open CST Studio Windows installation guide",
+                    url: "/resources/softwaresupport/cststudio/windows/CST_Windows_Installation_Guide.pdf",
+                    type: "pdf",
+                  },
+                ],
+              },
+            ],
           },
           {
-            "text": "IBM SPSS",
-            "children": [
+            text: "IBM SPSS",
+            children: [
               {
-                "text": "IBM SPSS 29",
-                "references": [
+                text: "IBM SPSS 29",
+                references: [
                   {
-                    "label": "Open IBM SPSS 29 installation guide",
-                    "url": "/resources/softwaresupport/ibmspss/IBM_SPSS_Statistics_29_and_Amos_29_Installation_Guide.pdf",
-                    "type": "pdf"
-                  }
-                ]
-              }
-            ]
+                    label: "Open IBM SPSS 29 installation guide",
+                    url: "/resources/softwaresupport/ibmspss/IBM_SPSS_Statistics_29_and_Amos_29_Installation_Guide.pdf",
+                    type: "pdf",
+                  },
+                ],
+              },
+            ],
           },
           {
-            "text": "Microsoft Office",
-            "children": [
+            text: "Microsoft Office",
+            children: [
               {
-                "text": "Windows",
-                "children": [
+                text: "Windows",
+                children: [
                   {
-                    "text": "Microsoft Office 2024 Installation and Activation",
-                    "references": [
+                    text: "Microsoft Office 2024 Installation and Activation",
+                    references: [
                       {
-                        "label": "Open Microsoft Office 2024 installation and activation guide",
-                        "url": "/resources/softwaresupport/microsoftoffice/windows/Microsoft_Office_2024_Installation_Activation_Guide.pdf",
-                        "type": "pdf"
-                      }
-                    ]
+                        label:
+                          "Open Microsoft Office 2024 installation and activation guide",
+                        url: "/resources/softwaresupport/microsoftoffice/windows/Microsoft_Office_2024_Installation_Activation_Guide.pdf",
+                        type: "pdf",
+                      },
+                    ],
                   },
                   {
-                    "text": "Microsoft Office 2019 and 2021 Installation and Activation",
-                    "references": [
+                    text: "Microsoft Office 2019 and 2021 Installation and Activation",
+                    references: [
                       {
-                        "label": "Open Microsoft Office 2019 and 2021 installation and activation guide",
-                        "url": "/resources/softwaresupport/microsoftoffice/windows/Microsoft_Office_2019_2021_Installation_Activation_Guide.pdf",
-                        "type": "pdf"
-                      }
-                    ]
+                        label:
+                          "Open Microsoft Office 2019 and 2021 installation and activation guide",
+                        url: "/resources/softwaresupport/microsoftoffice/windows/Microsoft_Office_2019_2021_Installation_Activation_Guide.pdf",
+                        type: "pdf",
+                      },
+                    ],
                   },
                   {
-                    "text": "Microsoft Office 2013, 2016 Activation",
-                    "references": [
+                    text: "Microsoft Office 2013, 2016 Activation",
+                    references: [
                       {
-                        "label": "Open Microsoft Office 2013, 2016 KMS activation instructions",
-                        "url": "/resources/softwaresupport/microsoftoffice/windows/Microsoft_Office_2013_2016_KMS_Activation_Instructions.pdf",
-                        "type": "pdf"
-                      }
-                    ]
-                  }
-                ]
+                        label:
+                          "Open Microsoft Office 2013, 2016 KMS activation instructions",
+                        url: "/resources/softwaresupport/microsoftoffice/windows/Microsoft_Office_2013_2016_KMS_Activation_Instructions.pdf",
+                        type: "pdf",
+                      },
+                    ],
+                  },
+                ],
               },
               {
-                "text": "Mac OS",
-                "children": [
+                text: "Mac OS",
+                children: [
                   {
-                    "text": "Microsoft Office installation and activation for macOS",
-                    "references": [
+                    text: "Microsoft Office installation and activation for macOS",
+                    references: [
                       {
-                        "label": "Open Microsoft Office macOS installation and activation guide",
-                        "url": "/resources/softwaresupport/microsoftoffice/macos/Install_and_Activate_Microsoft_Office_on_macOS_v1.pdf",
-                        "type": "pdf"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
+                        label:
+                          "Open Microsoft Office macOS installation and activation guide",
+                        url: "/resources/softwaresupport/microsoftoffice/macos/Install_and_Activate_Microsoft_Office_on_macOS_v1.pdf",
+                        type: "pdf",
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
           },
           {
-            "text": "Windows Activation",
-            "references": [
+            text: "Windows Activation",
+            references: [
               {
-                "label": "Open Microsoft Windows KMS activation instructions",
-                "url": "/resources/softwaresupport/microsoftoffice/windows/Microsoft_Windows_KMS_Activation_Instructions.pdf",
-                "type": "pdf"
-              }
-            ]
+                label: "Open Microsoft Windows KMS activation instructions",
+                url: "/resources/softwaresupport/microsoftoffice/windows/Microsoft_Windows_KMS_Activation_Instructions.pdf",
+                type: "pdf",
+              },
+            ],
           },
         ],
       },
@@ -1211,7 +1235,8 @@ export const services = [
       },
       {
         title: "Software Repository",
-        description: "Repository route used for selected institute software workflows.",
+        description:
+          "Repository route used for selected institute software workflows.",
         fallbackUrl: "https://swrepo.iitkgp.ac.in/",
         kind: "Open site",
       },
@@ -1226,8 +1251,7 @@ export const services = [
       role: "Licensed software assistance and access guidance",
       email: "",
       phone: "",
-      note:
-        "Use the software-specific support path under CIC when requesting access to a particular licensed package.",
+      note: "Use the software-specific support path under CIC when requesting access to a particular licensed package.",
     },
   },
   {
@@ -1338,7 +1362,8 @@ export const services = [
     documents: [
       {
         title: "Official VPN Page",
-        description: "Primary CIC page for VPN request and installation guidance.",
+        description:
+          "Primary CIC page for VPN request and installation guidance.",
         fallbackUrl: "https://cic.iitkgp.ac.in/?q=vpn",
         kind: "Open page",
       },
@@ -1377,8 +1402,7 @@ export const services = [
       role: "VPN request and remote-access assistance",
       email: "",
       phone: "",
-      note:
-        "Follow the official request path first; support is typically tied to approved institutional use.",
+      note: "Follow the official request path first; support is typically tied to approved institutional use.",
     },
   },
   {
@@ -1429,8 +1453,7 @@ export const services = [
       role: "Infrastructure timing and network services support",
       email: "",
       phone: "",
-      note:
-        "For institute systems that depend on stable timestamps, coordinate with CIC when operational issues persist after configuration.",
+      note: "For institute systems that depend on stable timestamps, coordinate with CIC when operational issues persist after configuration.",
     },
   },
   {
@@ -1465,9 +1488,7 @@ export const services = [
           },
           {
             text: "Storage on the House",
-            children: [
-              "Persistent storage is provided on request.",
-            ],
+            children: ["Persistent storage is provided on request."],
           },
           {
             text: "Click here to request for a VM",
@@ -1495,13 +1516,15 @@ export const services = [
     documents: [
       {
         title: "Official Meghamala Services Page",
-        description: "Primary Meghamala page describing cloud compute and storage services.",
+        description:
+          "Primary Meghamala page describing cloud compute and storage services.",
         fallbackUrl: "http://www.cic.iitkgp.ac.in/meghamala/services.html",
         kind: "Open page",
       },
       {
         title: "Request a Meghamala VM",
-        description: "Request workflow for provisioning a Meghamala virtual machine.",
+        description:
+          "Request workflow for provisioning a Meghamala virtual machine.",
         fallbackUrl: "/services/meghamala/request",
         kind: "Open page",
       },
@@ -1516,11 +1539,9 @@ export const services = [
       role: "Private cloud access and service assistance",
       email: "meghamala@cc.iitkgp.ac.in",
       phone: "",
-      note:
-        "For Meghamala queries or feedback, contact the Meghamala support email.",
+      note: "For Meghamala queries or feedback, contact the Meghamala support email.",
     },
   },
-
 ];
 
 export function getServiceBySlug(serviceList, slug) {

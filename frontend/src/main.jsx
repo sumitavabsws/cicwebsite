@@ -1,11 +1,11 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.jsx'
-import { AdminAuthProvider } from './context/AdminAuthContext.jsx'
-import { SiteContentProvider } from './context/SiteContentContext.jsx'
-import './index.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.jsx";
+import { AdminAuthProvider } from "./context/AdminAuthContext.jsx";
+import { SiteContentProvider } from "./context/SiteContentContext.jsx";
+import "./index.css";
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AdminAuthProvider>
       <SiteContentProvider>
@@ -13,4 +13,4 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       </SiteContentProvider>
     </AdminAuthProvider>
   </React.StrictMode>,
-)
+);

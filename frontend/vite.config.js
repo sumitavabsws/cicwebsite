@@ -1,42 +1,54 @@
-import { loadEnv, defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import fs from 'fs'
-import path from 'path'
+import fs from "fs";
+import path from "path";
+import { defineConfig, loadEnv } from "vite";
+import react from "@vitejs/plugin-react";
 
-const getBackendTarget = () => {
-  // 1. Highest priority: Environment variable
-  if (process.env.CIC_BACKEND_PROXY_TARGET) {
-    return process.env.CIC_BACKEND_PROXY_TARGET;
+function getBackendTarget(configuredTarget) {
+  if (configuredTarget) {
+    return configuredTarget;
   }
-  // 2. Read from public/config.js
+
   try {
-    const configPath = path.resolve(process.cwd(), 'public', 'config.js');
-    const configContent = fs.readFileSync(configPath, 'utf-8');
+    const configPath = path.resolve(process.cwd(), "public", "config.js");
+    const configContent = fs.readFileSync(configPath, "utf8");
     const match = configContent.match(/BACKEND_URL:\s*["']([^"']+)["']/);
-    if (match && match[1]) {
+
+    if (match?.[1]) {
       return match[1];
     }
-  } catch (error) {
-    console.warn("Could not parse BACKEND_URL from config.js, using fallback.");
+  } catch {
+    // The checked-in runtime configuration is optional during local development.
   }
-};
 
-const backendTarget = getBackendTarget();
+  return "http://127.0.0.1:5500";
+}
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '')
+  const env = loadEnv(mode, ".", "");
+  const backendTarget = getBackendTarget(env.CIC_BACKEND_PROXY_TARGET);
+  const host = env.CIC_VITE_HOST ?? "127.0.0.1";
+
   return {
     plugins: [react()],
     server: {
-      host: '0.0.0.0',
+      host,
       port: Number(env.VITE_PORT) || 5173,
       open: true,
+      fs: {
+        allow: [".."],
+      },
       proxy: {
+        "/api": {
+          target: backendTarget,
+          changeOrigin: true,
+          xfwd: true,
+        },
         "/media": backendTarget,
         "/resources": backendTarget,
         "/videos": backendTarget,
       },
     },
-  }
-})
+    preview: { host },
+  };
+});
