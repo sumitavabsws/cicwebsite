@@ -2,3 +2,7 @@
 .env
 .env.*
 !.env.example
+
+# Python bytecode and test caches
+__pycache__/
+*.py[cod]
