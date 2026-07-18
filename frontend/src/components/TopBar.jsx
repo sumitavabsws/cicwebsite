@@ -40,8 +40,7 @@ const secondaryLinks = [
 ];
 
 const anantaLoginUrl =
-  import.meta.env.VITE_ANANTA_LOGIN_URL ??
-  "http://10.72.14.39:5000/framework/signin/?next=%2Fframework%2Flanding%2F";
+  import.meta.env.VITE_ANANTA_LOGIN_URL;
 
 function TopBar() {
   const { adminUser, isAuthenticated, logout } = useAdminAuth();

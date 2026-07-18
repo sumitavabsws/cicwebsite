@@ -284,13 +284,7 @@ function CyberSecurity() {
                               {displayName}
                             </span>
                           </span>
-                          {isPdf ? (
-                            <span className="text-sm font-semibold text-cicBlue">
-                              Open PDF
-                            </span>
-                          ) : (
-                            <Download className="h-5 w-5 flex-none text-cicBlue" />
-                          )}
+                          
                         </a>
                       );
                     })}
