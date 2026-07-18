@@ -3,31 +3,10 @@ import path from "path";
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 
-function getBackendTarget(configuredTarget) {
-  if (configuredTarget) {
-    return configuredTarget;
-  }
-
-  try {
-    const configPath = path.resolve(process.cwd(), "public", "config.js");
-    const configContent = fs.readFileSync(configPath, "utf8");
-    const match = configContent.match(/BACKEND_URL:\s*["']([^"']+)["']/);
-
-    if (match?.[1]) {
-      return match[1];
-    }
-  } catch {
-    // The checked-in runtime configuration is optional during local development.
-  }
-
-  return "http://127.0.0.1:5500";
-}
-
-// https://vite.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, ".", "");
-  const backendTarget = getBackendTarget(env.CIC_BACKEND_PROXY_TARGET);
-  const host = env.CIC_VITE_HOST ?? "127.0.0.1";
+  const backendTarget = env.VITE_CICWEB_BACKEND_URL;
+  const host = '0.0.0.0';
 
   return {
     plugins: [react()],

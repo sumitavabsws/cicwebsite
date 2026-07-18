@@ -3,8 +3,10 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroPoster from "../assets/cic_home.jpeg";
+//import heroVideoSrc from "../videos/cic-hero.mp4";
 
-const heroVideoSrc = "/videos/cic-hero.mp4";
+const heroVideoSrc = null;
+
 const focusAreas = [
   "Central computing support for academic laboratories and workstation environments.",
   "Institute-wide wired and wireless networking, authentication, and internet access services.",
