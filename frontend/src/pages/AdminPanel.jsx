@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
+  CalendarDays,
   Pencil,
   Plus,
   RefreshCcw,
@@ -52,6 +53,24 @@ function createEmptyUpdateDraft(type = "pdf") {
       label: "",
     },
   };
+}
+
+function formatNoticeDateFromIso(value) {
+  const [year, month, day] = value.split("-");
+  return year && month && day ? `${day}-${month}-${year}` : "";
+}
+
+function formatNoticeDateToIso(value) {
+  const match = /^(\d{2})-(\d{2})-(\d{4})$/.exec(value.trim());
+  if (!match) return "";
+
+  const [, day, month, year] = match;
+  const date = new Date(`${year}-${month}-${day}T00:00:00`);
+  return date.getFullYear() === Number(year) &&
+    date.getMonth() + 1 === Number(month) &&
+    date.getDate() === Number(day)
+    ? `${year}-${month}-${day}`
+    : "";
 }
 
 function createServiceDraft() {
@@ -333,11 +352,22 @@ function NoticeEventManager({
     if (
       !draft.title.trim() ||
       !draft.date.trim() ||
-      !draft.reference.url.trim()
+      (label !== "Notice" && !draft.reference.url.trim())
     ) {
       setMessage({
         type: "error",
-        text: `${label} requires a title, date, and reference URL.`,
+        text:
+          label === "Notice"
+            ? "Notice requires a title and date."
+            : `${label} requires a title, date, and reference URL.`,
+      });
+      return;
+    }
+
+    if (label === "Notice" && !formatNoticeDateToIso(draft.date)) {
+      setMessage({
+        type: "error",
+        text: "Notice date must be a valid date in dd-mm-yyyy format.",
       });
       return;
     }
@@ -466,16 +496,57 @@ function NoticeEventManager({
 
         <label className="grid gap-2 text-sm font-medium text-slate-700">
           Date
-          <input
-            value={draft.date}
-            onChange={(event) =>
-              setDraft((currentDraft) => ({
-                ...currentDraft,
-                date: event.target.value,
-              }))
-            }
-            className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
-          />
+          {label === "Notice" ? (
+            <div className="flex gap-2">
+              <input
+                type="text"
+                inputMode="numeric"
+                value={draft.date}
+                placeholder="dd-mm-yyyy"
+                maxLength={10}
+                onChange={(event) =>
+                  setDraft((currentDraft) => ({
+                    ...currentDraft,
+                    date: event.target.value.replace(/[^\d-]/g, ""),
+                  }))
+                }
+                className="min-w-0 flex-1 rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
+                aria-label="Notice date in dd-mm-yyyy format"
+              />
+              <label className="relative inline-flex cursor-pointer items-center justify-center rounded-xl border border-slate-300 bg-white px-4 text-cicBlue transition hover:border-cicBlue hover:bg-blue-50">
+                <CalendarDays className="h-5 w-5" />
+                <span className="sr-only">Select notice date from calendar</span>
+                <input
+                  type="date"
+                  value={formatNoticeDateToIso(draft.date)}
+                  onChange={(event) =>
+                    setDraft((currentDraft) => ({
+                      ...currentDraft,
+                      date: formatNoticeDateFromIso(event.target.value),
+                    }))
+                  }
+                  className="absolute inset-0 cursor-pointer opacity-0"
+                  aria-label="Select notice date from calendar"
+                />
+              </label>
+            </div>
+          ) : (
+            <input
+              value={draft.date}
+              onChange={(event) =>
+                setDraft((currentDraft) => ({
+                  ...currentDraft,
+                  date: event.target.value,
+                }))
+              }
+              className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
+            />
+          )}
+          {label === "Notice" ? (
+            <span className="text-xs font-normal text-slate-500">
+              Type the date as dd-mm-yyyy or select it from the calendar.
+            </span>
+          ) : null}
         </label>
 
         <label className="grid gap-2 text-sm font-medium text-slate-700">
@@ -533,7 +604,7 @@ function NoticeEventManager({
         </div>
 
         <label className="grid gap-2 text-sm font-medium text-slate-700">
-          Reference URL
+          Reference URL {label === "Notice" ? "(optional)" : ""}
           <input
             value={draft.reference.url}
             onChange={(event) =>
@@ -1751,6 +1822,166 @@ function TenderManager({
   );
 }
 
+function SafeguardsManager({ adminToken, setMessage }) {
+  const [files, setFiles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [uploading, setUploading] = useState(false);
+  const [deletingName, setDeletingName] = useState("");
+
+  const loadFiles = useCallback(async () => {
+    setLoading(true);
+    try {
+      const response = await apiRequest("/cyber-security-safeguards");
+      setFiles(Array.isArray(response) ? response : []);
+    } catch (error) {
+      setMessage({ type: "error", text: error.message });
+    } finally {
+      setLoading(false);
+    }
+  }, [setMessage]);
+
+  useEffect(() => {
+    loadFiles();
+  }, [loadFiles]);
+
+  const handleUpload = async (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+
+    if (
+      file.type !== "application/pdf" &&
+      !file.name.toLowerCase().endsWith(".pdf")
+    ) {
+      setMessage({ type: "error", text: "Please upload a valid PDF file." });
+      return;
+    }
+
+    setUploading(true);
+    setMessage(null);
+    try {
+      await uploadFile(
+        "/uploads/cyber-security-safeguard",
+        file,
+        adminToken,
+      );
+      await loadFiles();
+      setMessage({
+        type: "success",
+        text: "Safeguard PDF uploaded and published successfully.",
+      });
+    } catch (error) {
+      setMessage({ type: "error", text: error.message });
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleDelete = async (file) => {
+    if (!window.confirm(`Delete "${file.name}"?`)) return;
+
+    setDeletingName(file.name);
+    setMessage(null);
+    try {
+      await apiRequest(
+        `/cyber-security-safeguards?filename=${encodeURIComponent(file.name)}`,
+        { method: "DELETE", token: adminToken },
+      );
+      setFiles((currentFiles) =>
+        currentFiles.filter((item) => item.name !== file.name),
+      );
+      setMessage({ type: "success", text: "Safeguard PDF deleted." });
+    } catch (error) {
+      setMessage({ type: "error", text: error.message });
+    } finally {
+      setDeletingName("");
+    }
+  };
+
+  return (
+    <div className="grid gap-6 xl:grid-cols-[0.8fr_1.2fr]">
+      <section className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-100 text-cicBlue">
+          <ShieldCheck className="h-6 w-6" />
+        </div>
+        <h3 className="mt-5 text-xl font-bold text-slate-900">
+          Upload Safeguard PDF
+        </h3>
+        <p className="mt-2 text-sm leading-6 text-slate-600">
+          Uploaded PDFs are published immediately under Cyber Security →
+          Safeguards. Maximum file size: 25 MB.
+        </p>
+        <label className="mt-6 grid gap-2 text-sm font-medium text-slate-700">
+          Select PDF
+          <input
+            type="file"
+            accept="application/pdf,.pdf"
+            onChange={handleUpload}
+            disabled={uploading}
+            className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition file:mr-3 file:rounded-lg file:border-0 file:bg-blue-100 file:px-3 file:py-2 file:font-semibold file:text-cicBlue hover:file:bg-blue-200 focus:border-cicBlue"
+          />
+        </label>
+        {uploading ? (
+          <p className="mt-3 text-sm font-medium text-cicBlue">
+            Uploading PDF...
+          </p>
+        ) : null}
+      </section>
+
+      <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <h3 className="text-xl font-bold text-slate-900">
+              Published Safeguards
+            </h3>
+            <p className="mt-1 text-sm text-slate-600">
+              Manage the PDFs currently visible on the public page.
+            </p>
+          </div>
+          <span className="rounded-full bg-slate-100 px-3 py-1 text-sm font-semibold text-slate-600">
+            {files.length} {files.length === 1 ? "file" : "files"}
+          </span>
+        </div>
+
+        {loading ? (
+          <p className="mt-6 text-sm text-slate-500">Loading safeguards...</p>
+        ) : files.length ? (
+          <div className="mt-6 divide-y divide-slate-200 rounded-2xl border border-slate-200">
+            {files.map((file) => (
+              <div
+                key={file.url}
+                className="flex items-center justify-between gap-4 px-4 py-4"
+              >
+                <a
+                  href={file.url}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="min-w-0 truncate font-semibold text-cicBlue hover:underline"
+                >
+                  {file.name.replace(/\.[^/.]+$/, "")}
+                </a>
+                <button
+                  type="button"
+                  onClick={() => handleDelete(file)}
+                  disabled={deletingName === file.name}
+                  className="inline-flex flex-none items-center gap-2 rounded-xl border border-red-200 px-3 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-50 disabled:opacity-50"
+                >
+                  <Trash2 className="h-4 w-4" />
+                  {deletingName === file.name ? "Deleting..." : "Delete"}
+                </button>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p className="mt-6 rounded-xl border border-dashed border-slate-300 bg-slate-50 p-5 text-sm text-slate-500">
+            No safeguard PDFs have been uploaded yet.
+          </p>
+        )}
+      </section>
+    </div>
+  );
+}
+
 function AdminPanel() {
   const {
     notices,
@@ -1794,6 +2025,7 @@ function AdminPanel() {
       { id: "services", label: "Services" },
       { id: "teams", label: "Teams" },
       { id: "tenders", label: "Tenders" },
+      { id: "safeguards", label: "Safeguards" },
     ],
     [],
   );
@@ -2118,6 +2350,13 @@ function AdminPanel() {
               setDraft={setTenderDraft}
               setMessage={setMessage}
               adminToken={adminUser?.token ?? ""}
+            />
+          ) : null}
+
+          {activeTab === "safeguards" ? (
+            <SafeguardsManager
+              adminToken={adminUser?.token ?? ""}
+              setMessage={setMessage}
             />
           ) : null}
         </AdminShell>

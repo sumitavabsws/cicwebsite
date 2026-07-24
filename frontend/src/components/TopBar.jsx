@@ -20,7 +20,7 @@ const primaryLinks = [
   },
   {
     label: "CIC Software Repository (Intranet)",
-    href: "http://www.swrepo.cc.iitkgp.ernet.in/",
+    href: "https://swrepo.iitkgp.ac.in/",
   },
   {
     label: "Lodge Your Complain",
@@ -35,7 +35,7 @@ const secondaryLinks = [
   },
   {
     label: "Paramshakti HPC Facility",
-    href: "http://hpc.iitkgp.ac.in/HPCF/paramShakti",
+    href: "https://hpc.iitkgp.ac.in/",
   },
 ];
 

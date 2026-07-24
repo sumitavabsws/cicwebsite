@@ -31,10 +31,14 @@ TENDERS_DIR = RESOURCES_DIR / "tenders"
 VIDEOS_DIR = BASE_DIR / "content" / "videos"
 CYBER_SECURITY_AWARENESS_DIR = RESOURCES_DIR / "policies" / "cybersecurityawareness"
 CYBER_SECURITY_GUIDELINES_DIR = RESOURCES_DIR / "policies" / "cybersecurityguidelines"
+CYBER_SECURITY_SAFEGUARDS_DIR = RESOURCES_DIR / "policies" / "cybersecuritysafeguards"
 ANANTA_BASE_URL = os.getenv("ANANTA_BASE_URL", "http://127.0.0.1:8000/framework").rstrip("/")
 ANANTA_CLIENT_SECRET = os.getenv("ANANTA_CLIENT_SECRET", "")
 MAX_TEAM_PHOTO_SIZE_BYTES = int(os.getenv("CIC_MAX_TEAM_PHOTO_SIZE_BYTES", str(200 * 1024)))
 MAX_TENDER_PDF_SIZE_BYTES = int(os.getenv("CIC_MAX_TENDER_PDF_SIZE_BYTES", str(25 * 1024 * 1024)))
+MAX_CYBER_SECURITY_PDF_SIZE_BYTES = int(
+    os.getenv("CIC_MAX_CYBER_SECURITY_PDF_SIZE_BYTES", str(25 * 1024 * 1024))
+)
 ANANTA_SESSION_TIMEOUT_SECONDS = float(os.getenv("ANANTA_SESSION_TIMEOUT_SECONDS", "5"))
 ANANTA_LOGIN_TIMEOUT_SECONDS = float(os.getenv("ANANTA_LOGIN_TIMEOUT_SECONDS", "8"))
 ALLOWED_TEAM_IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp"}
@@ -134,6 +138,9 @@ def ensure_media_dirs() -> None:
     TEAM_IMAGES_DIR.mkdir(parents=True, exist_ok=True)
     RESOURCES_DIR.mkdir(parents=True, exist_ok=True)
     TENDERS_DIR.mkdir(parents=True, exist_ok=True)
+    CYBER_SECURITY_AWARENESS_DIR.mkdir(parents=True, exist_ok=True)
+    CYBER_SECURITY_GUIDELINES_DIR.mkdir(parents=True, exist_ok=True)
+    CYBER_SECURITY_SAFEGUARDS_DIR.mkdir(parents=True, exist_ok=True)
     VIDEOS_DIR.mkdir(parents=True, exist_ok=True)
 
 
@@ -410,6 +417,14 @@ def get_cyber_security_guideline_files() -> list[dict[str, str]]:
     )
 
 
+@app.get("/api/cyber-security-safeguards")
+def get_cyber_security_safeguard_files() -> list[dict[str, str]]:
+    return list_cyber_security_library(
+        CYBER_SECURITY_SAFEGUARDS_DIR,
+        "cybersecuritysafeguards",
+    )
+
+
 @app.get("/api/client-ip")
 def get_client_ip(request: Request) -> dict[str, str]:
     return {"ip": get_request_ip(request)}
@@ -645,3 +660,65 @@ async def upload_tender_pdf(
     return {
         "url": f"/resources/tenders/{filename}",
     }
+
+
+@app.post("/api/uploads/cyber-security-safeguard")
+async def upload_cyber_security_safeguard(
+    file: UploadFile = File(...),
+    _: str = Depends(require_admin),
+) -> dict[str, str]:
+    original_name = Path(file.filename or "").name
+    extension = Path(original_name).suffix.lower()
+    if file.content_type != "application/pdf" and extension != ".pdf":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Please upload a valid PDF file.",
+        )
+
+    file_bytes = await file.read()
+    if len(file_bytes) > MAX_CYBER_SECURITY_PDF_SIZE_BYTES:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Safeguard PDF must be 25 MB or smaller.",
+        )
+
+    stem = "".join(
+        character if character.isalnum() or character in {" ", "-", "_"} else "-"
+        for character in Path(original_name).stem
+    ).strip(" .-_")
+    stem = " ".join(stem.split()) or "safeguard"
+    filename = f"{stem}.pdf"
+    counter = 2
+    while (CYBER_SECURITY_SAFEGUARDS_DIR / filename).exists():
+        filename = f"{stem} ({counter}).pdf"
+        counter += 1
+
+    destination = CYBER_SECURITY_SAFEGUARDS_DIR / filename
+    destination.write_bytes(file_bytes)
+    return {
+        "name": filename,
+        "type": "pdf",
+        "url": f"/resources/policies/cybersecuritysafeguards/{quote(filename)}",
+    }
+
+
+@app.delete("/api/cyber-security-safeguards")
+def delete_cyber_security_safeguard(
+    filename: str,
+    _: str = Depends(require_admin),
+) -> dict[str, str]:
+    if not filename or Path(filename).name != filename:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Invalid safeguard filename.",
+        )
+
+    target = CYBER_SECURITY_SAFEGUARDS_DIR / filename
+    if not target.is_file():
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Safeguard PDF was not found.",
+        )
+
+    target.unlink()
+    return {"status": "success"}

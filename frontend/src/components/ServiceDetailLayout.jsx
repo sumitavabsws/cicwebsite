@@ -541,6 +541,7 @@ function NestedSectionItems({
   ordered = false,
   depth = 0,
   hideMarkers = false,
+  treeMode = false,
   onOpenModal,
   collapsible = false,
   expandedPath = [],
@@ -550,8 +551,12 @@ function NestedSectionItems({
     return null;
   }
 
+  const containsBranches = items.some(
+    (item) => normalizeSectionItem(item).children.length > 0,
+  );
+  const isTree = treeMode || containsBranches;
   const ListTag = ordered ? "ol" : "ul";
-  const listClassName = hideMarkers
+  const listClassName = hideMarkers || isTree
     ? "list-none pl-0"
     : getListClassName(ordered, depth);
 
@@ -578,8 +583,8 @@ function NestedSectionItems({
           <li
             key={`${normalizedItem.text}-${index}-${depth}`}
             className={`leading-7 ${
-              depth > 0 && !collapsible && !hideMarkers
-                ? "relative before:absolute before:-left-6 before:top-5 before:h-0.5 before:w-5 before:bg-cicBlue/35"
+              isTree && depth > 0 && !collapsible
+                ? "relative pl-6 before:absolute before:left-0 before:top-0 before:h-5 before:w-4 before:rounded-bl-sm before:border-b-2 before:border-l-2 before:border-cicBlue/35 after:absolute after:left-0 after:top-5 after:-bottom-4 after:border-l-2 after:border-cicBlue/35 last:after:hidden"
                 : ""
             }`}
           >
@@ -659,7 +664,7 @@ function NestedSectionItems({
                     ? `relative mt-3 ml-5 border-l-2 pl-5 ${
                         depth === 0 ? "border-cicBlue/30" : "border-slate-200"
                       }`
-                    : "relative mt-4 border-l-2 border-cicBlue/25 pl-6"
+                    : "relative mt-4"
                 }
               >
                 <NestedSectionItems
@@ -667,6 +672,7 @@ function NestedSectionItems({
                   ordered={normalizedItem.childrenOrdered}
                   depth={depth + 1}
                   hideMarkers={hideMarkers}
+                  treeMode
                   onOpenModal={onOpenModal}
                   collapsible={collapsible}
                   expandedPath={expandedPath}
@@ -994,7 +1000,9 @@ function ServiceDetailLayout({ service }) {
   }
 
   const hideListMarkers =
-    service.slug === "software-support" || service.slug === "meghamala";
+    service.slug === "software-support" ||
+    service.slug === "meghamala" ||
+    service.slug === "wifi-authentication";
   const usesSoftwareAccordion = service.slug === "software-support";
 
   return (

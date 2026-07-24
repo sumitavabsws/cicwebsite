@@ -16,7 +16,13 @@ function truncateWords(text, limit = 10) {
 
 function ServicesGrid({ compact = false, dense = false }) {
   const { services } = useSiteContent();
-  const visibleServices = compact ? services.slice(0, 5) : services;
+  // Internet Access is temporarily hidden until its future treatment is decided.
+  const publishedServices = services.filter(
+    (service) => service.slug !== "internet-access",
+  );
+  const visibleServices = compact
+    ? publishedServices.slice(0, 5)
+    : publishedServices;
   const cardMinHeight = dense ? "min-h-[184px]" : "min-h-[252px]";
   const cardPadding = dense ? "p-4" : "p-6";
   const iconSize = dense
@@ -78,7 +84,7 @@ function ServicesGrid({ compact = false, dense = false }) {
         );
       })}
 
-      {compact && services.length > 5 ? (
+      {compact && publishedServices.length > 5 ? (
         <motion.div
           whileHover={{ y: -8, scale: 1.03 }}
           transition={{ duration: 0.18 }}
@@ -94,7 +100,7 @@ function ServicesGrid({ compact = false, dense = false }) {
               </p>
 
               <h3 className="mb-2 text-2xl font-bold text-slate-900">
-                Explore All {services.length} CIC Services
+                Explore All {publishedServices.length} CIC Services
               </h3>
 
               <p className="text-sm leading-6 text-slate-600">

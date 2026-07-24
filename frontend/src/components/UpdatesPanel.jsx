@@ -89,11 +89,13 @@ function UpdatesPanel({ compact = false, title, description }) {
                 >
                   {item.description}
                 </p>
-                <span
-                  className={`mt-3 inline-block text-sm font-semibold ${compact ? "text-cyan-200" : "text-cicBlue"}`}
-                >
-                  {item.reference?.label ?? "Open reference"}
-                </span>
+                {item.reference?.url ? (
+                  <span
+                    className={`mt-3 inline-block text-sm font-semibold ${compact ? "text-cyan-200" : "text-cicBlue"}`}
+                  >
+                    {item.reference?.label ?? "Open reference"}
+                  </span>
+                ) : null}
               </button>
             ))}
 
