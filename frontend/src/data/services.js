@@ -611,7 +611,7 @@ export const services = [
     contact: {
       name: "CIC Mail Support",
       role: "Institute mail and client configuration support",
-      email: "mailadmin@cc.iitkgp.ac.in",
+      email: "mailadmins@cc.iitkgp.ac.in",
       phone: "",
       note: "",
     },
@@ -675,7 +675,7 @@ export const services = [
       "Lab access is controlled through approval rather than direct self-service reservation.",
     ],
     contact: {
-      name: "CIC Labs Support",
+      name: "CIC PC Lab Booking",
       role: "Lab booking support",
       email: "labbooking@cc.iitkgp.ac.in",
       phone: "",
@@ -1247,9 +1247,9 @@ export const services = [
       "Software-specific deployment details may vary across departments and use cases.",
     ],
     contact: {
-      name: "CIC Softwares",
+      name: "CIC System and Software group",
       role: "Licensed software assistance and access guidance",
-      email: "sysadmin@cc.iitkgp.ac.in",
+      email: "sysadmins@cc.iitkgp.ac.in",
       phone: "",
       note: "",
     },
@@ -1449,9 +1449,9 @@ export const services = [
       "The NTP service is framed as a campus infrastructure utility rather than a public internet endpoint.",
     ],
     contact: {
-      name: "CIC Network Team",
+      name: "CIC System and Software group",
       role: "Infrastructure timing and network services support",
-      email: "sysadmin@cc.iitkgp.ac.in",
+      email: "sysadmins@cc.iitkgp.ac.in",
       phone: "",
       note: "",
     },

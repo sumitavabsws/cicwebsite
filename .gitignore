@@ -1,8 +1,7 @@
-# Local environment configuration
-.env
-.env.*
-!.env.example
-
 # Python bytecode and test caches
 __pycache__/
 *.py[cod]
+
+# Local dependency environments
+.venv/
+node_modules/

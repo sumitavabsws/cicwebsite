@@ -9,9 +9,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "format:check": "prettier --check .",
-    "preview": "vite preview",
-    "preview:network": "vite preview --host 0.0.0.0"
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "framer-motion": "^12.35.0",
