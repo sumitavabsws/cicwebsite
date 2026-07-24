@@ -404,6 +404,11 @@ const infrastructureSections = [
   },
 ];
 
+// Server & Storage is temporarily hidden while its content is being decided.
+const visibleInfrastructureSections = infrastructureSections.filter(
+  (section) => section.id !== "server-storage",
+);
+
 function FirewallSecurityContent() {
   return (
     <>
@@ -1185,7 +1190,7 @@ function Infrastructure() {
   const [networkBannerIndex, setNetworkBannerIndex] = useState(0);
   const [pcLabBannerIndex, setPcLabBannerIndex] = useState(0);
   const blogContentRef = useRef(null);
-  const activeSectionData = infrastructureSections.find(
+  const activeSectionData = visibleInfrastructureSections.find(
     (section) => section.id === activeSection,
   );
   const isBlogActive = Boolean(activeSectionData);
@@ -1291,7 +1296,7 @@ function Infrastructure() {
                   </div>
 
                   <div className="grid items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5">
-                    {infrastructureSections.map((section) => {
+                    {visibleInfrastructureSections.map((section) => {
                       const Icon = section.icon;
 
                       return (
@@ -1361,7 +1366,7 @@ function Infrastructure() {
                 </motion.p>
 
                 <div className="flex flex-wrap items-center justify-end gap-2">
-                  {infrastructureSections.map((section) => {
+                  {visibleInfrastructureSections.map((section) => {
                     const Icon = section.icon;
                     const isActive = activeSection === section.id;
 
