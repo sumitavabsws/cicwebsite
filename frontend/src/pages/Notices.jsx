@@ -19,7 +19,7 @@ function Notices() {
             </p>
           </div>
 
-          <div className="border-t border-slate-200 pt-6 xl:border-l xl:border-t-0 xl:pl-10 xl:pt-0">
+          {/* <div className="border-t border-slate-200 pt-6 xl:border-l xl:border-t-0 xl:pl-10 xl:pt-0">
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
               Update Stream
             </p>
@@ -27,7 +27,7 @@ function Notices() {
               References open either as PDFs or HTML-based documents depending
               on the source attached to each notice or event.
             </p>
-          </div>
+          </div> */}
         </div>
 
         <div className="mt-14">
