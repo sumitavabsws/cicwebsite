@@ -184,7 +184,7 @@ function Team() {
             <div className="hidden grid-cols-[1.1fr_1fr_220px] bg-slate-950 px-5 py-3 text-sm font-bold text-white md:grid">
               <span>Name</span>
               <span>Last Designation</span>
-              <span>Date of Resignation</span>
+              <span>Last Date of Work</span>
             </div>
 
             <div className="divide-y divide-slate-200">
@@ -198,7 +198,7 @@ function Team() {
                   </h3>
                   <p className="text-sm text-slate-600">{member.role}</p>
                   <p className="text-sm font-medium text-slate-700">
-                    <span className="md:hidden">Relieved: </span>
+                    <span className="md:hidden">Last Date of Work: </span>
                     {member.formerDate
                       ? formatDisplayDate(member.formerDate)
                       : "-"}

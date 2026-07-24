@@ -451,10 +451,10 @@ export const services = [
     ],
     contact: {
       name: "CIC Wi-Fi Authentication Support",
-      role: "Primary contact persons for Wi-Fi authentication",
-      email: "debnathp@cc.iitkgp.ac.in",
-      phone: "82378",
-      note: "Please contact CIC to report problems or for any other queries. Primary contact persons are Mr. Debnath Pramanik (debnathp@cc.iitkgp.ac.in, Ph: 82378) and Mr. Alokes Chattopadhyay (alokes@cc.iitkgp.ac.in, Ph: 82376).",
+      role: "Wi-Fi authentication support",
+      email: "helpdesk@cc.iitkgp.ac.in",
+      phone: "",
+      note: "",
     },
   },
   {
@@ -611,9 +611,9 @@ export const services = [
     contact: {
       name: "CIC Mail Support",
       role: "Institute mail and client configuration support",
-      email: "",
+      email: "mailadmins@cc.iitkgp.ac.in",
       phone: "",
-      note: "For account-specific mail access issues, contact CIC through the official mail support workflow.",
+      note: "",
     },
   },
   {
@@ -675,11 +675,11 @@ export const services = [
       "Lab access is controlled through approval rather than direct self-service reservation.",
     ],
     contact: {
-      name: "Mr. Surid Kumar Das",
-      role: "Senior System Engineer Grade I",
-      email: "surid@cc.iitkgp.ac.in",
-      phone: "81934(O)",
-      note: "For any further query related to the labs, contact Mr. Surid Kumar Das.",
+      name: "CIC PC Lab Booking",
+      role: "Lab booking support",
+      email: "labbooking@cc.iitkgp.ac.in",
+      phone: "",
+      note: "",
     },
   },
   {
@@ -1247,11 +1247,11 @@ export const services = [
       "Software-specific deployment details may vary across departments and use cases.",
     ],
     contact: {
-      name: "CIC Softwares",
+      name: "CIC System and Software group",
       role: "Licensed software assistance and access guidance",
-      email: "",
+      email: "sysadmins@cc.iitkgp.ac.in",
       phone: "",
-      note: "Use the software-specific support path under CIC when requesting access to a particular licensed package.",
+      note: "",
     },
   },
   {
@@ -1400,9 +1400,9 @@ export const services = [
     contact: {
       name: "CIC VPN Support",
       role: "VPN request and remote-access assistance",
-      email: "",
+      email: "helpdesk@cc.iitkgp.ac.in",
       phone: "",
-      note: "Follow the official request path first; support is typically tied to approved institutional use.",
+      note: "",
     },
   },
   {
@@ -1449,11 +1449,11 @@ export const services = [
       "The NTP service is framed as a campus infrastructure utility rather than a public internet endpoint.",
     ],
     contact: {
-      name: "CIC Network Team",
+      name: "CIC System and Software group",
       role: "Infrastructure timing and network services support",
-      email: "",
+      email: "sysadmins@cc.iitkgp.ac.in",
       phone: "",
-      note: "For institute systems that depend on stable timestamps, coordinate with CIC when operational issues persist after configuration.",
+      note: "",
     },
   },
   {
@@ -1483,7 +1483,7 @@ export const services = [
             children: [
               "Provision a virtual machine on demand and use it as a desktop or run your workload on it.",
               "IITKGP_MEGH_VM configuration: 16 VCPUs, 32 GB RAM, and 60 GB ephemeral storage.",
-              "Guest operating system options include Ubuntu, CentOS, and Fedora.",
+              "Guest operating system options include Ubuntu, Rocky and Windows.",
             ],
           },
           {

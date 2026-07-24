@@ -1,8 +1,5 @@
 import Updates from "./Updates";
-
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL ?? "";
-const videoBaseUrl = apiBaseUrl.replace(/\/api\/?$/, "");
-const cicVideoSrc = `${videoBaseUrl}/videos/cicvideo.mp4`;
+const cicVideoSrc = `/videos/cicvideo.mp4`;
 
 function AboutCIC() {
   return (

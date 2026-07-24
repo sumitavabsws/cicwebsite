@@ -1,4 +1,10 @@
 import { NavLink, useLocation } from "react-router-dom";
+import { getDocumentViewerUrl } from "../utils/references";
+
+const itSecurityPolicyViewerUrl = getDocumentViewerUrl(
+  "/resources/policies/IIT_Kharagpur_IT_Security_Policy.pdf",
+  "IIT Kharagpur IT Security Policy",
+);
 
 function Navbar() {
   const location = useLocation();
@@ -41,13 +47,14 @@ function Navbar() {
         Cyber Security
       </NavLink>
 
-      <span
-        title="Policies will be visible once its uploaded"
-        aria-disabled="true"
-        className="cursor-not-allowed border-b-2 border-transparent pb-1 text-gray-500"
+      <NavLink
+        to={itSecurityPolicyViewerUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={getLinkClassName}
       >
         Policies
-      </span>
+      </NavLink>
     </nav>
   );
 }
