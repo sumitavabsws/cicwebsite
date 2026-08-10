@@ -19,7 +19,7 @@ const events = [
 
 function Timeline() {
   return (
-    <section className="flex min-h-[calc(100vh-156px)] items-center bg-white py-[81px]">
+    <section className="flex min-h-[calc(100svh-122px)] items-center bg-white py-14 sm:py-[81px] xl:min-h-[calc(100vh-156px)]">
       <div className="mx-auto grid max-w-[1640px] gap-12 px-4 sm:px-6 2xl:px-10 xl:grid-cols-[0.78fr_1.22fr]">
         <div className="max-w-3xl">
           <p className="text-sm font-semibold uppercase tracking-[0.24em] text-cicBlue">

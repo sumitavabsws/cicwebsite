@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Play, X } from "lucide-react";
 import { Link } from "react-router-dom";
 import heroPoster from "../assets/cic_home.jpeg";
-//import heroVideoSrc from "../videos/cic-hero.mp4";
+import heroVideoSrc from "../videos/cic-hero-1080p.mp4";
+import heroPlayerVideoSrc from "../videos/cic-hero-1080p-subtitle.mp4";
 
-const heroVideoSrc = null;
+// const heroVideoSrc = null;
 
 const focusAreas = [
   "Central computing support for academic laboratories and workstation environments.",
@@ -16,6 +18,35 @@ const focusAreas = [
 
 function Hero({ compact = false }) {
   const [hasVideo, setHasVideo] = useState(true);
+  const [isPlayerOpen, setIsPlayerOpen] = useState(false);
+  const [isSmartphone, setIsSmartphone] = useState(() =>
+    typeof window === "undefined" ? true : window.matchMedia("(max-width: 639px)").matches,
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 639px)");
+    const handleChange = (event) => setIsSmartphone(event.matches);
+    setIsSmartphone(mediaQuery.matches);
+    mediaQuery.addEventListener("change", handleChange);
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
+
+  useEffect(() => {
+    if (!isPlayerOpen) return undefined;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (event) => {
+      if (event.key === "Escape") setIsPlayerOpen(false);
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isPlayerOpen]);
   const sectionClassName = compact
     ? "relative isolate flex min-h-0 flex-1 overflow-hidden"
     : "relative isolate min-h-[70vh] overflow-hidden";
@@ -32,7 +63,7 @@ function Hero({ compact = false }) {
   return (
     <section className={sectionClassName}>
       <div className="absolute inset-0">
-        {hasVideo ? (
+        {hasVideo && !isSmartphone ? (
           <video
             className="h-full w-full object-cover"
             autoPlay
@@ -137,6 +168,57 @@ function Hero({ compact = false }) {
           </div>
         </motion.div>
       </div>
+
+      {hasVideo ? (
+        <button
+          type="button"
+          onClick={() => setIsPlayerOpen(true)}
+          aria-label="Play the full CIC video"
+          className="absolute bottom-5 right-5 z-20 inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/40 bg-slate-950/75 text-white shadow-xl backdrop-blur-md transition hover:scale-105 hover:bg-cicBlue focus:outline-none focus:ring-4 focus:ring-cyan-200/60 sm:bottom-7 sm:right-7"
+        >
+          <Play className="ml-0.5 h-5 w-5 fill-current" aria-hidden="true" />
+        </button>
+      ) : null}
+
+      {isPlayerOpen && typeof document !== "undefined"
+        ? createPortal(
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-label="CIC full video player"
+              className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/95 p-4 sm:p-8"
+              onMouseDown={(event) => {
+                if (event.target === event.currentTarget) {
+                  setIsPlayerOpen(false);
+                }
+              }}
+            >
+              <div className="relative w-full max-w-6xl">
+                <button
+                  type="button"
+                  onClick={() => setIsPlayerOpen(false)}
+                  aria-label="Close video player"
+                  className="absolute -top-12 right-0 inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white transition hover:bg-white/20 focus:outline-none focus:ring-4 focus:ring-cyan-200/60"
+                >
+                  <X className="h-5 w-5" aria-hidden="true" />
+                </button>
+
+                <video
+                  className="max-h-[82vh] w-full bg-black shadow-2xl"
+                  controls
+                  autoPlay
+                  playsInline
+                  preload="metadata"
+                  poster={heroPoster}
+                >
+                  <source src={heroPlayerVideoSrc} type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+            </div>,
+            document.body,
+          )
+        : null}
     </section>
   );
 }

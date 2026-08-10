@@ -39,7 +39,7 @@ function Home() {
 
   return (
     <div className="bg-slate-50">
-      <section className="flex min-h-[calc(100vh-156px)] snap-start snap-always flex-col overflow-hidden">
+      <section className="flex min-h-[calc(100svh-122px)] snap-start snap-always flex-col overflow-hidden xl:min-h-[calc(100vh-156px)]">
         <Hero compact />
 
         <Stats />
