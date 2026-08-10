@@ -112,8 +112,7 @@ function Team() {
                 Team Members
               </h2>
               <p className="mt-2 text-slate-600">
-                Engineering, software, systems, networking, and administrative
-                members of CIC.
+                Engineering and Administrative Members of CIC
               </p>
             </div>
 

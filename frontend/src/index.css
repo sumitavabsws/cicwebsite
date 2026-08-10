@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
+body,
+#root {
+  min-width: 320px;
+  max-width: 100%;
+}
+
+body {
+  overflow-x: hidden;
+}
+
 html.home-scroll-snap {
   scroll-snap-type: y mandatory;
   scroll-padding-top: 156px;
@@ -10,4 +21,11 @@ html.home-scroll-snap {
 
 html.home-scroll-snap.home-scroll-snap-release {
   scroll-snap-type: none;
+}
+
+@media (max-width: 1279px), (prefers-reduced-motion: reduce) {
+  html.home-scroll-snap {
+    scroll-snap-type: none;
+    scroll-behavior: auto;
+  }
 }

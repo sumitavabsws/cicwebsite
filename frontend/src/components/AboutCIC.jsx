@@ -3,7 +3,7 @@ const cicVideoSrc = `/videos/cicvideo.mp4`;
 
 function AboutCIC() {
   return (
-    <section className="flex min-h-[calc(100vh-156px)] items-center bg-white py-[81px]">
+    <section className="flex min-h-[calc(100svh-122px)] items-center bg-white py-14 sm:py-[81px] xl:min-h-[calc(100vh-156px)]">
       <div className="mx-auto grid max-w-[1640px] gap-12 px-4 sm:px-6 2xl:px-10 xl:grid-cols-[1.18fr_0.82fr]">
         <div className="max-w-4xl">
           <p className="mb-4 text-sm font-semibold uppercase tracking-[0.24em] text-cicBlue">

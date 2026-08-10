@@ -22,10 +22,11 @@ const primaryLinks = [
     label: "CIC Software Repository (Intranet)",
     href: "http://swrepo.iitkgp.ac.in/",
   },
-  {
-    label: "Lodge Your Complain",
-    href: "https://cichelpdesk.iitkgp.ac.in/",
-  },
+  // Temporarily hidden until the complaint link is ready to be restored.
+  // {
+  //   label: "Lodge Your Complain",
+  //   href: "https://cichelpdesk.iitkgp.ac.in/",
+  // },
 ];
 
 const secondaryLinks = [
@@ -53,6 +54,7 @@ function TopBar() {
   const dropdownRef = useRef(null);
   const anantaHref = adminUser?.sso?.activation_url ?? anantaLoginUrl;
   const showAdminLink = isAuthenticated || isAdminLoginAllowed;
+  const moreLinks = [...primaryLinks, ...secondaryLinks];
 
   useEffect(() => {
     function handlePointerDown(event) {
@@ -118,14 +120,14 @@ function TopBar() {
 
   return (
     <div className="border-b border-white/10 bg-slate-950 text-sm text-white">
-      <div className="mx-auto flex max-w-[1640px] flex-wrap items-center justify-end gap-x-4 gap-y-2 px-4 py-2 sm:px-6 lg:pr-2 2xl:px-10 2xl:pr-6">
+      <div className="mx-auto flex h-[42px] max-w-[1640px] items-center justify-end gap-x-3 px-4 text-xs sm:px-6 sm:text-sm lg:pr-2 2xl:px-10 2xl:pr-6">
         {primaryLinks.map((link) => (
           <a
             key={link.label}
             href={link.href}
             target="_blank"
             rel="noreferrer"
-            className="transition hover:text-cyan-200"
+            className="hidden whitespace-nowrap transition hover:text-cyan-200 xl:inline"
           >
             {link.label}
           </a>
@@ -158,14 +160,14 @@ function TopBar() {
 
           {isMoreOpen ? (
             <div className="absolute right-0 top-[calc(100%+0.5rem)] z-50 min-w-[240px] rounded-2xl border border-slate-200 bg-white p-2 text-slate-700 shadow-xl">
-              {secondaryLinks.map((link) => (
+              {moreLinks.map((link) => (
                 <a
                   key={link.label}
                   href={link.href}
                   target="_blank"
                   rel="noreferrer"
                   onClick={() => setIsMoreOpen(false)}
-                  className="block rounded-xl px-4 py-3 text-sm transition hover:bg-slate-50 hover:text-cicBlue"
+                  className={`${primaryLinks.includes(link) ? "xl:hidden" : ""} block rounded-xl px-4 py-3 text-sm transition hover:bg-slate-50 hover:text-cicBlue`}
                 >
                   {link.label}
                 </a>

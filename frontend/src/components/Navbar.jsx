@@ -6,7 +6,7 @@ const itSecurityPolicyViewerUrl = getDocumentViewerUrl(
   "IIT Kharagpur IT Security Policy",
 );
 
-function Navbar() {
+function Navbar({ mobile = false, onNavigate }) {
   const location = useLocation();
   const isCyberSecurityActive = location.pathname.startsWith("/cyber-security");
   const getLinkClassName = ({ isActive }) =>
@@ -18,32 +18,32 @@ function Navbar() {
     : "border-b-2 border-transparent pb-1 text-gray-700 transition hover:border-cicBlue/40 hover:text-blue-900";
 
   return (
-    <nav className="flex flex-wrap items-center gap-6 text-sm font-semibold uppercase tracking-[0.16em]">
-      <NavLink end to="/" className={getLinkClassName}>
+    <nav className={`${mobile ? "flex flex-col items-stretch gap-1" : "flex flex-wrap items-center gap-6"} text-sm font-semibold uppercase tracking-[0.16em]`}>
+      <NavLink end to="/" onClick={onNavigate} className={mobile ? "rounded-lg px-3 py-3 text-slate-700 hover:bg-blue-50 hover:text-blue-900" : getLinkClassName}>
         Home
       </NavLink>
 
-      <NavLink to="/infrastructure" className={getLinkClassName}>
+      <NavLink to="/infrastructure" onClick={onNavigate} className={mobile ? "rounded-lg px-3 py-3 text-slate-700 hover:bg-blue-50 hover:text-blue-900" : getLinkClassName}>
         Infrastructure
       </NavLink>
 
-      <NavLink to="/services" className={getLinkClassName}>
+      <NavLink to="/services" onClick={onNavigate} className={mobile ? "rounded-lg px-3 py-3 text-slate-700 hover:bg-blue-50 hover:text-blue-900" : getLinkClassName}>
         Services
       </NavLink>
 
-      <NavLink to="/team" className={getLinkClassName}>
+      <NavLink to="/team" onClick={onNavigate} className={mobile ? "rounded-lg px-3 py-3 text-slate-700 hover:bg-blue-50 hover:text-blue-900" : getLinkClassName}>
         Team
       </NavLink>
 
-      <NavLink to="/notices" className={getLinkClassName}>
+      <NavLink to="/notices" onClick={onNavigate} className={mobile ? "rounded-lg px-3 py-3 text-slate-700 hover:bg-blue-50 hover:text-blue-900" : getLinkClassName}>
         Notices
       </NavLink>
 
-      <NavLink to="/tenders" className={getLinkClassName}>
+      <NavLink to="/tenders" onClick={onNavigate} className={mobile ? "rounded-lg px-3 py-3 text-slate-700 hover:bg-blue-50 hover:text-blue-900" : getLinkClassName}>
         Tenders
       </NavLink>
 
-      <NavLink to="/cyber-security" className={cyberSecurityClassName}>
+      <NavLink to="/cyber-security" onClick={onNavigate} className={mobile ? "rounded-lg px-3 py-3 text-slate-700 hover:bg-blue-50 hover:text-blue-900" : cyberSecurityClassName}>
         Cyber Security
       </NavLink>
 
@@ -51,7 +51,8 @@ function Navbar() {
         to={itSecurityPolicyViewerUrl}
         target="_blank"
         rel="noopener noreferrer"
-        className={getLinkClassName}
+        onClick={onNavigate}
+        className={mobile ? "rounded-lg px-3 py-3 text-slate-700 hover:bg-blue-50 hover:text-blue-900" : getLinkClassName}
       >
         Policies
       </NavLink>
