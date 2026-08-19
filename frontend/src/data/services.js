@@ -1289,12 +1289,13 @@ export const services = [
           "Make sure that internet is working properly on your system.",
           "Install the VPN client.",
           {
-            text: "Obtain a VPN username and password through the VPN access request process.",
+            text: "Obtain a VPN username and password through the VPN access request process by filling up the particular form",
             references: [
               {
-                label: "Download VPN access form",
-                url: "http://swrepo.iitkgp.ac.in/Forms//VPN-Access.pdf",
-                type: "pdf",
+                label: "here",
+                url: "/forms-downloads",
+                type: "link",
+                inline: true,
               },
             ],
           },
@@ -1310,16 +1311,6 @@ export const services = [
               {
                 label: "Open Fortinet VPN downloads",
                 url: "https://www.fortinet.com/support/product-downloads#vpn",
-                type: "link",
-              },
-            ],
-          },
-          {
-            text: "Download FortiClient from IITKGP LAN when connected inside the campus network.",
-            references: [
-              {
-                label: "Open IITKGP LAN FortiClient download",
-                url: "Forticlients",
                 type: "link",
               },
             ],
