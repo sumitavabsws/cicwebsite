@@ -1,15 +1,6 @@
 import { useState } from "react";
-import { Mail, Phone, Search } from "lucide-react";
+import { Mail, Phone, Search, UserRoundX } from "lucide-react";
 import { useSiteContent } from "../context/SiteContentContext";
-
-function getInitials(name = "") {
-  return name
-    .split(" ")
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0])
-    .join("");
-}
 
 function formatDisplayDate(value) {
   return new Intl.DateTimeFormat("en-IN", {
@@ -31,8 +22,14 @@ function TeamMemberCard({ member }) {
           className="mb-4 h-28 w-28 rounded-2xl border border-slate-200 object-cover object-center shadow-sm"
         />
       ) : (
-        <div className="mb-4 flex h-28 w-28 items-center justify-center rounded-2xl bg-blue-100 text-lg font-bold text-cicBlue">
-          {getInitials(member.name)}
+        <div
+          className="mb-4 flex h-28 w-28 flex-col items-center justify-center gap-1 rounded-2xl border border-dashed border-slate-300 bg-slate-100 text-slate-500"
+          title="Photo unavailable"
+        >
+          <UserRoundX className="h-8 w-8" aria-hidden="true" />
+          <span className="text-[10px] font-semibold uppercase tracking-wide">
+            Unavailable
+          </span>
         </div>
       )}
 

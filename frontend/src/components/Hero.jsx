@@ -83,8 +83,8 @@ function Hero({ compact = false }) {
           />
         )}
 
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,24,64,0.88)_0%,rgba(8,47,73,0.72)_42%,rgba(15,23,42,0.48)_100%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(96,165,250,0.22),transparent_36%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(6,24,64,0.78)_0%,rgba(8,47,73,0.62)_42%,rgba(15,23,42,0.48)_100%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(96,165,250,0.18),transparent_36%)]" />
       </div>
 
       <div className={contentClassName}>

@@ -648,7 +648,17 @@ export const services = [
         title: "How To Request Lab Use",
         items: [
           "Check that the requirement is aligned with classes, workshops, placements, conferences, or another approved institute purpose.",
-          "Complete the relevant lab booking form.",
+          {
+            text: "Complete the relevant lab booking form found",
+            references: [
+              {
+                label: "here",
+                url: "/forms-downloads",
+                type: "link",
+                inline: true,
+              },
+            ],
+          },
           "Route the request to CIC for approval.",
           "Coordinate software, timing, and operational requirements with CIC after approval.",
         ],

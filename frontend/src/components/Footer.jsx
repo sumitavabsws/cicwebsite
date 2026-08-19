@@ -1,6 +1,10 @@
+import { useCallback, useState } from "react";
 import { getDocumentViewerUrl } from "../utils/references";
+import IpAddressModal from "./IpAddressModal";
 
 function Footer() {
+  const [isIpModalOpen, setIsIpModalOpen] = useState(false);
+  const closeIpModal = useCallback(() => setIsIpModalOpen(false), []);
   const itPolicyUrl = getDocumentViewerUrl(
     "/resources/policies/IIT_Kharagpur_IT_Security_Policy.pdf",
     "IT Policy Document",
@@ -44,14 +48,13 @@ function Footer() {
               </a>
             </li>
             <li>
-              <a
-                href="/check-my-ip"
-                target="_blank"
-                rel="noreferrer"
+              <button
+                type="button"
+                onClick={() => setIsIpModalOpen(true)}
                 className="transition hover:text-cyan-200"
               >
                 Check My IP
-              </a>
+              </button>
             </li>
             <li>
               <a
@@ -99,6 +102,7 @@ function Footer() {
           </div>
         </div>
       </div>
+      <IpAddressModal isOpen={isIpModalOpen} onClose={closeIpModal} />
     </footer>
   );
 }
