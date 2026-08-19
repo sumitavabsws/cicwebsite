@@ -56,6 +56,7 @@ function normalizeOptionalReference(reference) {
     label: reference.label?.trim() ?? "Open reference",
     url: reference.url?.trim() ?? "",
     type: reference.type?.trim() ?? "link",
+    inline: reference.inline === true,
   };
 
   return normalizedReference.url ? normalizedReference : null;

@@ -52,12 +52,6 @@ function Header() {
               fallback="IIT"
             />
 
-            <HeaderLogo
-              src={iitKgp75LogoSrc}
-              alt="IIT Kharagpur 75 years logo"
-              fallback="75"
-            />
-
             <div className="min-w-0">
               <h1 className="text-sm font-bold leading-tight text-blue-900 sm:text-base xl:text-xl">
                 Computer &amp; Informatics Center
@@ -65,6 +59,12 @@ function Header() {
 
               <p className="text-sm text-gray-500">IIT Kharagpur</p>
             </div>
+
+            <HeaderLogo
+              src={iitKgp75LogoSrc}
+              alt="IIT Kharagpur 75 years logo"
+              fallback="75"
+            />
           </Link>
 
           <button

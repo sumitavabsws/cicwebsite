@@ -87,6 +87,7 @@ function normalizeReference(reference, fallbackLabel) {
   return {
     label: reference.label ?? fallbackLabel ?? "Open reference",
     href,
+    inline: reference.inline === true,
     type:
       reference.type === "image"
         ? "image"
@@ -616,6 +617,18 @@ function NestedSectionItems({
                 item={normalizedItem}
                 reference={primaryReference}
               />
+            ) : normalizedItem.text && primaryReference?.href && primaryReference.inline ? (
+              <p>
+                {normalizedItem.text}{" "}
+                <a
+                  href={getReferenceOpenHref(primaryReference, normalizedItem.text)}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="font-semibold text-cicBlue underline decoration-cicBlue/40 underline-offset-4 transition hover:text-blue-900"
+                >
+                  {primaryReference.label}
+                </a>
+              </p>
             ) : normalizedItem.text && primaryReference?.href ? (
               <a
                 href={getReferenceOpenHref(
