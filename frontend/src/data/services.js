@@ -1351,7 +1351,7 @@ export const services = [
             references: [
               {
                 label: "Open Windows VPN installation guide",
-                url: "http://cic.iitkgp.ac.in/vpn-windows",
+                url: "https://cic1.iitkgp.ac.in/vpn-windows",
                 type: "link",
               },
             ],
@@ -1361,7 +1361,7 @@ export const services = [
             references: [
               {
                 label: "Open Macintosh VPN installation guide",
-                url: "http://cic.iitkgp.ac.in/vpn-macintosh",
+                url: "https://cic1.iitkgp.ac.in/vpn-macintosh",
                 type: "link",
               },
             ],
