@@ -1,11 +1,32 @@
 {
   "notices": [
     {
+      "id": "notice-1787318952900-9oxk96",
+      "title": "CYBERSECURITY AWARENESS CIRCULAR",
+      "date": "18-08-2026",
+      "description": "Cybersecurity is not solely a technological concern or the responsibility of IT administrators; each one of us has an important role to play in keeping the Institute\u2019s digital environment secure. A single compromised password, an inadvertent response to a phishing email, or an unsafe device can potentially expose not only an individual account but also other users and institutional resources.\n\nOn this occasion, we are circulating the attached Cybersecurity Awareness Circular along with the Cybercrime Prevention Handbook, circulated by the Indian Cyber Crime Coordination Centre, Ministry of Home Affairs (MHA). The material highlights essential do's and don\u2019ts for protecting ourselves against prevalent cybercrimes.",
+      "reference": {
+        "type": "pdf",
+        "url": "https://cic.iitkgp.ac.in/document?url=%2Fresources%2Fpolicies%2Fcybersecurityawareness%2FDos%2520Donts%25202%2520English_Cybercrime.pdf&title=Dos+Donts+2+English_Cybercrime.pdf",
+        "label": "Open reference"
+      },
+      "attachment": {
+        "type": "pdf",
+        "url": "/resources/notice/cybersecurityawarenesscircular (2).pdf",
+        "label": "View attached PDF"
+      }
+    },
+    {
       "id": "notice-1784876890577-768hdz",
       "title": "E-Mail",
       "date": "24-07-2026",
       "description": "The institute email-id creation for the new students joined in 2026-2027 is under process.",
       "reference": {
+        "type": "pdf",
+        "url": "",
+        "label": "Open reference"
+      },
+      "attachment": {
         "type": "pdf",
         "url": "",
         "label": "Open reference"

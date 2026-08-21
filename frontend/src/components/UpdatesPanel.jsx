@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ExternalLink, Paperclip } from "lucide-react";
 import { useSiteContent } from "../context/SiteContentContext";
 import { openReference } from "../utils/references";
 import ReferenceModal from "./ReferenceModal";
@@ -62,16 +63,12 @@ function UpdatesPanel({ compact = false, title, description }) {
             }
           >
             {activeTab.items.map((item, index) => (
-              <button
+              <article
                 key={item.id ?? index}
-                type="button"
-                onClick={() =>
-                  openReference(item.reference, setActiveReference, item.title)
-                }
                 className={
                   compact
-                    ? "block w-full border-b border-white/10 pb-4 text-left transition hover:opacity-100"
-                    : "block w-full rounded-xl border p-5 text-left transition hover:border-cicBlue hover:shadow-md"
+                    ? "w-full border-b border-white/10 pb-4 text-left"
+                    : "w-full rounded-xl border p-5 text-left transition hover:border-cicBlue hover:shadow-md"
                 }
               >
                 <p
@@ -89,14 +86,39 @@ function UpdatesPanel({ compact = false, title, description }) {
                 >
                   {item.description}
                 </p>
-                {item.reference?.url ? (
-                  <span
-                    className={`mt-3 inline-block text-sm font-semibold ${compact ? "text-cyan-200" : "text-cicBlue"}`}
-                  >
-                    {item.reference?.label ?? "Open reference"}
-                  </span>
+                {item.attachment?.url || item.reference?.url ? (
+                  <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2">
+                    {item.attachment?.url ? (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          openReference(item.attachment, setActiveReference, item.title)
+                        }
+                        className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm font-semibold transition ${compact ? "border-cyan-200/40 text-cyan-200 hover:bg-white/10" : "border-blue-200 bg-blue-50 text-cicBlue hover:border-cicBlue"}`}
+                      >
+                        <Paperclip className="h-3.5 w-3.5" />
+                        {item.attachment.label ?? "View attached PDF"}
+                      </button>
+                    ) : null}
+                    {item.reference?.url ? (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          window.open(
+                            item.reference.url,
+                            "_blank",
+                            "noopener,noreferrer",
+                          )
+                        }
+                        className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-sm font-semibold transition ${compact ? "text-cyan-200 hover:bg-white/10" : "text-cicBlue hover:bg-blue-50"}`}
+                      >
+                        <ExternalLink className="h-3.5 w-3.5" />
+                        {item.reference.label ?? "Open reference"}
+                      </button>
+                    ) : null}
+                  </div>
                 ) : null}
-              </button>
+              </article>
             ))}
 
             {!activeTab.items.length ? (

@@ -75,12 +75,21 @@ function hasRichItemContent(item) {
 }
 
 function normalizeNoticeOrEvent(item, index, prefix) {
+  const attachment = item?.attachment
+    ? normalizeReference({ ...item.attachment, type: "pdf" })
+    : normalizeReference(null);
+
+  if (attachment.url && attachment.label === "Open reference") {
+    attachment.label = "View attached PDF";
+  }
+
   return {
     id: item?.id ?? createId(prefix ?? `entry-${index + 1}`),
     title: item?.title?.trim() ?? "",
     date: item?.date?.trim() ?? "",
     description: item?.description?.trim() ?? "",
     reference: normalizeReference(item?.reference),
+    attachment,
   };
 }
 
