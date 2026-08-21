@@ -28,6 +28,7 @@ MEDIA_DIR = BASE_DIR / "content" / "images"
 TEAM_IMAGES_DIR = MEDIA_DIR / "teams"
 RESOURCES_DIR = BASE_DIR / "content" / "resources"
 TENDERS_DIR = RESOURCES_DIR / "tenders"
+NOTICES_DIR = RESOURCES_DIR / "notice"
 VIDEOS_DIR = BASE_DIR / "content" / "videos"
 CYBER_SECURITY_AWARENESS_DIR = RESOURCES_DIR / "policies" / "cybersecurityawareness"
 CYBER_SECURITY_GUIDELINES_DIR = RESOURCES_DIR / "policies" / "cybersecurityguidelines"
@@ -36,6 +37,7 @@ ANANTA_BASE_URL = os.getenv("ANANTA_BASE_URL", "http://127.0.0.1:8000/framework"
 ANANTA_CLIENT_SECRET = os.getenv("ANANTA_CLIENT_SECRET", "")
 MAX_TEAM_PHOTO_SIZE_BYTES = int(os.getenv("CIC_MAX_TEAM_PHOTO_SIZE_BYTES", str(200 * 1024)))
 MAX_TENDER_PDF_SIZE_BYTES = int(os.getenv("CIC_MAX_TENDER_PDF_SIZE_BYTES", str(25 * 1024 * 1024)))
+MAX_NOTICE_PDF_SIZE_BYTES = int(os.getenv("CIC_MAX_NOTICE_PDF_SIZE_BYTES", str(25 * 1024 * 1024)))
 MAX_CYBER_SECURITY_PDF_SIZE_BYTES = int(
     os.getenv("CIC_MAX_CYBER_SECURITY_PDF_SIZE_BYTES", str(25 * 1024 * 1024))
 )
@@ -138,6 +140,7 @@ def ensure_media_dirs() -> None:
     TEAM_IMAGES_DIR.mkdir(parents=True, exist_ok=True)
     RESOURCES_DIR.mkdir(parents=True, exist_ok=True)
     TENDERS_DIR.mkdir(parents=True, exist_ok=True)
+    NOTICES_DIR.mkdir(parents=True, exist_ok=True)
     CYBER_SECURITY_AWARENESS_DIR.mkdir(parents=True, exist_ok=True)
     CYBER_SECURITY_GUIDELINES_DIR.mkdir(parents=True, exist_ok=True)
     CYBER_SECURITY_SAFEGUARDS_DIR.mkdir(parents=True, exist_ok=True)
@@ -659,6 +662,45 @@ async def upload_tender_pdf(
 
     return {
         "url": f"/resources/tenders/{filename}",
+    }
+
+
+@app.post("/api/uploads/notice-pdf")
+async def upload_notice_pdf(
+    file: UploadFile = File(...),
+    _: str = Depends(require_admin),
+) -> dict[str, str]:
+    original_name = Path(file.filename or "").name
+    extension = Path(original_name).suffix.lower()
+    if file.content_type != "application/pdf" and extension != ".pdf":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Please upload a valid PDF file.",
+        )
+
+    file_bytes = await file.read()
+    if len(file_bytes) > MAX_NOTICE_PDF_SIZE_BYTES:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Notice PDF must be 25 MB or smaller.",
+        )
+
+    stem = "".join(
+        character if character.isalnum() or character in {" ", "-", "_"} else "-"
+        for character in Path(original_name).stem
+    ).strip(" .-_")
+    stem = " ".join(stem.split()) or "notice"
+    filename = f"{stem}.pdf"
+    counter = 2
+    while (NOTICES_DIR / filename).exists():
+        filename = f"{stem} ({counter}).pdf"
+        counter += 1
+
+    (NOTICES_DIR / filename).write_bytes(file_bytes)
+
+    return {
+        "url": f"/resources/notice/{filename}",
+        "filename": filename,
     }
 
 

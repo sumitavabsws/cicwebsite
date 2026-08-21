@@ -52,6 +52,11 @@ function createEmptyUpdateDraft(type = "pdf") {
       url: "",
       label: "",
     },
+    attachment: {
+      type: "pdf",
+      url: "",
+      label: "View attached PDF",
+    },
   };
 }
 
@@ -187,6 +192,14 @@ function createUpdateDraftFromItem(item) {
       type: item.reference?.type ?? "pdf",
       url: item.reference?.url ?? "",
       label: item.reference?.label ?? "",
+    },
+    attachment: {
+      type: "pdf",
+      url: item.attachment?.url ?? "",
+      label:
+        !item.attachment?.label || item.attachment.label === "Open reference"
+          ? "View attached PDF"
+          : item.attachment.label,
     },
   };
 }
@@ -345,7 +358,51 @@ function NoticeEventManager({
   draft,
   setDraft,
   setMessage,
+  adminToken,
 }) {
+  const [uploading, setUploading] = useState(false);
+
+  const handleNoticePdfUpload = async (event) => {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+
+    if (!file) return;
+    if (
+      file.type !== "application/pdf" &&
+      !file.name.toLowerCase().endsWith(".pdf")
+    ) {
+      setMessage({ type: "error", text: "Please upload a valid PDF file." });
+      return;
+    }
+
+    setUploading(true);
+    setMessage(null);
+    try {
+      const uploadedFile = await uploadFile(
+        "/uploads/notice-pdf",
+        file,
+        adminToken,
+      );
+      setDraft((currentDraft) => ({
+        ...currentDraft,
+        attachment: {
+          ...currentDraft.attachment,
+          type: "pdf",
+          url: uploadedFile.url,
+          label: "View attached PDF",
+        },
+      }));
+      setMessage({
+        type: "success",
+        text: "Notice PDF uploaded. Complete the notice details and publish it.",
+      });
+    } catch (error) {
+      setMessage({ type: "error", text: error.message });
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSave = async (event) => {
     event.preventDefault();
 
@@ -381,6 +438,11 @@ function NoticeEventManager({
         type: draft.reference.type === "html" ? "html" : "pdf",
         url: draft.reference.url.trim(),
         label: draft.reference.label.trim() || "Open reference",
+      },
+      attachment: {
+        type: "pdf",
+        url: draft.attachment.url.trim(),
+        label: draft.attachment.label.trim() || "View attached PDF",
       },
     };
 
@@ -620,9 +682,50 @@ function NoticeEventManager({
           />
         </label>
 
+        {label === "Notice" ? (
+          <div className="grid gap-2 text-sm font-medium text-slate-700">
+            <label htmlFor="notice-pdf-upload">PDF attachment (optional)</label>
+            <input
+              id="notice-pdf-upload"
+              type="file"
+              accept="application/pdf,.pdf"
+              onChange={handleNoticePdfUpload}
+              disabled={uploading}
+              className="rounded-xl border border-dashed border-slate-300 bg-slate-50 px-4 py-3 text-sm file:mr-4 file:rounded-lg file:border-0 file:bg-cicBlue file:px-4 file:py-2 file:font-semibold file:text-white hover:border-cicBlue disabled:cursor-wait disabled:opacity-60"
+            />
+            <div className="flex items-center justify-between gap-3 text-xs font-normal text-slate-500">
+              <span>
+                {uploading
+                  ? "Uploading PDF..."
+                  : draft.attachment.url
+                    ? `Current attachment: ${draft.attachment.url.split("/").pop()}`
+                    : "PDF files up to 25 MB are supported."}
+              </span>
+              {draft.attachment.url ? (
+                <button
+                  type="button"
+                  onClick={() =>
+                    setDraft((currentDraft) => ({
+                      ...currentDraft,
+                      attachment: {
+                        ...currentDraft.attachment,
+                        url: "",
+                      },
+                    }))
+                  }
+                  className="font-semibold text-red-600 hover:text-red-700"
+                >
+                  Remove attachment
+                </button>
+              ) : null}
+            </div>
+          </div>
+        ) : null}
+
         <button
           type="submit"
-          className="inline-flex items-center justify-center rounded-xl bg-cicBlue px-5 py-3 font-semibold text-white transition hover:bg-blue-900"
+          disabled={uploading}
+          className="inline-flex items-center justify-center rounded-xl bg-cicBlue px-5 py-3 font-semibold text-white transition hover:bg-blue-900 disabled:cursor-wait disabled:opacity-60"
         >
           {draft.id ? "Update entry" : "Publish entry"}
         </button>
@@ -2307,6 +2410,7 @@ function AdminPanel() {
               draft={noticeDraft}
               setDraft={setNoticeDraft}
               setMessage={setMessage}
+              adminToken={adminUser?.token ?? ""}
             />
           ) : null}
 

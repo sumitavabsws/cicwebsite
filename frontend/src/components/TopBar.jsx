@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, TicketCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAdminAuth } from "../context/AdminAuthContext";
 import { apiRequest } from "../lib/api";
@@ -22,11 +22,11 @@ const primaryLinks = [
     label: "CIC Software Repository (Intranet)",
     href: "http://swrepo.iitkgp.ac.in/",
   },
-  // Temporarily hidden until the complaint link is ready to be restored.
-  // {
-  //   label: "Lodge Your Complain",
-  //   href: "https://cichelpdesk.iitkgp.ac.in/",
-  // },
+  {
+    label: "Raise a Ticket",
+    href: "https://cichelpdesk.iitkgp.ac.in/",
+    featured: true,
+  },
 ];
 
 const secondaryLinks = [
@@ -111,8 +111,18 @@ function TopBar() {
             href={link.href}
             target="_blank"
             rel="noreferrer"
-            className="hidden whitespace-nowrap transition hover:text-cyan-200 xl:inline"
+            className={
+              link.featured
+                ? "group hidden items-center gap-1.5 whitespace-nowrap rounded-full border border-cyan-300/45 bg-cyan-300/10 px-3 py-1 font-semibold text-cyan-100 shadow-[0_0_18px_rgba(103,232,249,0.08)] transition hover:border-cyan-200/70 hover:bg-cyan-300/15 hover:text-white xl:inline-flex"
+                : "hidden whitespace-nowrap transition hover:text-cyan-200 xl:inline"
+            }
           >
+            {link.featured ? (
+              <TicketCheck
+                className="h-3.5 w-3.5 text-cyan-300 transition group-hover:text-cyan-200"
+                aria-hidden="true"
+              />
+            ) : null}
             {link.label}
           </a>
         ))}
@@ -151,8 +161,11 @@ function TopBar() {
                   target="_blank"
                   rel="noreferrer"
                   onClick={() => setIsMoreOpen(false)}
-                  className={`${primaryLinks.includes(link) ? "xl:hidden" : ""} block rounded-xl px-4 py-3 text-sm transition hover:bg-slate-50 hover:text-cicBlue`}
+                  className={`${primaryLinks.includes(link) ? "xl:hidden" : ""} ${link.featured ? "flex items-center gap-2 border border-cyan-100 bg-cyan-50 font-semibold text-cicBlue hover:border-cyan-200 hover:bg-cyan-100/70" : "block hover:bg-slate-50 hover:text-cicBlue"} rounded-xl px-4 py-3 text-sm transition`}
                 >
+                  {link.featured ? (
+                    <TicketCheck className="h-4 w-4" aria-hidden="true" />
+                  ) : null}
                   {link.label}
                 </a>
               ))}

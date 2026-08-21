@@ -1225,12 +1225,13 @@
             "Make sure that internet is working properly on your system.",
             "Install the VPN client.",
             {
-              "text": "Obtain a VPN username and password through the VPN access request process.",
+              "text": "Obtain a VPN username and password through the VPN access request process by filling up the particular form",
               "references": [
                 {
-                  "label": "Download VPN access form",
-                  "url": "http://swrepo.iitkgp.ac.in/Forms//VPN-Access.pdf",
-                  "type": "pdf"
+                  "label": "here",
+                  "url": "/forms-downloads",
+                  "type": "link",
+                  "inline": true
                 }
               ]
             }
@@ -1246,16 +1247,6 @@
                 {
                   "label": "Open Fortinet VPN downloads",
                   "url": "https://www.fortinet.com/support/product-downloads#vpn",
-                  "type": "link"
-                }
-              ]
-            },
-            {
-              "text": "Download FortiClient from IITKGP LAN when connected inside the campus network.",
-              "references": [
-                {
-                  "label": "Open IITKGP LAN FortiClient download",
-                  "url": "Forticlients",
                   "type": "link"
                 }
               ]
@@ -1287,7 +1278,7 @@
               "references": [
                 {
                   "label": "Open Windows VPN installation guide",
-                  "url": "http://cic.iitkgp.ac.in/vpn-windows",
+                  "url": "https://cic1.iitkgp.ac.in/vpn-windows",
                   "type": "link"
                 }
               ]
@@ -1297,7 +1288,7 @@
               "references": [
                 {
                   "label": "Open Macintosh VPN installation guide",
-                  "url": "http://cic.iitkgp.ac.in/vpn-macintosh",
+                  "url": "https://cic1.iitkgp.ac.in/vpn-macintosh",
                   "type": "link"
                 }
               ]
