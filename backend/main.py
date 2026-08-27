@@ -2,15 +2,16 @@ import json
 import os
 import time
 import uuid
-from ipaddress import ip_address
+from ipaddress import ip_address, ip_network
 from pathlib import Path
 from typing import Any
 from urllib.error import HTTPError, URLError
-from urllib.parse import quote, urlencode, urljoin, urlsplit
+from urllib.parse import quote, unquote, urlencode, urljoin, urlsplit
 from urllib.request import Request as UrlRequest, urlopen
 
 from fastapi import Depends, FastAPI, File, Header, HTTPException, Request, UploadFile, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 from dotenv import load_dotenv
@@ -33,6 +34,21 @@ VIDEOS_DIR = BASE_DIR / "content" / "videos"
 CYBER_SECURITY_AWARENESS_DIR = RESOURCES_DIR / "policies" / "cybersecurityawareness"
 CYBER_SECURITY_GUIDELINES_DIR = RESOURCES_DIR / "policies" / "cybersecurityguidelines"
 CYBER_SECURITY_SAFEGUARDS_DIR = RESOURCES_DIR / "policies" / "cybersecuritysafeguards"
+HELPDESK_GUIDE_FILENAME = "Helpdesk End User Guide.pdf"
+HELPDESK_URL = os.getenv("CIC_HELPDESK_URL", "https://cichelpdesk.iitkgp.ac.in/")
+SOFTWARE_REPOSITORY_URL = os.getenv(
+    "CIC_SOFTWARE_REPOSITORY_URL",
+    "http://swrepo.iitkgp.ac.in/",
+)
+INTERNAL_NETWORKS = tuple(
+    ip_network(cidr)
+    for cidr in ("10.0.0.0/8", "172.16.0.0/12", "192.168.0.0/16")
+)
+TRUSTED_PROXY_NETWORKS = tuple(
+    ip_network(cidr.strip())
+    for cidr in os.getenv("CIC_TRUSTED_PROXY_CIDRS", "127.0.0.0/8,::1/128").split(",")
+    if cidr.strip()
+)
 ANANTA_BASE_URL = os.getenv("ANANTA_BASE_URL", "http://127.0.0.1:8000/framework").rstrip("/")
 ANANTA_CLIENT_SECRET = os.getenv("ANANTA_CLIENT_SECRET", "")
 MAX_TEAM_PHOTO_SIZE_BYTES = int(os.getenv("CIC_MAX_TEAM_PHOTO_SIZE_BYTES", str(200 * 1024)))
@@ -174,17 +190,22 @@ def read_site_config() -> dict[str, Any]:
 
 
 def get_request_ip(request: Request) -> str:
-    forwarded_for = request.headers.get("x-forwarded-for")
+    peer_ip = normalize_ip_address(request.client.host) if request.client else ""
+    if not is_ip_in_networks(peer_ip, TRUSTED_PROXY_NETWORKS):
+        return peer_ip
 
-    if forwarded_for:
-        return normalize_ip_address(forwarded_for.split(",", 1)[0].strip())
+    forwarded_ips = [
+        normalize_ip_address(value)
+        for value in request.headers.get("x-forwarded-for", "").split(",")
+        if value.strip()
+    ]
 
-    real_ip = request.headers.get("x-real-ip")
+    for candidate in reversed([*forwarded_ips, peer_ip]):
+        if candidate and not is_ip_in_networks(candidate, TRUSTED_PROXY_NETWORKS):
+            return candidate
 
-    if real_ip:
-        return normalize_ip_address(real_ip.strip())
-
-    return normalize_ip_address(request.client.host) if request.client else ""
+    real_ip = normalize_ip_address(request.headers.get("x-real-ip", ""))
+    return real_ip or peer_ip
 
 
 def normalize_ip_address(value: str) -> str:
@@ -198,6 +219,29 @@ def normalize_ip_address(value: str) -> str:
         return str(parsed.ipv4_mapped)
 
     return str(parsed)
+
+
+def is_ip_in_networks(value: str, networks: tuple[Any, ...]) -> bool:
+    try:
+        parsed = ip_address(value)
+    except ValueError:
+        return False
+
+    return any(parsed.version == network.version and parsed in network for network in networks)
+
+
+def is_internal_request(request: Request) -> bool:
+    return is_ip_in_networks(get_request_ip(request), INTERNAL_NETWORKS)
+
+
+class ProtectedResourcesStaticFiles(StaticFiles):
+    async def get_response(self, path: str, scope: dict[str, Any]) -> Response:
+        normalized_path = Path(path).as_posix().strip("/").casefold()
+        if normalized_path == HELPDESK_GUIDE_FILENAME.casefold():
+            if not is_internal_request(Request(scope)):
+                return Response(status_code=status.HTTP_404_NOT_FOUND)
+
+        return await super().get_response(path, scope)
 
 
 def is_admin_ip_allowed(ip_address: str) -> bool:
@@ -242,7 +286,22 @@ def write_tenders(tenders: list[dict[str, Any]]) -> list[dict[str, Any]]:
         json.dump(tenders, file, indent=2, ensure_ascii=True)
         file.write("\n")
 
+    remove_unreferenced_tender_pdfs(tenders)
     return tenders
+
+
+def remove_unreferenced_tender_pdfs(tenders: list[dict[str, Any]]) -> None:
+    referenced_filenames = set()
+    resource_prefix = "/resources/tenders/"
+
+    for tender in tenders:
+        resource_path = unquote(urlsplit(tender.get("pdfUrl", "")).path)
+        if resource_path.startswith(resource_prefix):
+            referenced_filenames.add(Path(resource_path).name.casefold())
+
+    for pdf_path in TENDERS_DIR.glob("*.pdf"):
+        if pdf_path.name.casefold() not in referenced_filenames:
+            pdf_path.unlink()
 
 
 def validate_ananta_session(session_id: str, renew: bool = True) -> dict[str, Any]:
@@ -376,7 +435,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 app.mount("/media", StaticFiles(directory=MEDIA_DIR), name="media")
-app.mount("/resources", StaticFiles(directory=RESOURCES_DIR), name="resources")
+app.mount("/resources", ProtectedResourcesStaticFiles(directory=RESOURCES_DIR), name="resources")
 app.mount("/videos", StaticFiles(directory=VIDEOS_DIR), name="videos")
 
 
@@ -440,6 +499,30 @@ def get_admin_access(request: Request) -> dict[str, Any]:
         "ip": ip_address,
         "allowed": is_admin_ip_allowed(ip_address),
     }
+
+
+@app.get("/api/helpdesk-access")
+def get_helpdesk_access(request: Request) -> JSONResponse:
+    allowed = is_internal_request(request)
+    payload: dict[str, Any] = {"allowed": allowed}
+
+    if allowed:
+        guide_resource_url = f"/resources/{HELPDESK_GUIDE_FILENAME}"
+        payload.update(
+            {
+                "ticketUrl": HELPDESK_URL,
+                "guideUrl": f"/document?{urlencode({'url': guide_resource_url, 'title': 'Helpdesk End User Guide'})}",
+                "softwareRepositoryUrl": SOFTWARE_REPOSITORY_URL,
+            }
+        )
+
+    return JSONResponse(
+        payload,
+        headers={
+            "Cache-Control": "private, no-store, max-age=0",
+            "Vary": "X-Forwarded-For, X-Real-IP",
+        },
+    )
 
 
 @app.post("/api/auth/login")
@@ -642,7 +725,8 @@ async def upload_tender_pdf(
     file: UploadFile = File(...),
     _: str = Depends(require_admin),
 ) -> dict[str, str]:
-    extension = Path(file.filename or "").suffix.lower()
+    original_name = Path(file.filename or "").name
+    extension = Path(original_name).suffix.lower()
     if file.content_type != "application/pdf" and extension != ".pdf":
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
@@ -656,12 +740,18 @@ async def upload_tender_pdf(
             detail="Tender PDF must be 25 MB or smaller.",
         )
 
-    filename = f"{int(time.time())}-{uuid.uuid4().hex[:10]}.pdf"
-    destination = TENDERS_DIR / filename
+    stem = "".join(
+        character if character.isalnum() or character in {" ", "-", "_"} else "-"
+        for character in Path(original_name).stem
+    ).strip(" .-_")
+    stem = " ".join(stem.split()) or "tender"
+    display_name = f"{stem}.pdf"
+    destination = TENDERS_DIR / display_name
     destination.write_bytes(file_bytes)
 
     return {
-        "url": f"/resources/tenders/{filename}",
+        "url": f"/resources/tenders/{display_name}",
+        "filename": display_name,
     }
 
 
