@@ -3,6 +3,18 @@ const events = [
     year: "1960",
     text: "CIC was established to support the institute's evolving computing infrastructure and digital operations.",
   },
+  {
+    year: "2005",
+    text: "Campus-wide networking expanded significantly, deepening digital access across academic and administrative spaces.",
+  },
+  {
+    year: "2015",
+    text: "Central data-centre capabilities advanced to support more robust hosting and service delivery requirements.",
+  },
+  {
+    year: "2023",
+    text: "Research-oriented and high-speed network capabilities strengthened to meet modern institutional demands.",
+  },
 ];
 
 function Timeline() {

@@ -1,6 +1,8 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   CalendarDays,
+  ChevronLeft,
+  ChevronRight,
   Pencil,
   Plus,
   RefreshCcw,
@@ -78,6 +80,324 @@ function formatNoticeDateToIso(value) {
     : "";
 }
 
+const tenderMonthNames = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Oct",
+  "Nov",
+  "Dec",
+];
+
+function parseTenderDateTime(value = "") {
+  const match =
+    /^(\d{1,2}) ([A-Za-z]{3}) (\d{4}) (\d{1,2}):(\d{2}) (AM|PM)$/i.exec(
+      value.trim(),
+    );
+  if (!match) return { date: "", time: "" };
+
+  const [, dayText, monthText, year, hourText, minute, periodText] = match;
+  const monthIndex = tenderMonthNames.findIndex(
+    (month) => month.toLowerCase() === monthText.toLowerCase(),
+  );
+  const day = Number(dayText);
+  let hour = Number(hourText);
+  const period = periodText.toUpperCase();
+
+  if (
+    monthIndex < 0 ||
+    day < 1 ||
+    day > new Date(Number(year), monthIndex + 1, 0).getDate() ||
+    hour < 1 ||
+    hour > 12 ||
+    Number(minute) > 59
+  ) {
+    return { date: "", time: "" };
+  }
+
+  if (period === "AM" && hour === 12) hour = 0;
+  if (period === "PM" && hour !== 12) hour += 12;
+
+  return {
+    date: `${year}-${String(monthIndex + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`,
+    time: `${String(hour).padStart(2, "0")}:${minute}`,
+  };
+}
+
+function formatTenderDateTime(dateValue, timeValue) {
+  if (!dateValue || !timeValue) return "";
+
+  const [year, monthText, dayText] = dateValue.split("-");
+  const [hourText, minute] = timeValue.split(":");
+  const monthIndex = Number(monthText) - 1;
+  const hour = Number(hourText);
+
+  if (!year || !tenderMonthNames[monthIndex] || Number.isNaN(hour) || !minute) {
+    return "";
+  }
+
+  const period = hour >= 12 ? "PM" : "AM";
+  const twelveHour = hour % 12 || 12;
+  return `${Number(dayText)} ${tenderMonthNames[monthIndex]} ${year} ${String(twelveHour).padStart(2, "0")}:${minute} ${period}`;
+}
+
+function formatTenderTime12(timeValue) {
+  if (!timeValue) return "";
+
+  const [hourText, minute] = timeValue.split(":");
+  const hour = Number(hourText);
+  if (Number.isNaN(hour) || !minute) return "";
+
+  return `${String(hour % 12 || 12).padStart(2, "0")}:${minute} ${hour >= 12 ? "PM" : "AM"}`;
+}
+
+function parseTenderTime12(value) {
+  const match = /^(\d{1,2}):(\d{2})\s*(AM|PM)$/i.exec(value.trim());
+  if (!match) return "";
+
+  const [, hourText, minute, periodText] = match;
+  let hour = Number(hourText);
+  if (hour < 1 || hour > 12 || Number(minute) > 59) return "";
+
+  const period = periodText.toUpperCase();
+  if (period === "AM" && hour === 12) hour = 0;
+  if (period === "PM" && hour !== 12) hour += 12;
+  return `${String(hour).padStart(2, "0")}:${minute}`;
+}
+
+const tenderTimeSuggestions = Array.from({ length: 48 }, (_, index) => {
+  const hour = Math.floor(index / 2);
+  const minute = index % 2 === 0 ? "00" : "30";
+  return formatTenderTime12(`${String(hour).padStart(2, "0")}:${minute}`);
+});
+
+function TenderDateTimeField({ id, label, value, onChange }) {
+  const timeInputRef = useRef(null);
+  const calendarRef = useRef(null);
+  const parsedValue = parseTenderDateTime(value);
+  const initialMonth = parsedValue.date
+    ? new Date(`${parsedValue.date}T00:00:00`)
+    : new Date();
+  const [timeText, setTimeText] = useState(() =>
+    formatTenderTime12(parsedValue.time),
+  );
+  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [visibleMonth, setVisibleMonth] = useState(
+    () => new Date(initialMonth.getFullYear(), initialMonth.getMonth(), 1),
+  );
+
+  useEffect(() => {
+    if (document.activeElement !== timeInputRef.current) {
+      setTimeText(formatTenderTime12(parsedValue.time));
+    }
+  }, [parsedValue.time]);
+
+  useEffect(() => {
+    if (!isCalendarOpen) return undefined;
+
+    const closeCalendar = (event) => {
+      if (!calendarRef.current?.contains(event.target)) {
+        setIsCalendarOpen(false);
+      }
+    };
+    const closeOnEscape = (event) => {
+      if (event.key === "Escape") setIsCalendarOpen(false);
+    };
+
+    document.addEventListener("mousedown", closeCalendar);
+    document.addEventListener("keydown", closeOnEscape);
+    return () => {
+      document.removeEventListener("mousedown", closeCalendar);
+      document.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [isCalendarOpen]);
+
+  const handleDateChange = (date) => {
+    if (!date) {
+      setTimeText("");
+      onChange("");
+      return;
+    }
+
+    const time = parsedValue.time || "12:00";
+    setTimeText(formatTenderTime12(time));
+    onChange(formatTenderDateTime(date, time));
+    setIsCalendarOpen(false);
+    window.requestAnimationFrame(() => timeInputRef.current?.focus());
+  };
+
+  const firstWeekday = visibleMonth.getDay();
+  const daysInMonth = new Date(
+    visibleMonth.getFullYear(),
+    visibleMonth.getMonth() + 1,
+    0,
+  ).getDate();
+  const calendarDays = [
+    ...Array.from({ length: firstWeekday }, () => null),
+    ...Array.from({ length: daysInMonth }, (_, index) => index + 1),
+  ];
+  const today = new Date();
+
+  const openCalendar = () => {
+    if (parsedValue.date) {
+      const selectedDate = new Date(`${parsedValue.date}T00:00:00`);
+      setVisibleMonth(
+        new Date(selectedDate.getFullYear(), selectedDate.getMonth(), 1),
+      );
+    }
+    setIsCalendarOpen((currentValue) => !currentValue);
+  };
+
+  return (
+    <fieldset
+      className={`grid gap-3 rounded-2xl border border-slate-200 p-3 ${isCalendarOpen ? "relative z-20" : ""}`}
+    >
+      <legend className="px-1 text-sm font-semibold text-slate-700">
+        {label}
+      </legend>
+
+      <div
+        ref={calendarRef}
+        className="relative grid gap-1.5 text-xs font-medium text-slate-600"
+      >
+        <span>Select date</span>
+        <button
+          id={`${id}-date`}
+          type="button"
+          aria-haspopup="dialog"
+          aria-expanded={isCalendarOpen}
+          onClick={openCalendar}
+          className="flex min-h-10 w-full items-center justify-between gap-2 rounded-xl border border-slate-300 px-3 py-2.5 text-left text-sm font-normal text-slate-700 outline-none transition hover:border-cicBlue focus:border-cicBlue"
+        >
+          <span>{parsedValue.date || "Select from calendar"}</span>
+          <CalendarDays className="h-4 w-4 shrink-0 text-cicBlue" />
+        </button>
+
+        {isCalendarOpen ? (
+          <div
+            role="dialog"
+            aria-label={`${label} calendar`}
+            className="absolute left-0 top-[calc(100%+0.4rem)] z-30 w-[min(18rem,calc(100vw-3rem))] rounded-2xl border border-slate-200 bg-white p-3 shadow-xl"
+          >
+            <div className="flex items-center justify-between gap-2">
+              <button
+                type="button"
+                aria-label="Previous month"
+                onClick={() =>
+                  setVisibleMonth(
+                    (month) =>
+                      new Date(month.getFullYear(), month.getMonth() - 1, 1),
+                  )
+                }
+                className="flex h-9 w-9 items-center justify-center rounded-full text-slate-600 hover:bg-slate-100"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+              <span className="text-sm font-semibold text-slate-900">
+                {tenderMonthNames[visibleMonth.getMonth()]}{" "}
+                {visibleMonth.getFullYear()}
+              </span>
+              <button
+                type="button"
+                aria-label="Next month"
+                onClick={() =>
+                  setVisibleMonth(
+                    (month) =>
+                      new Date(month.getFullYear(), month.getMonth() + 1, 1),
+                  )
+                }
+                className="flex h-9 w-9 items-center justify-center rounded-full text-slate-600 hover:bg-slate-100"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
+            </div>
+
+            <div className="mt-2 grid grid-cols-7 text-center text-[11px] font-semibold text-slate-400">
+              {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((day) => (
+                <span key={day} className="py-1.5">
+                  {day}
+                </span>
+              ))}
+            </div>
+            <div className="grid grid-cols-7 gap-0.5">
+              {calendarDays.map((day, index) => {
+                if (!day) return <span key={`empty-${index}`} />;
+
+                const date = `${visibleMonth.getFullYear()}-${String(visibleMonth.getMonth() + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+                const isSelected = date === parsedValue.date;
+                const isToday =
+                  day === today.getDate() &&
+                  visibleMonth.getMonth() === today.getMonth() &&
+                  visibleMonth.getFullYear() === today.getFullYear();
+
+                return (
+                  <button
+                    key={date}
+                    type="button"
+                    onClick={() => handleDateChange(date)}
+                    className={`aspect-square rounded-lg text-xs font-medium transition ${isSelected ? "bg-cicBlue text-white" : isToday ? "bg-blue-50 text-cicBlue ring-1 ring-blue-200" : "text-slate-700 hover:bg-slate-100"}`}
+                  >
+                    {day}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        ) : null}
+      </div>
+
+      {parsedValue.date ? (
+        <label className="grid gap-1.5 text-xs font-medium text-slate-600">
+          Select or enter time
+          <input
+            ref={timeInputRef}
+            id={`${id}-time`}
+            type="text"
+            inputMode="text"
+            list={`${id}-time-suggestions`}
+            value={timeText}
+            placeholder="02:00 PM"
+            onChange={(event) => {
+              const nextTimeText = event.target.value.toUpperCase();
+              const parsedTime = parseTenderTime12(nextTimeText);
+              setTimeText(nextTimeText);
+              if (parsedTime) {
+                onChange(formatTenderDateTime(parsedValue.date, parsedTime));
+              }
+            }}
+            onBlur={() => setTimeText(formatTenderTime12(parsedValue.time))}
+            aria-describedby={`${id}-time-help`}
+            className="min-w-0 rounded-xl border border-slate-300 px-3 py-2.5 text-sm outline-none transition focus:border-cicBlue"
+          />
+          <datalist id={`${id}-time-suggestions`}>
+            {tenderTimeSuggestions.map((time) => (
+              <option key={time} value={time} />
+            ))}
+          </datalist>
+          <span
+            id={`${id}-time-help`}
+            className={`text-xs font-normal ${timeText && !parseTenderTime12(timeText) ? "text-red-600" : "text-slate-500"}`}
+          >
+            {timeText && !parseTenderTime12(timeText)
+              ? "Enter time as hh:mm AM or hh:mm PM."
+              : "Use 12-hour time, for example 02:00 PM."}
+          </span>
+        </label>
+      ) : null}
+
+      <p className="min-h-5 text-xs font-normal text-slate-500">
+        {value || "Format: 12 Aug 2026 02:00 PM"}
+      </p>
+    </fieldset>
+  );
+}
+
 function createServiceDraft() {
   return {
     id: "",
@@ -126,6 +446,7 @@ function createEmptyTenderDraft() {
     bidOpeningDate: "",
     corrigendumDetails: "",
     pdfUrl: "",
+    pdfFileName: "",
     pdfLabel: "View Tender PDF",
   };
 }
@@ -178,8 +499,19 @@ function createTenderDraftFromItem(tender) {
     bidOpeningDate: tender.bidOpeningDate ?? "",
     corrigendumDetails: tender.corrigendumDetails ?? "",
     pdfUrl: tender.pdfUrl ?? "",
+    pdfFileName: tender.pdfFileName ?? getFileNameFromUrl(tender.pdfUrl),
     pdfLabel: tender.pdfLabel ?? "View Tender PDF",
   };
+}
+
+function getFileNameFromUrl(url = "") {
+  if (!url) return "";
+
+  try {
+    return decodeURIComponent(url.split("?")[0].split("/").pop() || "");
+  } catch {
+    return url.split("?")[0].split("/").pop() || "";
+  }
 }
 
 function createUpdateDraftFromItem(item) {
@@ -213,7 +545,7 @@ function parseJsonField(value, label) {
     }
 
     return parsedValue;
-  } catch (error) {
+  } catch {
     throw new Error(`${label} must be valid JSON array content.`);
   }
 }
@@ -577,7 +909,9 @@ function NoticeEventManager({
               />
               <label className="relative inline-flex cursor-pointer items-center justify-center rounded-xl border border-slate-300 bg-white px-4 text-cicBlue transition hover:border-cicBlue hover:bg-blue-50">
                 <CalendarDays className="h-5 w-5" />
-                <span className="sr-only">Select notice date from calendar</span>
+                <span className="sr-only">
+                  Select notice date from calendar
+                </span>
                 <input
                   type="date"
                   value={formatNoticeDateToIso(draft.date)}
@@ -1644,6 +1978,7 @@ function TenderManager({
       setDraft((currentDraft) => ({
         ...currentDraft,
         pdfUrl: uploadedFile.url,
+        pdfFileName: uploadedFile.filename || file.name,
         pdfLabel: currentDraft.pdfLabel || "View Tender PDF",
       }));
       setMessage({
@@ -1683,6 +2018,7 @@ function TenderManager({
       bidOpeningDate: draft.bidOpeningDate.trim(),
       corrigendumDetails: draft.corrigendumDetails.trim(),
       pdfUrl,
+      pdfFileName: draft.pdfFileName.trim() || getFileNameFromUrl(pdfUrl),
       pdfLabel: draft.pdfLabel.trim() || "View Tender PDF",
     };
 
@@ -1810,50 +2146,35 @@ function TenderManager({
         </label>
 
         <div className="grid gap-4 md:grid-cols-3">
-          <label className="grid gap-2 text-sm font-medium text-slate-700">
-            Start Date
-            <input
-              value={draft.startDate}
-              onChange={(event) =>
-                setDraft((currentDraft) => ({
-                  ...currentDraft,
-                  startDate: event.target.value,
-                }))
-              }
-              placeholder="23 Jun 2026 02:00 PM"
-              className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
-            />
-          </label>
+          <TenderDateTimeField
+            id="tender-start"
+            label="Start Date"
+            value={draft.startDate}
+            onChange={(startDate) =>
+              setDraft((currentDraft) => ({ ...currentDraft, startDate }))
+            }
+          />
 
-          <label className="grid gap-2 text-sm font-medium text-slate-700">
-            End Date
-            <input
-              value={draft.endDate}
-              onChange={(event) =>
-                setDraft((currentDraft) => ({
-                  ...currentDraft,
-                  endDate: event.target.value,
-                }))
-              }
-              placeholder="21 Jul 2026 12:00 PM"
-              className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
-            />
-          </label>
+          <TenderDateTimeField
+            id="tender-end"
+            label="End Date"
+            value={draft.endDate}
+            onChange={(endDate) =>
+              setDraft((currentDraft) => ({ ...currentDraft, endDate }))
+            }
+          />
 
-          <label className="grid gap-2 text-sm font-medium text-slate-700">
-            Bid Opening Date
-            <input
-              value={draft.bidOpeningDate}
-              onChange={(event) =>
-                setDraft((currentDraft) => ({
-                  ...currentDraft,
-                  bidOpeningDate: event.target.value,
-                }))
-              }
-              placeholder="22 Jul 2026 12:00 PM"
-              className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
-            />
-          </label>
+          <TenderDateTimeField
+            id="tender-bid-opening"
+            label="Bid Opening Date"
+            value={draft.bidOpeningDate}
+            onChange={(bidOpeningDate) =>
+              setDraft((currentDraft) => ({
+                ...currentDraft,
+                bidOpeningDate,
+              }))
+            }
+          />
         </div>
 
         <label className="grid gap-2 text-sm font-medium text-slate-700">
@@ -1905,7 +2226,7 @@ function TenderManager({
             rel="noreferrer"
             className="text-sm font-semibold text-cicBlue underline-offset-4 hover:underline"
           >
-            Current PDF: {draft.pdfUrl}
+            Current PDF: {draft.pdfFileName || getFileNameFromUrl(draft.pdfUrl)}
           </a>
         ) : null}
 
@@ -1963,11 +2284,7 @@ function SafeguardsManager({ adminToken, setMessage }) {
     setUploading(true);
     setMessage(null);
     try {
-      await uploadFile(
-        "/uploads/cyber-security-safeguard",
-        file,
-        adminToken,
-      );
+      await uploadFile("/uploads/cyber-security-safeguard", file, adminToken);
       await loadFiles();
       setMessage({
         type: "success",

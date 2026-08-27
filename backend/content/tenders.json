@@ -1,5 +1,52 @@
 [
   {
+    "id": "tender-1787840894692-4lfjog",
+    "title": "PAC Procurement of Ekahau AI Pro Bundle for Wi-Fi Planning, Site Surveying and AI-Driven Optimization for a period of 3 Years",
+    "refNo": "IIT/CIC/Ekahau/2026-27/20",
+    "startDate": "20 Aug 2026 05:00 PM",
+    "endDate": "15 Sep 2026 04:00 PM",
+    "bidOpeningDate": "15 Sep 2026 05:00 PM",
+    "corrigendumDetails": "",
+    "pdfUrl": "/resources/tenders/20-08-2026 Ekahu Tender.pdf",
+    "pdfFileName": "20-08-2026 Ekahu Tender.pdf",
+    "pdfLabel": "View Tender PDF"
+  },
+  {
+    "id": "tender-1787840775837-z4ndrd",
+    "title": "Procurement of IP-PBX System and Voice Gateways for Campus Ethernet-based Voice Services",
+    "refNo": "IIT/CIC/IP-PBX/2026-27/19",
+    "startDate": "19 Aug 2026 03:30 PM",
+    "endDate": "10 Sep 2026 03:30 PM",
+    "bidOpeningDate": "10 Sep 2026 04:30 PM",
+    "corrigendumDetails": "",
+    "pdfUrl": "/resources/tenders/19-08-2026 Procurement of IP-PBX System and Voice Gateways Tender.pdf",
+    "pdfFileName": "19-08-2026 Procurement of IP-PBX System and Voice Gateways Tender.pdf",
+    "pdfLabel": "View Tender PDF"
+  },
+  {
+    "id": "tender-1787840560565-667ecm",
+    "title": "PAC Procurement of 20 user Vienna Ab initio Simulation Package - VASP and 3 users MedeA (Graphical User Interface with three years support subscription)",
+    "refNo": "IIT/CIC/VASP-MEDEA/2026-27/18",
+    "startDate": "19 Aug 2026 03:00 PM",
+    "endDate": "11 Sep 2026 03:00 PM",
+    "bidOpeningDate": "11 Sep 2026 05:00 PM",
+    "corrigendumDetails": "",
+    "pdfUrl": "/resources/tenders/19-08-2026 VASP 20 User Licence Tender.pdf",
+    "pdfFileName": "19-08-2026 VASP 20 User Licence Tender.pdf",
+    "pdfLabel": "View Tender PDF"
+  },
+  {
+    "id": "tender-1787839620709-1v2p62",
+    "title": "PAC Procurement of Stata/MP 19 (2-Core) Site License Software with 200 Annual Licenses for One-Year Term",
+    "refNo": "IIT/CIC/STATA/2026-27/17",
+    "startDate": "13 Aug 2026 03:00 PM",
+    "endDate": "12 Sep 2026 03:00 PM",
+    "bidOpeningDate": "12 Sep 2026 04:30 PM",
+    "corrigendumDetails": "",
+    "pdfUrl": "/resources/tenders/13-08-2026 STATA 200 Annual Licenses Tender.pdf",
+    "pdfLabel": "View Tender PDF"
+  },
+  {
     "id": "ai-software-tender-2026",
     "title": "AI Software Tender",
     "refNo": "IIT/CIC/AI-SW/2026-27/06",
