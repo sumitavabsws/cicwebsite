@@ -586,6 +586,12 @@ function NestedSectionItems({
             className={`leading-7 ${
               isTree && depth > 0 && !collapsible
                 ? "relative pl-6 before:absolute before:left-0 before:top-0 before:h-5 before:w-4 before:rounded-bl-sm before:border-b-2 before:border-l-2 before:border-cicBlue/35 after:absolute after:left-0 after:top-5 after:-bottom-4 after:border-l-2 after:border-cicBlue/35 last:after:hidden"
+                : isTree && depth > 0 && collapsible
+                  ? `relative before:absolute before:-left-5 before:top-5 before:w-5 before:border-b-2 ${
+                      depth === 1
+                        ? "before:border-cicBlue/30"
+                        : "before:border-slate-200"
+                    }`
                 : ""
             }`}
           >

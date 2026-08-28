@@ -1047,6 +1047,26 @@ export const services = [
             text: "Ansys",
             children: [
               {
+                text: "Ansys 18",
+                references: [
+                  {
+                    label: "Open Ansys 18 installation guide",
+                    url: "/resources/softwaresupport/ansys/2018/ANSYS_18.1_Windows_Installation_Guide.pdf",
+                    type: "pdf",
+                  },
+                ],
+              },
+              {
+                text: "Ansys 23",
+                references: [
+                  {
+                    label: "Open Ansys 23 installation guide",
+                    url: "/resources/softwaresupport/ansys/2023/ANSYS_2023_R2_Windows_Installation_Guide.pdf",
+                    type: "pdf",
+                  },
+                ],
+              },
+              {
                 text: "Ansys 2025",
                 children: [
                   {
@@ -1342,8 +1362,8 @@ export const services = [
             references: [
               {
                 label: "Open Windows VPN installation guide",
-                url: "https://cic1.iitkgp.ac.in/vpn-windows",
-                type: "link",
+                url: "/resources/vpn/FortiClient_VPN_Windows_Installation_and_Configuration_Guide.pdf",
+                type: "pdf",
               },
             ],
           },
@@ -1352,8 +1372,8 @@ export const services = [
             references: [
               {
                 label: "Open Macintosh VPN installation guide",
-                url: "https://cic1.iitkgp.ac.in/vpn-macintosh",
-                type: "link",
+                url: "/resources/vpn/FortiClient_VPN_macOS_Installation_and_Configuration_Guide.pdf",
+                type: "pdf",
               },
             ],
           },
