@@ -20,6 +20,17 @@ const SESSION_CHECK_INTERVAL_MS = 60 * 1000;
 const SESSION_ACTIVITY_DEBOUNCE_MS = 30 * 1000;
 const SESSION_WARNING_SECONDS = 5 * 60;
 
+function extractSessionToken(response) {
+  return (
+    response?.token ??
+    response?.access_token ??
+    response?.["access-token"] ??
+    response?.session_id ??
+    response?.sso?.token ??
+    ""
+  );
+}
+
 function consumeSessionIdFromUrl() {
   if (typeof window === "undefined") {
     return null;
@@ -55,7 +66,7 @@ export function AdminAuthProvider({ children }) {
     async (sessionId, { renew = false } = {}) => {
       try {
         const response = await apiRequest(
-          `/auth/me?renew=${renew ? "1" : "0"}`,
+          `/cic-admin/auth/me?renew=${renew ? "1" : "0"}`,
           {
             token: sessionId,
           },
@@ -150,7 +161,7 @@ export function AdminAuthProvider({ children }) {
   }, [session?.token, validateSession]);
 
   const login = async ({ username, password }) => {
-    const response = await apiRequest("/auth/login", {
+    const response = await apiRequest("/cic-admin/auth/login", {
       method: "POST",
       body: {
         username,
@@ -158,8 +169,15 @@ export function AdminAuthProvider({ children }) {
       },
     });
 
+    const token = extractSessionToken(response);
+    if (!token) {
+      throw new Error(
+        "Login succeeded, but the backend did not return a usable session token.",
+      );
+    }
+
     const nextSession = {
-      token: response.token,
+      token,
       username: response.username,
       employeeCode: response.employee_code,
       expiresAt: response.expires_at,
@@ -179,7 +197,7 @@ export function AdminAuthProvider({ children }) {
 
     if (currentToken) {
       try {
-        await apiRequest("/auth/logout", {
+        await apiRequest("/cic-admin/auth/logout", {
           method: "POST",
           token: currentToken,
         });

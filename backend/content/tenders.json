@@ -1,5 +1,29 @@
 [
   {
+    "id": "tender-1789050075557-6def43",
+    "title": "Procurement of Indo ESRI Institutional Agreement License for ArcGIS Software Suite (CampusWide License) for the period of 3 Years",
+    "refNo": "PAC Notice no. IIT/CIC/ARCGIS/PAC/2026-27/24 dated: 03.09.2026",
+    "startDate": "3 Sep 2026 05:00 PM",
+    "endDate": "24 Sep 2026 04:00 PM",
+    "bidOpeningDate": "24 Sep 2026 05:00 PM",
+    "corrigendumDetails": "",
+    "pdfLabel": "View Tender PDF",
+    "pdfUrl": "/api/assets/r_b394de43a6ab68eaddb2ae13",
+    "pdfFileName": "ArcGIS PAC Tender.pdf"
+  },
+  {
+    "id": "tender-1789049924419-cfbb55",
+    "title": "Procurement of Cambridge Structural Database (CSD) Enterprise Campus License",
+    "refNo": "PAC Notice no. IIT/CIC/CSD/PAC/2026-27/26 dated: 10.09.2026",
+    "startDate": "10 Sep 2026 11:45 AM",
+    "endDate": "1 Oct 2026 04:00 PM",
+    "bidOpeningDate": "1 Oct 2026 05:00 PM",
+    "corrigendumDetails": "",
+    "pdfLabel": "View Tender PDF",
+    "pdfUrl": "/api/assets/r_3f78b0522485762cb83f4f3f",
+    "pdfFileName": "CSD Tender.pdf"
+  },
+  {
     "id": "tender-1787914310915-y6o0sw",
     "title": "Procurement for the upgradation of existing compute infrastructure of CIC",
     "refNo": "IIT/CIC/Compute/2026-27/23",
@@ -7,7 +31,7 @@
     "endDate": "24 Sep 2026 03:00 PM",
     "bidOpeningDate": "24 Sep 2026 04:00 PM",
     "corrigendumDetails": "",
-    "pdfUrl": "/resources/tenders/28-08-2026 Procurement for the upgradation of existing compute infrastructure of CIC Tender.pdf",
+    "pdfUrl": "/api/assets/r_dUsWAvYhPkThwRYP",
     "pdfFileName": "28-08-2026 Procurement for the upgradation of existing compute infrastructure of CIC Tender.pdf",
     "pdfLabel": "View Tender PDF"
   },
@@ -16,12 +40,15 @@
     "title": "PAC Procurement of Ekahau AI Pro Bundle for Wi-Fi Planning, Site Surveying and AI-Driven Optimization for a period of 3 Years",
     "refNo": "IIT/CIC/Ekahau/2026-27/20",
     "startDate": "20 Aug 2026 05:00 PM",
-    "endDate": "15 Sep 2026 04:00 PM",
-    "bidOpeningDate": "15 Sep 2026 05:00 PM",
+    "endDate": "22 Sep 2026 03:00 PM",
+    "bidOpeningDate": "22 Sep 2026 04:00 PM",
     "corrigendumDetails": "",
-    "pdfUrl": "/resources/tenders/20-08-2026 Ekahu Tender.pdf",
+    "pdfUrl": "/api/assets/r_QOVNQGCc1HRzt3Gj",
     "pdfFileName": "20-08-2026 Ekahu Tender.pdf",
-    "pdfLabel": "View Tender PDF"
+    "pdfLabel": "View Tender PDF",
+    "corrigendumUrl": "/api/assets/r_ea2e88e320060bd00ad19e71",
+    "corrigendumFileName": "Corrigendum-1 for Procurement of Ekahau AI Pro Bundle.pdf",
+    "corrigendumLabel": "View Corrigendum"
   },
   {
     "id": "tender-1787840775837-z4ndrd",
@@ -31,7 +58,7 @@
     "endDate": "10 Sep 2026 03:30 PM",
     "bidOpeningDate": "10 Sep 2026 04:30 PM",
     "corrigendumDetails": "",
-    "pdfUrl": "/resources/tenders/19-08-2026 Procurement of IP-PBX System and Voice Gateways Tender.pdf",
+    "pdfUrl": "/api/assets/r_Mnewg0yKkAdOxmz",
     "pdfFileName": "19-08-2026 Procurement of IP-PBX System and Voice Gateways Tender.pdf",
     "pdfLabel": "View Tender PDF"
   },
@@ -43,7 +70,7 @@
     "endDate": "11 Sep 2026 03:00 PM",
     "bidOpeningDate": "11 Sep 2026 05:00 PM",
     "corrigendumDetails": "",
-    "pdfUrl": "/resources/tenders/19-08-2026 VASP 20 User Licence Tender.pdf",
+    "pdfUrl": "/api/assets/r_UDuevZ8Akm0ocd7",
     "pdfFileName": "19-08-2026 VASP 20 User Licence Tender.pdf",
     "pdfLabel": "View Tender PDF"
   },
@@ -53,10 +80,14 @@
     "refNo": "IIT/CIC/STATA/2026-27/17",
     "startDate": "13 Aug 2026 03:00 PM",
     "endDate": "12 Sep 2026 03:00 PM",
-    "bidOpeningDate": "12 Sep 2026 04:30 PM",
+    "bidOpeningDate": "14 Sep 2026 05:00 PM",
     "corrigendumDetails": "",
-    "pdfUrl": "/resources/tenders/13-08-2026 STATA 200 Annual Licenses Tender.pdf",
-    "pdfLabel": "View Tender PDF"
+    "pdfUrl": "/api/assets/r_Nflgms4A9ymp7vIb",
+    "pdfLabel": "View Tender PDF",
+    "pdfFileName": "1786609978_f3b37753541e1c3a05e7.pdf",
+    "corrigendumUrl": "/api/assets/r_cff635ced63dff0056c4a4a0",
+    "corrigendumFileName": "26559 Corri IITCICSTATA2026-2717.pdf",
+    "corrigendumLabel": "View Corrigendum"
   },
   {
     "id": "ai-software-tender-2026",
@@ -66,7 +97,7 @@
     "endDate": "02 Jul 2026 03:00 PM",
     "bidOpeningDate": "02 Jul 2026 04:00 PM",
     "corrigendumDetails": "",
-    "pdfUrl": "/resources/tenders/10-06-2026 AI Software Tender.pdf",
+    "pdfUrl": "/api/assets/r_9MPiLKPyLFHfNf",
     "pdfLabel": "View Tender PDF"
   }
 ]

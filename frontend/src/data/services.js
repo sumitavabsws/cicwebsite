@@ -60,31 +60,19 @@ export const services = [
     slug: "internet-access",
     title: "Internet Access",
     description:
-      "Captive portal authentication for wired and wireless internet access using ERP login and campus network password.",
+      "Guidance for wired and wireless internet access using ERP login and campus network password.",
     linkLabel: "Explore service",
     iconKey: "globe",
     eyebrow: "Network Services",
     summary:
-      "Internet access in IIT Kharagpur uses web-based Captive Portal Authentication for both wired and wireless networks. Users authenticate with their ERP user ID and the campus network password set through ERP.",
+      "Internet access guidance for IIT Kharagpur's wired and wireless networks, including ERP network-password setup and device-specific connection steps.",
     details: [
-      {
-        title: "General Information",
-        items: [
-          "Internet access in IIT Kharagpur will use web-based authentication mechanism i.e. via Captive Portal Authentication. All users of both WiFi and wired network must finally connect to internet using a valid user id and password. At this time, users with ERP login are requested to authenticate to avail the institute Internet facility from both the wireless and wired networks.",
-        ],
-      },
       {
         title: "Authentication Requirement",
         items: [
           "The campus network password is created in ERP and should be different from the ERP password.",
           "This same campus network password is used for both internet access and Wi-Fi authentication.",
           "You have to create this password only once unless you want to change it later. It can be changed anytime from ERP in the same manner.",
-        ],
-      },
-      {
-        title: "Session Timeout",
-        items: [
-          "There is a 45 days session timeout present in the Captive Portal. You will have to repeat the authentication steps every 45 days on a particular device or machine to continue internet access.",
         ],
       },
     ],
@@ -129,7 +117,7 @@ export const services = [
                   {
                     label:
                       "Authentication Steps for Academic areas/Offices/Hostels/Guest houses",
-                    url: "/resources/Captive_Portal_Autentication_for_internet_access.pdf",
+                    url: "/api/assets/r_tHLSE70p0nTiXi5I",
                     type: "pdf",
                   },
                 ],
@@ -139,7 +127,7 @@ export const services = [
                 references: [
                   {
                     label: "Authentication Steps for Residential areas",
-                    url: "/resources/residential-captive-portal-authentication.pdf",
+                    url: "/api/assets/r_Sx8WGVelL8EPLYl",
                     type: "pdf",
                   },
                 ],
@@ -178,7 +166,7 @@ export const services = [
                   {
                     label:
                       "Authentication Steps for Academic areas/Offices/Hostels/Guest houses",
-                    url: "/resources/Captive_Portal_Autentication_for_internet_access.pdf",
+                    url: "/api/assets/r_tHLSE70p0nTiXi5I",
                     type: "pdf",
                   },
                 ],
@@ -188,7 +176,7 @@ export const services = [
                 references: [
                   {
                     label: "Authentication Steps for Residential areas",
-                    url: "/resources/residential-captive-portal-authentication.pdf",
+                    url: "/api/assets/r_Sx8WGVelL8EPLYl",
                     type: "pdf",
                   },
                 ],
@@ -217,7 +205,7 @@ export const services = [
           "Official CIC PDF for regular internet access authentication.",
         assetName: "internet-access-captive-portal.pdf",
         fallbackUrl:
-          "/resources/Captive_Portal_Autentication_for_internet_access.pdf",
+          "/api/assets/r_tHLSE70p0nTiXi5I",
         kind: "Open PDF",
       },
       {
@@ -225,7 +213,7 @@ export const services = [
         description:
           "Official CIC PDF for residential-area internet access authentication.",
         assetName: "internet-access-residential.pdf",
-        fallbackUrl: "/resources/residential-captive-portal-authentication.pdf",
+        fallbackUrl: "/api/assets/r_Sx8WGVelL8EPLYl",
         kind: "Open PDF",
       },
       {
@@ -239,22 +227,18 @@ export const services = [
     ],
     importantNotes: [
       "There will be no authentication or password required for accessing the IITKGP local resources like Zimbra mail, Apna, IITKGP websites etc. from wired network.",
-      "If user is already logged in, do not refresh the captive portal page or open the captive portal page again. It will be logged out and the user will need to login again to get the institute internet service.",
-      "New WiFi user need to authenticate two times to gain internet access. One for the first time WiFi access and second for the usual internet access. Second time onwards the WiFi user need to login only in captive portal to get the internet service.",
-      "There is no browser dependency for captive portal authentication but it is always recommended to use an updated browser for best user experience.",
       "Faculty and staff may share their password with their family members for internet access. However, in order to avoid password misuse, there will be a limit for number of simultaneous connections.",
       "The user with the user id used for logging in is solely responsible for any misuse of the internet when connected with that user id.",
     ],
     highPriorityNotes: [
-      "Do not refresh or reopen the captive portal page while already logged in; it can log the user out.",
       "The user id used for login is solely responsible for any misuse of internet access through that session.",
     ],
     contact: {
       name: "CIC Internet Access Support",
-      role: "Primary contact persons for internet access authentication",
-      email: "debnathp@cc.iitkgp.ac.in",
-      phone: "82378",
-      note: "Please contact CIC to report problems or for any other queries. Primary contact persons are Mr. Debnath Pramanik (debnathp@cc.iitkgp.ac.in, Ph: 82378), Mr. Uddipan Tunga (uddipan@cc.iitkgp.ac.in, Ph: 83047), and Mr. Alokes Chattopadhyay (alokes@cc.iitkgp.ac.in, Ph: 82376).",
+      role: "Internet access support",
+      email: "helpdesk@cc.iitkgp.ac.in",
+      phone: "",
+      note: "",
     },
   },
   {
@@ -326,7 +310,7 @@ export const services = [
                 references: [
                   {
                     label: "Configuration Instruction for Android devices",
-                    url: "/resources/AndroidConfigurationWiFi.pdf",
+                    url: "/api/assets/r_zPyr4C9kkQvlfOJ0",
                     type: "pdf",
                   },
                 ],
@@ -337,7 +321,7 @@ export const services = [
                   {
                     label:
                       "Configuration Instruction for Windows 10 machines (pdf)",
-                    url: "/resources/wifiauthentication/Windows10ConfigurationWiFi.pdf",
+                    url: "/api/assets/r_ja3G3PIGNadLPI6",
                     type: "pdf",
                   },
                 ],
@@ -347,7 +331,7 @@ export const services = [
                 references: [
                   {
                     label: "Configuration Instruction for Linux machines",
-                    url: "/resources/wifiauthentication/LinuxConfigurationWiFi.pdf",
+                    url: "/api/assets/r_R6abfXJ2hjJ3lPWS",
                     type: "pdf",
                   },
                 ],
@@ -357,7 +341,7 @@ export const services = [
                 references: [
                   {
                     label: "Configuration Instruction for Windows 7 machines",
-                    url: "/resources/wifiauthentication/Windows7ConfigurationWiFim2.pdf",
+                    url: "/api/assets/r_xhvawutH9aAJtDj0",
                     type: "pdf",
                   },
                 ],
@@ -368,7 +352,7 @@ export const services = [
                   {
                     label:
                       "Configuration Instruction for Windows Lumia based phones",
-                    url: "/resources/wifiauthentication/LumiaConfigurationWiFi.pdf",
+                    url: "/api/assets/r_KFgp5lLjAj4t4DN",
                     type: "pdf",
                   },
                 ],
@@ -378,7 +362,7 @@ export const services = [
                 references: [
                   {
                     label: "Configuration Instruction for Mac devices",
-                    url: "/resources/MacConfigurationWiFi.pdf",
+                    url: "/api/assets/r_eIRFJb5xBG5ghmpA",
                     type: "pdf",
                   },
                 ],
@@ -399,7 +383,7 @@ export const services = [
         title: "Configuration Instruction for Android devices",
         description: "Configuration instruction for Android devices.",
         assetName: "",
-        fallbackUrl: "/resources/AndroidConfigurationWiFi.pdf",
+        fallbackUrl: "/api/assets/r_zPyr4C9kkQvlfOJ0",
         kind: "Open PDF",
       },
       {
@@ -407,14 +391,14 @@ export const services = [
         description: "Configuration instruction for Windows 10 machines.",
         assetName: "",
         fallbackUrl:
-          "/resources/wifiauthentication/Windows10ConfigurationWiFi.pdf",
+          "/api/assets/r_ja3G3PIGNadLPI6",
         kind: "Open PDF",
       },
       {
         title: "Configuration Instruction for Linux machines",
         description: "Configuration instruction for Linux machines.",
         assetName: "",
-        fallbackUrl: "/resources/wifiauthentication/LinuxConfigurationWiFi.pdf",
+        fallbackUrl: "/api/assets/r_R6abfXJ2hjJ3lPWS",
         kind: "Open PDF",
       },
       {
@@ -422,7 +406,7 @@ export const services = [
         description: "Configuration instruction for Windows 7 machines.",
         assetName: "",
         fallbackUrl:
-          "/resources/wifiauthentication/Windows7ConfigurationWiFim2.pdf",
+          "/api/assets/r_xhvawutH9aAJtDj0",
         kind: "Open PDF",
       },
       {
@@ -430,14 +414,14 @@ export const services = [
         description:
           "Configuration instruction for Windows Lumia based phones.",
         assetName: "",
-        fallbackUrl: "/resources/wifiauthentication/LumiaConfigurationWiFi.pdf",
+        fallbackUrl: "/api/assets/r_KFgp5lLjAj4t4DN",
         kind: "Open PDF",
       },
       {
         title: "Configuration Instruction for Mac devices",
         description: "Configuration instruction for Mac devices.",
         assetName: "",
-        fallbackUrl: "/resources/MacConfigurationWiFi.pdf",
+        fallbackUrl: "/api/assets/r_eIRFJb5xBG5ghmpA",
         kind: "Open PDF",
       },
     ],
@@ -513,12 +497,12 @@ export const services = [
             references: [
               {
                 label: "Outlook mail client setup",
-                url: "/resources/mailaccess/Microsoft_Outlook_Setup.pdf",
+                url: "/api/assets/r_3kpenzxQRuDldje",
                 type: "pdf",
               },
               {
                 label: "Archiving emails using Outlook",
-                url: "/resources/mailaccess/MicrosoftOutlookArchiving.pdf",
+                url: "/api/assets/r_hKsMCz8iuCPI1aE",
                 type: "pdf",
               },
             ],
@@ -592,14 +576,14 @@ export const services = [
         title: "Outlook mail client setup",
         description: "Reference PDF for setting up Outlook as a mail client.",
         assetName: "",
-        fallbackUrl: "/resources/mailaccess/Microsoft_Outlook_Setup.pdf",
+        fallbackUrl: "/api/assets/r_3kpenzxQRuDldje",
         kind: "Open PDF",
       },
       {
         title: "Archiving emails using Outlook",
         description: "Reference PDF for archiving emails using Outlook.",
         assetName: "",
-        fallbackUrl: "/resources/mailaccess/MicrosoftOutlookArchiving.pdf",
+        fallbackUrl: "/api/assets/r_hKsMCz8iuCPI1aE",
         kind: "Open PDF",
       },
     ],
@@ -714,7 +698,7 @@ export const services = [
                 references: [
                   {
                     label: "Open installation guide",
-                    url: "/resources/softwaresupport/antivirus/Trend_Micro_ApexOne_Installation_Guide.pdf",
+                    url: "/api/assets/r_tf9fBwDcr3JHHUg1",
                     type: "pdf",
                   },
                 ],
@@ -729,7 +713,7 @@ export const services = [
                 references: [
                   {
                     label: "Open command line installation guide",
-                    url: "/resources/softwaresupport/abaqus/abaquscommandlinesupport/Abaqus21_command_line_installation.pdf",
+                    url: "/api/assets/r_ndqjnclClGEjP7f",
                     type: "pdf",
                   },
                 ],
@@ -739,7 +723,7 @@ export const services = [
                 references: [
                   {
                     label: "Open Abaqus 6.14 installation guide",
-                    url: "/resources/softwaresupport/abaqus/abaqus614/Abaqus_614_Installation_Guide_Windows.pdf",
+                    url: "/api/assets/r_G3SdEROPQfaQeeLA",
                     type: "pdf",
                   },
                 ],
@@ -749,7 +733,7 @@ export const services = [
                 references: [
                   {
                     label: "Open Abaqus 2021 professional guide",
-                    url: "/resources/softwaresupport/abaqus/abaqus21/Abaqus_2021_Professional_Guide.pdf",
+                    url: "/api/assets/r_YZRQAjDAMsjf6f",
                     type: "pdf",
                   },
                 ],
@@ -759,7 +743,7 @@ export const services = [
                 references: [
                   {
                     label: "Open Abaqus 2022 professional guide",
-                    url: "/resources/softwaresupport/abaqus/abaqus22/Abaqus_2022_Professional_Guide.pdf",
+                    url: "/api/assets/r_VQiYcNJvaJgBUR",
                     type: "pdf",
                   },
                 ],
@@ -769,7 +753,7 @@ export const services = [
                 references: [
                   {
                     label: "Open Abaqus 2025 professional guide",
-                    url: "/resources/softwaresupport/abaqus/abaqus25/Abaqus_2025_Professional_Guide.pdf",
+                    url: "/api/assets/r_ABT07ymuXERt1EfU",
                     type: "pdf",
                   },
                 ],
@@ -779,7 +763,7 @@ export const services = [
                 references: [
                   {
                     label: "Open Fortran compiler integration guide",
-                    url: "/resources/softwaresupport/abaqus/abaqusFortran/Abaqus_Fortran_Compiler_Integration_Guide.pdf",
+                    url: "/api/assets/r_oJ3uCyZbjWC68TBN",
                     type: "pdf",
                   },
                 ],
@@ -806,7 +790,7 @@ export const services = [
                     references: [
                       {
                         label: "Open R2023a campus-wide license products list",
-                        url: "/resources/softwaresupport/matlab/campus-wide-license-products-R2023A.pdf",
+                        url: "/api/assets/r_osFJlEcWSUryyXnU",
                         type: "pdf",
                       },
                     ],
@@ -816,7 +800,7 @@ export const services = [
                     references: [
                       {
                         label: "Open Windows installation instructions",
-                        url: "/resources/softwaresupport/matlab/MATLAB_2024a_Windows_Installation_Guide.pdf",
+                        url: "/api/assets/r_hmupHgQHJEhVDP",
                         type: "pdf",
                       },
                     ],
@@ -826,7 +810,7 @@ export const services = [
                     references: [
                       {
                         label: "Open Linux installation instructions",
-                        url: "/resources/softwaresupport/matlab/MATLAB_Linux_Installation_Guide.pdf",
+                        url: "/api/assets/r_bdQjuykRqi5f7ey",
                         type: "pdf",
                       },
                     ],
@@ -1016,7 +1000,7 @@ export const services = [
                 references: [
                   {
                     label: "Open SolidWorks 2015 SP02 installation guide",
-                    url: "/resources/softwaresupport/solidworks/SolidWorks_2015_SP2_Installation_Guide.pdf",
+                    url: "/api/assets/r_GiJ01x2IQmFqld1v",
                     type: "pdf",
                   },
                 ],
@@ -1026,7 +1010,7 @@ export const services = [
                 references: [
                   {
                     label: "Open SolidWorks 2020 SP04 installation guide",
-                    url: "/resources/softwaresupport/solidworks/SolidWorks_2020_SP4_Installation_Guide.pdf",
+                    url: "/api/assets/r_VqSUXd3FSpaVIYT",
                     type: "pdf",
                   },
                 ],
@@ -1036,7 +1020,7 @@ export const services = [
                 references: [
                   {
                     label: "Open SolidWorks 2022 SP02 installation guide",
-                    url: "/resources/softwaresupport/solidworks/SolidWorks_2022_SP02_Installation_Guide.pdf",
+                    url: "/api/assets/r_lYGDIanOEtDy0Tmu",
                     type: "pdf",
                   },
                 ],
@@ -1051,7 +1035,7 @@ export const services = [
                 references: [
                   {
                     label: "Open Ansys 18 installation guide",
-                    url: "/resources/softwaresupport/ansys/2018/ANSYS_18.1_Windows_Installation_Guide.pdf",
+                    url: "/api/assets/r_S1WqPzjF7kFbT8FE",
                     type: "pdf",
                   },
                 ],
@@ -1061,7 +1045,7 @@ export const services = [
                 references: [
                   {
                     label: "Open Ansys 23 installation guide",
-                    url: "/resources/softwaresupport/ansys/2023/ANSYS_2023_R2_Windows_Installation_Guide.pdf",
+                    url: "/api/assets/r_8ABnA271J3hmgdyz",
                     type: "pdf",
                   },
                 ],
@@ -1075,7 +1059,7 @@ export const services = [
                       {
                         label:
                           "Open Ansys Electronics 2025 R2 installation guide",
-                        url: "/resources/softwaresupport/ansys/2025/Ansys_Electronics_2025R2_Installation_Guide.pdf",
+                        url: "/api/assets/r_ytNOGljIIls9cP7",
                         type: "pdf",
                       },
                     ],
@@ -1086,7 +1070,7 @@ export const services = [
                       {
                         label:
                           "Open Ansys Fluid Structures 2025 R2 installation guide",
-                        url: "/resources/softwaresupport/ansys/2025/Ansys_FluidStructures_2025_R2_Installation_Guide.pdf",
+                        url: "/api/assets/r_rEIU2RfY0waRqke",
                         type: "pdf",
                       },
                     ],
@@ -1096,7 +1080,7 @@ export const services = [
                     references: [
                       {
                         label: "Open Ansys MotorCAD 2025 R2 installation guide",
-                        url: "/resources/softwaresupport/ansys/2025/Ansys_MotorCAD_2025_R2_Installation_Guide.pdf",
+                        url: "/api/assets/r_opk0nSYMwovzSDC",
                         type: "pdf",
                       },
                     ],
@@ -1107,7 +1091,7 @@ export const services = [
                       {
                         label:
                           "Open Ansys Lumerical 2025 R2 installation guide",
-                        url: "/resources/softwaresupport/ansys/2025/Ansys_Lumerical_2025_R2_Installation_Guide.pdf",
+                        url: "/api/assets/r_6M6TKunYS8qcic",
                         type: "pdf",
                       },
                     ],
@@ -1117,7 +1101,7 @@ export const services = [
                     references: [
                       {
                         label: "Open Ansys SCADE 2025 R2 installation guide",
-                        url: "/resources/softwaresupport/ansys/2025/Ansys_SCADE_2025_R2_Installation_Guide.pdf",
+                        url: "/api/assets/r_v3u84vTLlp85WMu",
                         type: "pdf",
                       },
                     ],
@@ -1134,7 +1118,7 @@ export const services = [
                 references: [
                   {
                     label: "Open CST Studio Ubuntu installation guide",
-                    url: "/resources/softwaresupport/cststudio/ubuntu/CST_Ubuntu_Installation_Guide.pdf",
+                    url: "/api/assets/r_kP6uHm5bLl05hpNL",
                     type: "pdf",
                   },
                 ],
@@ -1144,7 +1128,7 @@ export const services = [
                 references: [
                   {
                     label: "Open CST Studio Windows installation guide",
-                    url: "/resources/softwaresupport/cststudio/windows/CST_Windows_Installation_Guide.pdf",
+                    url: "/api/assets/r_tK6bQmLamuohspC8",
                     type: "pdf",
                   },
                 ],
@@ -1159,7 +1143,7 @@ export const services = [
                 references: [
                   {
                     label: "Open IBM SPSS 29 installation guide",
-                    url: "/resources/softwaresupport/ibmspss/IBM_SPSS_Statistics_29_and_Amos_29_Installation_Guide.pdf",
+                    url: "/api/assets/r_q5CnhjZPOLHtcYRW",
                     type: "pdf",
                   },
                 ],
@@ -1178,7 +1162,7 @@ export const services = [
                       {
                         label:
                           "Open Microsoft Office 2024 installation and activation guide",
-                        url: "/resources/softwaresupport/microsoftoffice/windows/Microsoft_Office_2024_Installation_Activation_Guide.pdf",
+                        url: "/api/assets/r_n8XHhpXpWsixQkk",
                         type: "pdf",
                       },
                     ],
@@ -1189,7 +1173,7 @@ export const services = [
                       {
                         label:
                           "Open Microsoft Office 2019 and 2021 installation and activation guide",
-                        url: "/resources/softwaresupport/microsoftoffice/windows/Microsoft_Office_2019_2021_Installation_Activation_Guide.pdf",
+                        url: "/api/assets/r_QqtWyEA8datOATtN",
                         type: "pdf",
                       },
                     ],
@@ -1200,7 +1184,7 @@ export const services = [
                       {
                         label:
                           "Open Microsoft Office 2013, 2016 KMS activation instructions",
-                        url: "/resources/softwaresupport/microsoftoffice/windows/Microsoft_Office_2013_2016_KMS_Activation_Instructions.pdf",
+                        url: "/api/assets/r_kNGHeGtqesg307B",
                         type: "pdf",
                       },
                     ],
@@ -1216,7 +1200,7 @@ export const services = [
                       {
                         label:
                           "Open Microsoft Office macOS installation and activation guide",
-                        url: "/resources/softwaresupport/microsoftoffice/macos/Install_and_Activate_Microsoft_Office_on_macOS_v1.pdf",
+                        url: "/api/assets/r_ga3K8xk8aJ5eIpZ",
                         type: "pdf",
                       },
                     ],
@@ -1230,7 +1214,7 @@ export const services = [
             references: [
               {
                 label: "Open Microsoft Windows KMS activation instructions",
-                url: "/resources/softwaresupport/microsoftoffice/windows/Microsoft_Windows_KMS_Activation_Instructions.pdf",
+                url: "/api/assets/r_oZVnlOkvKQkKYB",
                 type: "pdf",
               },
             ],
@@ -1362,7 +1346,7 @@ export const services = [
             references: [
               {
                 label: "Open Windows VPN installation guide",
-                url: "/resources/vpn/FortiClient_VPN_Windows_Installation_and_Configuration_Guide.pdf",
+                url: "/api/assets/r_FFT0CZWUT7GCANR",
                 type: "pdf",
               },
             ],
@@ -1372,7 +1356,7 @@ export const services = [
             references: [
               {
                 label: "Open Macintosh VPN installation guide",
-                url: "/resources/vpn/FortiClient_VPN_macOS_Installation_and_Configuration_Guide.pdf",
+                url: "/api/assets/r_5OCjxnMT2Px0Tq3",
                 type: "pdf",
               },
             ],

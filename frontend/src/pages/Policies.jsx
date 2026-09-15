@@ -16,7 +16,7 @@ const policyGroups = [
           "Official IIT Kharagpur IT Security Policy document for institutional cyber and IT usage expectations.",
         document: {
           title: "Institute IT Security Policy",
-          url: "/resources/policies/IIT_Kharagpur_IT_Security_Policy.pdf",
+          url: "/api/assets/r_bsweey0mFIn267NH",
         },
       },
       {
@@ -26,13 +26,14 @@ const policyGroups = [
           "Digital Personal Data Protection Act reference document issued for government policy compliance.",
         document: {
           title: "Digital Personal Data Protection Act, 2023",
-          url: "/resources/policies/DPDP Act.pdf",
+          url: "/api/assets/r_IRDw5g7Hix9QVsb",
         },
       },
     ],
   },
   {
     slug: "infrastructure-access-policies",
+    hidden: true,
     title: "Infrastructure Access Policies",
     description:
       "SOPs for requesting, approving, and using CIC infrastructure, platforms, and operational services.",
@@ -59,9 +60,12 @@ const policyGroups = [
   },
 ];
 
+const visiblePolicyGroups = policyGroups.filter((group) => !group.hidden);
+
 function getActivePolicy(sectionSlug, itemSlug) {
   const activeGroup =
-    policyGroups.find((group) => group.slug === sectionSlug) ?? policyGroups[0];
+    visiblePolicyGroups.find((group) => group.slug === sectionSlug) ??
+    visiblePolicyGroups[0];
   const activeItem = itemSlug
     ? activeGroup.items.find((item) => item.slug === itemSlug)
     : null;
@@ -123,7 +127,7 @@ function Policies() {
 
           <div className="border-t border-slate-200 pt-6 xl:border-l xl:border-t-0 xl:pl-10 xl:pt-0">
             <div className="grid gap-6 lg:grid-cols-2">
-              {policyGroups.map((group) => (
+              {visiblePolicyGroups.map((group) => (
                 <section key={group.slug}>
                   <NavLink
                     to={`/policies/${group.slug}`}
@@ -163,10 +167,6 @@ function Policies() {
                 </section>
               ))}
             </div>
-
-            {!activeItem ? (
-              <div className="mt-10 min-h-[220px] border border-dashed border-slate-300 bg-slate-50" />
-            ) : null}
           </div>
         </div>
       </div>

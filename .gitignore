@@ -1,6 +1,9 @@
 # Python bytecode and test caches
 __pycache__/
 *.py[cod]
+backend/log.txt
+backend/log.txt.*
+backend/.env
 
 # Local dependency environments
 .venv/

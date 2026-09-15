@@ -21,7 +21,7 @@ function CheckMyIp() {
     <main className="flex min-h-screen items-center justify-center bg-white px-6">
       <div className="text-center">
         <img
-          src="/cic-logo.png?v=2"
+          src="/api/assets/r_GV7CfpaG35K0XdH"
           alt="CIC"
           className="mx-auto mb-8 h-20 w-20 rounded-full bg-white object-contain"
         />

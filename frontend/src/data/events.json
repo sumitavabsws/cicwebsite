@@ -5,7 +5,7 @@
     "description": "A hands-on workshop introducing researchers and students to Paramshakti HPC usage workflows.",
     "reference": {
       "type": "html",
-      "url": "/references/paramshakti-workshop.html",
+      "url": "/api/assets/r_txBIlxcRPdiFBhT",
       "label": "View workshop details"
     }
   },
@@ -15,7 +15,7 @@
     "description": "Scheduled maintenance for core network devices with temporary interruption windows in selected buildings.",
     "reference": {
       "type": "pdf",
-      "url": "/files/network-core-maintenance.pdf",
+      "url": "/api/assets/r_8ZEPwCbmLEqs6OSu",
       "label": "Open maintenance circular"
     }
   }

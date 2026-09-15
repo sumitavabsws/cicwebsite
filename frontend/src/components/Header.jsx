@@ -5,8 +5,8 @@ import { useLocation } from "react-router-dom";
 import TopBar from "./TopBar";
 import Navbar from "./Navbar";
 
-const iitKgpLogoSrc = "/resources/logo/IITKGP_LOGO.png";
-const iitKgp75LogoSrc = "/resources/logo/iitkgp75yrslogo.png";
+const iitKgpLogoSrc = "/api/assets/r_P22Z1RYKTqdTnAzU";
+const iitKgp75LogoSrc = "/api/assets/r_GV7CfpaG35K0XdH";
 
 function HeaderLogo({ src, alt, fallback }) {
   const [hasLogo, setHasLogo] = useState(true);
@@ -54,7 +54,7 @@ function Header() {
 
             <div className="min-w-0">
               <h1 className="text-sm font-bold leading-tight text-blue-900 sm:text-base xl:text-xl">
-                Computer &amp; Informatics Center
+                Computer &amp; Informatics Centre
               </h1>
 
               <p className="text-sm text-gray-500">IIT Kharagpur</p>

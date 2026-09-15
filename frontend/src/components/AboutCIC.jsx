@@ -1,5 +1,5 @@
 import Updates from "./Updates";
-const cicVideoSrc = `/videos/cicvideo.mp4`;
+const cicVideoSrc = `/api/assets/r_izHRSO5v5I3YJOg`;
 
 function AboutCIC() {
   return (

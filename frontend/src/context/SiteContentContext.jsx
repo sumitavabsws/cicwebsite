@@ -53,10 +53,12 @@ function normalizeOptionalReference(reference) {
   }
 
   const normalizedReference = {
+    id: reference.id ?? createId("reference"),
     label: reference.label?.trim() ?? "Open reference",
     url: reference.url?.trim() ?? "",
     type: reference.type?.trim() ?? "link",
     inline: reference.inline === true,
+    resourceKey: reference.resourceKey?.trim() ?? "",
   };
 
   return normalizedReference.url ? normalizedReference : null;
@@ -103,8 +105,18 @@ function normalizeRichItem(item) {
   }
 
   const normalizedItem = {
+    id: item.id ?? createId("software-item"),
     text: item.text?.trim() ?? "",
+    status: item.status === "draft" ? "draft" : "published",
   };
+
+  if (item.version?.toString().trim()) {
+    normalizedItem.version = item.version.toString().trim();
+  }
+
+  if (item.platform?.toString().trim()) {
+    normalizedItem.platform = item.platform.toString().trim();
+  }
 
   if (item.moreText?.trim()) {
     normalizedItem.moreText = item.moreText.trim();

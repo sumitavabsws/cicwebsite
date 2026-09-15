@@ -22,36 +22,45 @@ const networkScale = [
 
 const networkBannerImages = [
   {
-    src: "/media/infrastructure/physical/networkroom1.jpg",
+    src: "/api/assets/r_0y3Iq0ZWxIVLygY0",
     alt: "CIC central network room infrastructure",
   },
   {
-    src: "/media/infrastructure/physical/networkroom2.jpg",
+    src: "/api/assets/r_hrnUPosZdYZL2udX",
     alt: "Network racks and routing equipment inside CIC",
   },
   {
-    src: "/media/infrastructure/physical/networkroom3.jpg",
+    src: "/api/assets/r_dZ1u0qLxAq2XUhEy",
     alt: "Campus network room equipment row",
   },
   {
-    src: "/media/infrastructure/physical/networkroom4.jpg",
+    src: "/api/assets/r_evBqetXyAiWgZI",
     alt: "Core network facility at CIC",
   },
 ];
 
-const pcLabBannerImages = [1, 2, 3, 4, 5, 6, 7, 8].map((imageNumber) => ({
-  src: `/media/infrastructure/physical/pclab${imageNumber}.jpg`,
-  alt: `CIC PC Lab facility view ${imageNumber}`,
+const pcLabBannerImages = [
+  "/api/assets/r_km2No7Xrfc5xB2PI",
+  "/api/assets/r_xVkcrTng1hGIvtk6",
+  "/api/assets/r_0m9GEuirr3DTete9",
+  "/api/assets/r_velp9kfYTWT4FjW0",
+  "/api/assets/r_fH61zMSdb1kRe5",
+  "/api/assets/r_sViSNCoPXJ5QGk",
+  "/api/assets/r_Lbtk01jr20Jszcf4",
+  "/api/assets/r_7PdxwkxDdFdTsPkh",
+].map((src, index) => ({
+  src,
+  alt: `CIC PC Lab facility view ${index + 1}`,
 }));
 
 const networkInlineImages = [
   {
-    src: "/media/infrastructure/physical/splicetray1.jpg",
+    src: "/api/assets/r_fdb5xxHgkRL4XbPB",
     alt: "Fiber splice tray in the CIC network facility",
     caption: "Fiber splice tray supporting campus backbone connectivity.",
   },
   {
-    src: "/media/infrastructure/physical/switch.jpg",
+    src: "/api/assets/r_op7MwnE2Dg2UXe1z",
     alt: "Network switch infrastructure in the CIC network room",
     caption:
       "Switching infrastructure supporting access and distribution layers.",
@@ -143,17 +152,17 @@ const helpdeskSupportParagraphs = [
 
 const helpdeskImages = [
   {
-    src: "/media/infrastructure/physical/heldesk1.jpg",
+    src: "/api/assets/r_qETqSZvtJenp4LS",
     alt: "Campus Network Helpdesk team supporting network operations",
     caption: "Helpdesk operations supporting campus network services.",
   },
   {
-    src: "/media/infrastructure/physical/heldesk2.jpg",
+    src: "/api/assets/r_j37s10TmEezVvAUc",
     alt: "Helpdesk systems and network operations workspace",
     caption: "Operational workspace for monitoring and support activities.",
   },
   {
-    src: "/media/infrastructure/physical/heldesk3.jpg",
+    src: "/api/assets/r_l0eyk1ESP0XpsF",
     alt: "Technical support and classroom network assistance",
     caption: "Technical support during classroom and lab network activities.",
   },
@@ -259,12 +268,12 @@ const pcLabContacts = [
 const smartRackImages = {
   rackRow: [
     {
-      src: "/media/infrastructure/physical/smartrack1.jpg",
+      src: "/api/assets/r_950otTx2lxdPMbd2",
       alt: "Vertiv SmartRow enclosed rack row in operation",
       caption: "SmartRow enclosed rack row in operation.",
     },
     {
-      src: "/media/infrastructure/physical/smartrack2.jpg",
+      src: "/api/assets/r_hJuNXzVZDiOL88z",
       alt: "SmartRow rack containment and cooling aisle",
       caption:
         "Integrated rack containment supporting separated hot and cold aisles.",
@@ -272,24 +281,24 @@ const smartRackImages = {
   ],
   ups: [
     {
-      src: "/media/infrastructure/physical/ups1.jpg",
+      src: "/api/assets/r_yoxMfdwZTpyVpvwi",
       alt: "Vertiv Liebert APM Plus UPS cabinet",
       caption: "Liebert APM Plus modular UPS cabinet.",
     },
     {
-      src: "/media/infrastructure/physical/ups2.jpg",
+      src: "/api/assets/r_0D0Z57UE9IMTsgTL",
       alt: "UPS monitoring and control panel",
       caption: "UPS control and monitoring panel.",
     },
   ],
   battery: [
     {
-      src: "/media/infrastructure/physical/ups3.jpg",
+      src: "/api/assets/r_HsPZzlqYDFSzmikV",
       alt: "VRLA battery rack for data centre backup",
       caption: "VRLA battery rack for backup power.",
     },
     {
-      src: "/media/infrastructure/physical/ups4.jpg",
+      src: "/api/assets/r_gchNbETZJOoRlPED",
       alt: "Battery bank and interlink cabling",
       caption: "Battery bank with interlink cabling and isolation systems.",
     },
@@ -431,7 +440,7 @@ function FirewallSecurityContent() {
 
           <figure className="border border-slate-200 bg-white p-3 shadow-sm">
             <img
-              src="/media/infrastructure/firewall_setup.png"
+              src="/api/assets/r_RQQmLQWOQPeSW7sY"
               alt="Campus firewall network topology overview"
               className="mx-auto max-h-[520px] w-full object-contain"
             />
@@ -1266,7 +1275,7 @@ function Infrastructure() {
           {!isBlogActive ? (
             <section className="relative overflow-hidden border-b border-slate-200 bg-slate-950 py-16">
               <img
-                src="/media/infrastructure/physical/cic-lobby.jpg"
+                src="/api/assets/r_SFAh8iztNrsYFgmA"
                 alt=""
                 aria-hidden="true"
                 className="absolute inset-0 h-full w-full object-cover"
@@ -1639,7 +1648,7 @@ function Infrastructure() {
                     <p className="text-lg leading-9 text-slate-600">
                       In its commitment to providing world-class infrastructure,
                       IIT Kharagpur continually upgrades its network. Recent
-                      advancements include deploying smart data center
+                      advancements include deploying smart data centre
                       infrastructure, expanding high-capacity seamless wireless
                       coverage across all halls of residence, integrating major
                       healthcare facilities like the Dr. Syama Prasad Mookerjee
