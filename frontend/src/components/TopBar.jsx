@@ -3,6 +3,7 @@ import { BookOpen, ChevronDown, TicketCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAdminAuth } from "../context/AdminAuthContext";
 import { apiRequest } from "../lib/api";
+import HelpdeskNetworkNotice from "./HelpdeskNetworkNotice";
 import IpAddressModal from "./IpAddressModal";
 
 const primaryLinks = [
@@ -163,7 +164,7 @@ function TopBar() {
             onClick={(event) => handleHelpdeskClick(event, link)}
             className={
               link.featured
-                ? "group hidden items-center gap-1.5 whitespace-nowrap rounded-full border border-cyan-300/45 bg-cyan-300/10 px-3 py-1 font-semibold text-cyan-100 transition hover:border-cyan-200/70 hover:bg-cyan-300/15 hover:text-white xl:inline-flex"
+                ? "group hidden items-center gap-1.5 whitespace-nowrap rounded-full border border-cyan-300/55 bg-cyan-300/10 px-3 py-1 font-semibold text-cyan-100 shadow-[0_0_14px_rgba(34,211,238,0.35)] transition hover:border-cyan-200/80 hover:bg-cyan-300/20 hover:text-white hover:shadow-[0_0_22px_rgba(34,211,238,0.58)] xl:inline-flex"
                 : link.guide
                   ? "group hidden items-center gap-1.5 whitespace-nowrap rounded-full border border-white/15 px-2.5 py-1 text-blue-100/85 transition hover:border-cyan-300/60 hover:bg-white/5 hover:text-cyan-100 xl:inline-flex"
                   : "hidden whitespace-nowrap transition hover:text-cyan-200 xl:inline"
@@ -264,49 +265,10 @@ function TopBar() {
 
       <IpAddressModal isOpen={isIpModalOpen} onClose={closeIpModal} />
 
-      {isHelpdeskNoticeOpen ? (
-        <div
-          className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-950/65 p-4"
-          role="presentation"
-          onClick={() => setIsHelpdeskNoticeOpen(false)}
-        >
-          <div
-            role="alertdialog"
-            aria-modal="true"
-            aria-labelledby="helpdesk-network-title"
-            className="max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-2xl border border-slate-200 bg-white p-4 text-slate-700 shadow-2xl sm:p-6"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-full bg-blue-50 text-cicBlue">
-              <TicketCheck className="h-5 w-5" aria-hidden="true" />
-            </div>
-            <h2
-              id="helpdesk-network-title"
-              className="text-lg font-semibold text-slate-900"
-            >
-              IIT Network Required
-            </h2>
-            <p className="mt-2 text-sm leading-6 text-slate-600">
-              The function is allowed only within IIT-network. Kindly contact{" "}
-              <a
-                href="mailto:helpdesk@cc.iitkgp.ac.in"
-                className="break-all font-semibold text-cicBlue hover:underline"
-              >
-                helpdesk@cc.iitkgp.ac.in
-              </a>{" "}
-              for further details.
-            </p>
-            <button
-              type="button"
-              autoFocus
-              onClick={() => setIsHelpdeskNoticeOpen(false)}
-              className="mt-5 w-full rounded-xl bg-cicBlue px-4 py-2.5 font-semibold text-white transition hover:bg-blue-900"
-            >
-              Close
-            </button>
-          </div>
-        </div>
-      ) : null}
+      <HelpdeskNetworkNotice
+        isOpen={isHelpdeskNoticeOpen}
+        onClose={() => setIsHelpdeskNoticeOpen(false)}
+      />
     </div>
   );
 }

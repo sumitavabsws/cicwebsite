@@ -2,13 +2,17 @@
 
 Run the Python API:
 
-```bash
+```powershell
 cd backend
 python -m venv .venv
-.venv\Scripts\activate
-pip install -r requirements.txt
-uvicorn main:app --reload --host 0.0.0.0 --port 8000
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m uvicorn main:app --reload --host 0.0.0.0 --port 5500
 ```
+
+For an existing environment, run only the last command from `backend`.
+Calling Uvicorn as a Python module avoids the `uvicorn.exe` launcher, which
+Windows Application Control may block. Virtual environment activation is optional
+when using the explicit Python path above.
 
 Run the React frontend so it is reachable from other devices on the same network:
 
@@ -22,6 +26,28 @@ Then open the app from another device using:
 ```text
 http://<your-host-ip>:5173
 ```
+
+## Managed resources
+
+Backend documents, images, and videos are published through opaque `/api/assets/<id>`
+URLs. Do not add `/resources`, `/media`, or `/videos` links to frontend code or
+CMS content.
+
+Replace existing production resources through **Admin Panel -> Resources**.
+Manage tender PDFs and corrigenda through **Admin Panel -> Tenders**. These are
+the normal administrative workflows and do not require server commands.
+
+The following backend commands are development and recovery utilities for
+introducing new source-controlled resources or validating a deployment:
+
+```powershell
+.venv\Scripts\python.exe manage_resources.py list
+.venv\Scripts\python.exe manage_resources.py sync
+.venv\Scripts\python.exe manage_resources.py replace <resource-key> <updated-file>
+.venv\Scripts\python.exe manage_resources.py validate
+```
+
+Replacing a registered file preserves its public URL.
 
 Optional environment variables:
 

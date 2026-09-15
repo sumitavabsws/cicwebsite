@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AlertTriangle,
   ArrowLeft,
+  ArrowRight,
   ChevronDown,
   ChevronRight,
   Cloud,
@@ -9,13 +10,17 @@ import {
   ExternalLink,
   FileText,
   FolderTree,
+  GraduationCap,
   Mail,
   Phone,
   Search,
+  TicketCheck,
   X,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { apiRequest } from "../lib/api";
 import { getDocumentViewerUrl } from "../utils/references";
+import HelpdeskNetworkNotice from "./HelpdeskNetworkNotice";
 
 const serviceDocumentModules = import.meta.glob("../assets/service-docs/*", {
   eager: true,
@@ -101,6 +106,8 @@ function normalizeSectionItem(item) {
   if (typeof item === "string") {
     return {
       text: item,
+      version: "",
+      platform: "",
       moreText: "",
       moreItems: [],
       modal: null,
@@ -111,6 +118,8 @@ function normalizeSectionItem(item) {
 
   return {
     text: item?.text ?? "",
+    version: item?.version ?? "",
+    platform: item?.platform ?? "",
     moreText: item?.moreText ?? "",
     moreItems: Array.isArray(item?.moreItems) ? item.moreItems : [],
     moreItemsOrdered: item?.moreItemsOrdered === true,
@@ -222,6 +231,7 @@ function ItemImages({ references }) {
           href={getDocumentViewerUrl(
             reference.href,
             reference.label ?? "Image",
+            "image",
           )}
           target="_blank"
           rel="noreferrer"
@@ -380,8 +390,8 @@ function SoftwareTreeButton({ item, depth, isExpanded, onClick }) {
             <span className="block truncate text-base font-bold text-slate-900">
               {item.text}
             </span>
-            <span className="mt-0.5 block text-xs font-semibold uppercase tracking-[0.14em] text-slate-500">
-              Software family
+            <span className="mt-0.5 block line-clamp-2 text-xs font-medium leading-relaxed text-slate-500">
+              {item.moreText?.trim() || "Software family"}
             </span>
           </span>
         </span>
@@ -421,7 +431,23 @@ function SoftwareTreeButton({ item, depth, isExpanded, onClick }) {
         ) : (
           <ChevronRight className="h-4 w-4 shrink-0 text-cicBlue" />
         )}
-        <span className="truncate font-semibold">{item.text}</span>
+        <span className="min-w-0">
+          <span className="block truncate font-semibold">{item.text}</span>
+          {item.version || item.platform ? (
+            <span className="mt-1 flex flex-wrap gap-1.5">
+              {item.version ? (
+                <span className="rounded-full bg-blue-50 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-cicBlue">
+                  {item.version}
+                </span>
+              ) : null}
+              {item.platform ? (
+                <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-slate-600">
+                  {item.platform}
+                </span>
+              ) : null}
+            </span>
+          ) : null}
+        </span>
       </span>
       {documentCount ? (
         <span className="shrink-0 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-bold text-slate-500">
@@ -980,9 +1006,191 @@ function ServiceDocuments({ documents }) {
   );
 }
 
+function EduroamSection({ helpdeskAccess, onHelpdeskClick }) {
+  return (
+    <section
+      id="eduroam"
+      className="scroll-mt-32 border-t border-slate-200 pt-12"
+      aria-labelledby="eduroam-heading"
+    >
+      <div className="grid gap-10 xl:grid-cols-[0.72fr_1.28fr]">
+        <div>
+          <div className="inline-flex h-14 w-14 items-center justify-center rounded-2xl bg-cyan-100 text-cyan-700 ring-1 ring-cyan-200">
+            <GraduationCap className="h-7 w-7" />
+          </div>
+          <p className="mt-5 text-sm font-semibold uppercase tracking-[0.2em] text-cicBlue">
+            Global academic Wi-Fi
+          </p>
+          <h2
+            id="eduroam-heading"
+            className="mt-3 text-3xl font-black text-slate-900 md:text-4xl"
+          >
+            Eduroam
+          </h2>
+          <p className="mt-4 text-base leading-8 text-slate-600">
+            Eduroam is presented separately from campus internet access because
+            it serves travelling IIT Kharagpur users and visiting account
+            holders under participant-institute security policies.
+          </p>
+        </div>
+
+        <div className="space-y-6">
+          <div className="rounded-3xl border border-slate-200 bg-slate-50 p-6 md:p-8">
+            <p className="leading-8 text-slate-700">
+              CIC has enabled Eduroam, a global Wi-Fi authentication service for
+              educational institutes. It allows IIT Kharagpur users to sign in
+              with their institute Wi-Fi credentials at participating
+              institutions, and visitors with an Eduroam account to access our
+              Wi-Fi network.
+            </p>
+          </div>
+
+          <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
+            <h3 className="text-xl font-bold text-slate-900">
+              IIT Kharagpur users visiting a participant institute
+            </h3>
+            <div className="mt-4 space-y-4 leading-8 text-slate-600">
+              <p>
+                Your Eduroam login ID is your ERP user ID followed by
+                <strong className="font-semibold text-slate-900">
+                  {" "}@iitkgp.ac.in
+                </strong>
+                , and the password is the same Wi-Fi password that you set in
+                ERP. For example, ERP user ID 12345 becomes
+                <strong className="font-semibold text-slate-900">
+                  {" "}12345@iitkgp.ac.in
+                </strong>
+                . Access permissions are governed by the security policy of the
+                institution you are visiting. This facility is available to
+                faculty, staff, and students who have set up Wi-Fi authentication
+                through ERP.
+              </p>
+              <p>
+                For most mobile devices, the first-time configuration is the
+                same as IIT Kharagpur Wi-Fi authentication. Windows 8 and 10
+                laptops require additional parameter settings.
+              </p>
+              <div className="flex flex-wrap gap-3 pt-1">
+                <Link
+                  to="/services/wifi-authentication"
+                  className="inline-flex items-center gap-2 rounded-xl bg-cicBlue px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-900"
+                >
+                  Wi-Fi authentication guides
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+                <a
+                  href={getDocumentViewerUrl(
+                    "/api/assets/r_TM0vTpA4yFvLlm7",
+                    "Windows 8/10 Eduroam settings",
+                  )}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 rounded-xl border border-slate-300 bg-white px-4 py-2.5 text-sm font-semibold text-cicBlue transition hover:border-cicBlue hover:bg-blue-50"
+                >
+                  Windows 8/10 Eduroam settings
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+              </div>
+              <p>
+                You may configure your device after arriving at the visiting
+                institute. To allow advance configuration, the Eduroam SSID is
+                available on indoor wireless access points in the academic area,
+                including the Nalanda complex. For security reasons, it cannot
+                be used as the regular Wi-Fi connection inside our campus.
+              </p>
+            </div>
+          </article>
+
+          <article className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:p-8">
+            <h3 className="text-xl font-bold text-slate-900">
+              Eduroam account holders visiting IIT Kharagpur
+            </h3>
+            <p className="mt-4 leading-8 text-slate-600">
+              Visitors can use IIT Kharagpur Wi-Fi wherever the Eduroam SSID is
+              available, including indoor access points in the academic area,
+              the Nalanda complex, and Technology Guest House. A proxy server
+              should not be configured. After authentication, IIT Kharagpur
+              security policies apply: services blocked for campus Wi-Fi users
+              remain blocked, and access to internal sites is restricted.
+            </p>
+          </article>
+
+          <div className="rounded-2xl border border-blue-200 bg-blue-50 px-5 py-4 text-slate-700">
+            For any help/inquiry,{" "}
+            <a
+              href={helpdeskAccess?.ticketUrl ?? "#"}
+              target="_blank"
+              rel="noreferrer"
+              onClick={onHelpdeskClick}
+              className="font-semibold text-cicBlue underline decoration-blue-300 underline-offset-4 hover:text-blue-900"
+            >
+              click here
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function ServiceDetailLayout({ service }) {
   const [activeModal, setActiveModal] = useState(null);
   const [expandedTreePath, setExpandedTreePath] = useState([]);
+  const [helpdeskAccess, setHelpdeskAccess] = useState(null);
+  const [isHelpdeskNoticeOpen, setIsHelpdeskNoticeOpen] = useState(false);
+
+  useEffect(() => {
+    if (service?.slug !== "internet-access") {
+      return undefined;
+    }
+
+    let isMounted = true;
+
+    apiRequest("/helpdesk-access")
+      .then((response) => {
+        if (isMounted) setHelpdeskAccess(response);
+      })
+      .catch(() => {
+        if (isMounted) setHelpdeskAccess({ allowed: false });
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [service?.slug]);
+
+  const handleHelpdeskClick = (event) => {
+    if (helpdeskAccess === null) {
+      event.preventDefault();
+      return;
+    }
+
+    if (helpdeskAccess.allowed) {
+      return;
+    }
+
+    event.preventDefault();
+    setIsHelpdeskNoticeOpen(true);
+  };
+
+  const handleEduroamClick = (event) => {
+    const section = document.getElementById("eduroam");
+
+    if (!section) {
+      return;
+    }
+
+    event.preventDefault();
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+
+    section.scrollIntoView({
+      behavior: prefersReducedMotion ? "auto" : "smooth",
+      block: "start",
+    });
+    window.history.replaceState(null, "", "#eduroam");
+  };
 
   const handleToggleTreeNode = (nodeKey, depth) => {
     setExpandedTreePath((previousPath) =>
@@ -1050,15 +1258,35 @@ function ServiceDetailLayout({ service }) {
             </p>
           </div>
 
-          {/* <div className="border-t border-slate-200 pt-6 xl:border-l xl:border-t-0 xl:pl-10 xl:pt-0">
-            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-slate-500">
-              Service Overview
-            </p>
-            <p className="mt-4 max-w-3xl text-base leading-8 text-slate-600">
-              Official information, usage guidance, downloadable references,
-              important notes, and support contacts for this CIC service.
-            </p>
-          </div> */}
+          {service.slug === "internet-access" ? (
+            <a
+              href="#eduroam"
+              onClick={handleEduroamClick}
+              className="group self-start rounded-3xl border border-cyan-200 bg-gradient-to-br from-cyan-50 to-blue-50 p-6 transition hover:border-cicBlue hover:shadow-md xl:ml-8"
+            >
+              <span className="flex items-start gap-4">
+                <span className="inline-flex h-12 w-12 flex-none items-center justify-center rounded-2xl bg-white text-cicBlue shadow-sm ring-1 ring-blue-100">
+                  <GraduationCap className="h-6 w-6" />
+                </span>
+                <span>
+                  <span className="block text-sm font-semibold uppercase tracking-[0.16em] text-cicBlue">
+                    Travelling or visiting?
+                  </span>
+                  <span className="mt-2 block text-xl font-bold text-slate-900">
+                    View Eduroam access
+                  </span>
+                  <span className="mt-2 block leading-7 text-slate-600">
+                    Find credentials, device guidance, visitor coverage, and
+                    support in the dedicated Eduroam section.
+                  </span>
+                  <span className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-cicBlue">
+                    Go to Eduroam
+                    <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+                  </span>
+                </span>
+              </span>
+            </a>
+          ) : null}
         </section>
 
         {/* <div className="mt-8 grid gap-8 lg:grid-cols-[1.6fr_0.8fr]"> */}
@@ -1164,7 +1392,18 @@ function ServiceDetailLayout({ service }) {
                   ) : null}
                 </div>
 
-                {service.contact?.email ? (
+                {service.slug === "internet-access" ? (
+                  <a
+                    href={helpdeskAccess?.ticketUrl ?? "#"}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={handleHelpdeskClick}
+                    className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 font-semibold text-cicBlue transition hover:border-cicBlue"
+                  >
+                    <TicketCheck className="h-4 w-4 text-cicBlue" />
+                    Click here
+                  </a>
+                ) : service.contact?.email ? (
                   <a
                     href={`mailto:${service.contact.email}`}
                     className="flex items-center gap-3 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 transition hover:border-cicBlue"
@@ -1190,8 +1429,18 @@ function ServiceDetailLayout({ service }) {
             </section>
           </div>
         </div>
+        {service.slug === "internet-access" ? (
+          <EduroamSection
+            helpdeskAccess={helpdeskAccess}
+            onHelpdeskClick={handleHelpdeskClick}
+          />
+        ) : null}
       </div>
       <ServiceModal modal={activeModal} onClose={() => setActiveModal(null)} />
+      <HelpdeskNetworkNotice
+        isOpen={isHelpdeskNoticeOpen}
+        onClose={() => setIsHelpdeskNoticeOpen(false)}
+      />
     </div>
   );
 }

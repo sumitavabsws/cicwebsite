@@ -16,10 +16,7 @@ function truncateWords(text, limit = 10) {
 
 function ServicesGrid({ compact = false, dense = false }) {
   const { services } = useSiteContent();
-  // Internet Access is temporarily hidden until its future treatment is decided.
-  const publishedServices = services.filter(
-    (service) => service.slug !== "internet-access",
-  );
+  const publishedServices = services;
   const visibleServices = compact
     ? publishedServices.slice(0, 5)
     : publishedServices;

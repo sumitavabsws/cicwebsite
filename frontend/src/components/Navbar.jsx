@@ -1,11 +1,4 @@
 import { NavLink, useLocation } from "react-router-dom";
-import { getDocumentViewerUrl } from "../utils/references";
-
-const itSecurityPolicyViewerUrl = getDocumentViewerUrl(
-  "/resources/policies/IIT_Kharagpur_IT_Security_Policy.pdf",
-  "IIT Kharagpur IT Security Policy",
-);
-
 function Navbar({ mobile = false, onNavigate }) {
   const location = useLocation();
   const isCyberSecurityActive = location.pathname.startsWith("/cyber-security");
@@ -48,9 +41,7 @@ function Navbar({ mobile = false, onNavigate }) {
       </NavLink>
 
       <NavLink
-        to={itSecurityPolicyViewerUrl}
-        target="_blank"
-        rel="noopener noreferrer"
+        to="/policies"
         onClick={onNavigate}
         className={mobile ? "rounded-lg px-3 py-3 text-slate-700 hover:bg-blue-50 hover:text-blue-900" : getLinkClassName}
       >

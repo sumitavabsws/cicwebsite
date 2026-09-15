@@ -10,7 +10,9 @@ function DocumentViewer() {
     url.startsWith("/") ||
     url.startsWith("https://") ||
     url.startsWith("blob:");
-  const isImageDocument = /\.(avif|gif|jpe?g|png|webp)$/i.test(url);
+  const isImageDocument =
+    searchParams.get("type") === "image" ||
+    /\.(avif|gif|jpe?g|png|webp)$/i.test(url);
 
   useEffect(() => {
     document.title = title;
@@ -21,7 +23,7 @@ function DocumentViewer() {
       <header className="flex min-h-20 items-center justify-between gap-4 border-b border-slate-200 bg-white px-4 py-3 shadow-sm sm:px-6">
         <div className="flex min-w-0 items-center gap-3">
           <img
-            src="/cic-logo.png?v=2"
+            src="/api/assets/r_GV7CfpaG35K0XdH"
             alt="CIC"
             className="h-12 w-12 flex-none rounded-full bg-white object-contain"
           />

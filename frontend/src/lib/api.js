@@ -18,13 +18,19 @@ export function readStoredAdminSession() {
 
 export function writeStoredAdminSession(session) {
   if (typeof window === "undefined") {
-    return;
+    return false;
   }
 
-  window.localStorage.setItem(
-    ADMIN_SESSION_STORAGE_KEY,
-    JSON.stringify(session),
-  );
+  try {
+    window.localStorage.setItem(
+      ADMIN_SESSION_STORAGE_KEY,
+      JSON.stringify(session),
+    );
+    return true;
+  } catch (error) {
+    console.error("Unable to persist the admin session.", error);
+    return false;
+  }
 }
 
 export function clearStoredAdminSession() {
@@ -37,12 +43,14 @@ export function clearStoredAdminSession() {
 
 export async function apiRequest(path, options = {}) {
   const { method = "GET", body, token, headers = {} } = options;
+  const isFormData =
+    typeof FormData !== "undefined" && body instanceof FormData;
 
   const requestHeaders = {
     ...headers,
   };
 
-  if (body !== undefined) {
+  if (body !== undefined && !isFormData) {
     requestHeaders["Content-Type"] = "application/json";
   }
 
@@ -53,7 +61,8 @@ export async function apiRequest(path, options = {}) {
   const response = await fetch(`${API_BASE_URL}${path}`, {
     method,
     headers: requestHeaders,
-    body: body !== undefined ? JSON.stringify(body) : undefined,
+    body:
+      body === undefined ? undefined : isFormData ? body : JSON.stringify(body),
   });
 
   let responseData = null;

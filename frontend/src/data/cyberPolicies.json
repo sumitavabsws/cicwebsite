@@ -5,7 +5,7 @@
     "description": "Guidelines for responsible use of institute computing, network, and internet resources.",
     "reference": {
       "type": "pdf",
-      "url": "/files/acceptable-use-policy.pdf",
+      "url": "/api/assets/r_CNL7L1NHfkzRwHZI",
       "label": "Open policy PDF"
     }
   },
@@ -15,7 +15,7 @@
     "description": "Standards for password hygiene, multi-factor practices, and protection of institute credentials.",
     "reference": {
       "type": "pdf",
-      "url": "/files/password-account-security-policy.pdf",
+      "url": "/api/assets/r_kVUSu22OQMhu75M",
       "label": "Open policy PDF"
     }
   },
@@ -25,7 +25,7 @@
     "description": "Steps to report phishing, malware, credential leaks, or suspicious network activity to CIC.",
     "reference": {
       "type": "pdf",
-      "url": "/files/incident-reporting-procedure.pdf",
+      "url": "/api/assets/r_7EkRol1NjpWCP8aZ",
       "label": "Open procedure PDF"
     }
   }

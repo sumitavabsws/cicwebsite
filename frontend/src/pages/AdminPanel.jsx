@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   CalendarDays,
   ChevronLeft,
@@ -14,6 +15,7 @@ import { useAdminAuth } from "../context/AdminAuthContext";
 import { useSiteContent } from "../context/SiteContentContext";
 import { serviceIconOptions } from "../data/services";
 import { apiRequest, uploadFile } from "../lib/api";
+import SoftwareManager from "../components/SoftwareManager";
 
 const MAX_TEAM_PHOTO_SIZE_BYTES = Number(
   import.meta.env.VITE_MAX_TEAM_PHOTO_SIZE_BYTES ?? 200 * 1024,
@@ -448,6 +450,13 @@ function createEmptyTenderDraft() {
     pdfUrl: "",
     pdfFileName: "",
     pdfLabel: "View Tender PDF",
+    pdfFile: null,
+    corrigendumUrl: "",
+    corrigendumFileName: "",
+    corrigendumLabel: "View Corrigendum",
+    corrigendumFile: null,
+    removeCorrigendum: false,
+    fileInputKey: createId("tender-files"),
   };
 }
 
@@ -501,6 +510,14 @@ function createTenderDraftFromItem(tender) {
     pdfUrl: tender.pdfUrl ?? "",
     pdfFileName: tender.pdfFileName ?? getFileNameFromUrl(tender.pdfUrl),
     pdfLabel: tender.pdfLabel ?? "View Tender PDF",
+    pdfFile: null,
+    corrigendumUrl: tender.corrigendumUrl ?? "",
+    corrigendumFileName:
+      tender.corrigendumFileName ?? getFileNameFromUrl(tender.corrigendumUrl),
+    corrigendumLabel: tender.corrigendumLabel ?? "View Corrigendum",
+    corrigendumFile: null,
+    removeCorrigendum: false,
+    fileInputKey: createId("tender-files"),
   };
 }
 
@@ -1931,25 +1948,10 @@ function TenderManager({
   setMessage,
   adminToken,
 }) {
-  const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  const persistTenders = async (nextTenders) => {
-    const savedTenders = await apiRequest("/tenders", {
-      method: "PUT",
-      token: adminToken,
-      body: {
-        items: nextTenders,
-      },
-    });
-
-    setTenders(savedTenders);
-    return savedTenders;
-  };
-
-  const handlePdfChange = async (event) => {
+  const handlePdfChange = (event) => {
     const file = event.target.files?.[0];
-    event.target.value = "";
 
     if (!file) {
       return;
@@ -1959,6 +1961,8 @@ function TenderManager({
       file.type !== "application/pdf" &&
       !file.name.toLowerCase().endsWith(".pdf")
     ) {
+      event.target.value = "";
+      setDraft((currentDraft) => ({ ...currentDraft, pdfFile: null }));
       setMessage({
         type: "error",
         text: "Please upload a valid PDF file.",
@@ -1966,42 +1970,47 @@ function TenderManager({
       return;
     }
 
-    setUploading(true);
+    setDraft((currentDraft) => ({
+      ...currentDraft,
+      pdfFile: file,
+    }));
     setMessage(null);
+  };
 
-    try {
-      const uploadedFile = await uploadFile(
-        "/uploads/tender-pdf",
-        file,
-        adminToken,
-      );
+  const handleCorrigendumChange = (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (
+      file.type !== "application/pdf" &&
+      !file.name.toLowerCase().endsWith(".pdf")
+    ) {
+      event.target.value = "";
       setDraft((currentDraft) => ({
         ...currentDraft,
-        pdfUrl: uploadedFile.url,
-        pdfFileName: uploadedFile.filename || file.name,
-        pdfLabel: currentDraft.pdfLabel || "View Tender PDF",
+        corrigendumFile: null,
       }));
       setMessage({
-        type: "success",
-        text: "Tender PDF uploaded. Complete the tender details and save it.",
-      });
-    } catch (error) {
-      setMessage({
         type: "error",
-        text: error.message,
+        text: "Please upload a valid corrigendum PDF file.",
       });
-    } finally {
-      setUploading(false);
+      return;
     }
+
+    setDraft((currentDraft) => ({
+      ...currentDraft,
+      corrigendumFile: file,
+      removeCorrigendum: false,
+    }));
+    setMessage(null);
   };
 
   const handleSave = async (event) => {
     event.preventDefault();
 
     const title = draft.title.trim();
-    const pdfUrl = draft.pdfUrl.trim();
 
-    if (!title || !pdfUrl) {
+    if (!title || (!draft.pdfUrl.trim() && !draft.pdfFile)) {
       setMessage({
         type: "error",
         text: "Tender title and PDF upload are required.",
@@ -2009,33 +2018,38 @@ function TenderManager({
       return;
     }
 
-    const nextTender = {
-      id: draft.id || createId("tender"),
+    const tenderData = {
       title,
       refNo: draft.refNo.trim(),
       startDate: draft.startDate.trim(),
       endDate: draft.endDate.trim(),
       bidOpeningDate: draft.bidOpeningDate.trim(),
       corrigendumDetails: draft.corrigendumDetails.trim(),
-      pdfUrl,
-      pdfFileName: draft.pdfFileName.trim() || getFileNameFromUrl(pdfUrl),
       pdfLabel: draft.pdfLabel.trim() || "View Tender PDF",
+      corrigendumLabel:
+        draft.corrigendumLabel.trim() || "View Corrigendum",
+      removeCorrigendum: draft.removeCorrigendum,
     };
+
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(tenderData));
+    if (draft.pdfFile) formData.append("tenderPdf", draft.pdfFile);
+    if (draft.corrigendumFile) {
+      formData.append("corrigendumPdf", draft.corrigendumFile);
+    }
 
     setSaving(true);
 
     try {
-      const existingIndex = tenders.findIndex(
-        (tender) => tender.id === nextTender.id,
+      const savedTenders = await apiRequest(
+        draft.id ? `/tenders/${encodeURIComponent(draft.id)}` : "/tenders",
+        {
+          method: draft.id ? "PUT" : "POST",
+          token: adminToken,
+          body: formData,
+        },
       );
-      const nextTenders =
-        existingIndex >= 0
-          ? tenders.map((tender) =>
-              tender.id === nextTender.id ? nextTender : tender,
-            )
-          : [nextTender, ...tenders];
-
-      await persistTenders(nextTenders);
+      setTenders(savedTenders);
       setDraft(createEmptyTenderDraft());
       setMessage({
         type: "success",
@@ -2059,7 +2073,14 @@ function TenderManager({
     }
 
     try {
-      await persistTenders(tenders.filter((tender) => tender.id !== item.id));
+      const savedTenders = await apiRequest(
+        `/tenders/${encodeURIComponent(item.id)}`,
+        {
+          method: "DELETE",
+          token: adminToken,
+        },
+      );
+      setTenders(savedTenders);
       setDraft((currentDraft) =>
         currentDraft.id === item.id ? createEmptyTenderDraft() : currentDraft,
       );
@@ -2192,7 +2213,7 @@ function TenderManager({
           />
         </label>
 
-        <div className="grid gap-4 md:grid-cols-[1fr_1.3fr]">
+        <div className="grid gap-4 md:grid-cols-2">
           <label className="grid gap-2 text-sm font-medium text-slate-700">
             PDF Label
             <input
@@ -2208,16 +2229,23 @@ function TenderManager({
           </label>
 
           <label className="grid gap-2 text-sm font-medium text-slate-700">
-            Tender PDF
+            {draft.pdfUrl ? "Replace Tender PDF" : "Tender PDF"}
             <input
+              key={`${draft.fileInputKey}-tender`}
               type="file"
               accept="application/pdf,.pdf"
               onChange={handlePdfChange}
-              disabled={uploading}
               className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition file:mr-3 file:rounded-lg file:border-0 file:bg-blue-100 file:px-3 file:py-2 file:font-semibold file:text-cicBlue hover:file:bg-blue-200 focus:border-cicBlue"
             />
           </label>
         </div>
+
+        {draft.pdfFile ? (
+          <p className="rounded-xl bg-blue-50 px-4 py-3 text-sm text-slate-700">
+            Selected tender PDF: <strong>{draft.pdfFile.name}</strong>. It will
+            be uploaded only when you save the tender.
+          </p>
+        ) : null}
 
         {draft.pdfUrl ? (
           <a
@@ -2230,9 +2258,113 @@ function TenderManager({
           </a>
         ) : null}
 
+        <fieldset className="grid gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4">
+          <legend className="px-2 text-sm font-semibold text-slate-800">
+            Corrigendum document
+          </legend>
+
+          <div className="grid gap-3 md:grid-cols-[1fr_auto] md:items-end">
+            <label className="grid gap-2 text-sm font-medium text-slate-700">
+              Button Label
+              <input
+                value={draft.corrigendumLabel}
+                onChange={(event) =>
+                  setDraft((currentDraft) => ({
+                    ...currentDraft,
+                    corrigendumLabel: event.target.value,
+                  }))
+                }
+                className="rounded-xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-cicBlue"
+              />
+            </label>
+
+            <label className="inline-flex cursor-pointer items-center justify-center rounded-xl bg-[#2e207f] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[#17107a]">
+              Corrigendum Upload
+              <input
+                key={`${draft.fileInputKey}-corrigendum`}
+                type="file"
+                accept="application/pdf,.pdf"
+                onChange={handleCorrigendumChange}
+                className="sr-only"
+              />
+            </label>
+          </div>
+
+          {draft.corrigendumFile ? (
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-blue-50 px-4 py-3 text-sm text-slate-700">
+              <span>
+                Selected corrigendum: <strong>{draft.corrigendumFile.name}</strong>
+              </span>
+              <button
+                type="button"
+                onClick={() =>
+                  setDraft((currentDraft) => ({
+                    ...currentDraft,
+                    corrigendumFile: null,
+                    fileInputKey: createId("tender-files"),
+                  }))
+                }
+                className="font-semibold text-red-700 hover:underline"
+              >
+                Clear selection
+              </button>
+            </div>
+          ) : null}
+
+          {draft.corrigendumUrl && !draft.removeCorrigendum ? (
+            <div className="flex flex-wrap items-center justify-between gap-3 text-sm">
+              <a
+                href={draft.corrigendumUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="font-semibold text-cicBlue underline-offset-4 hover:underline"
+              >
+                Current corrigendum: {draft.corrigendumFileName || "View PDF"}
+              </a>
+              <button
+                type="button"
+                onClick={() =>
+                  setDraft((currentDraft) => ({
+                    ...currentDraft,
+                    corrigendumFile: null,
+                    removeCorrigendum: true,
+                    fileInputKey: createId("tender-files"),
+                  }))
+                }
+                className="font-semibold text-red-700 hover:underline"
+              >
+                Remove current corrigendum
+              </button>
+            </div>
+          ) : null}
+
+          {draft.removeCorrigendum ? (
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-amber-50 px-4 py-3 text-sm text-amber-900">
+              <span>The current corrigendum will be removed when you save.</span>
+              <button
+                type="button"
+                onClick={() =>
+                  setDraft((currentDraft) => ({
+                    ...currentDraft,
+                    removeCorrigendum: false,
+                  }))
+                }
+                className="font-semibold underline-offset-4 hover:underline"
+              >
+                Undo
+              </button>
+            </div>
+          ) : null}
+
+          <p className="text-xs leading-5 text-slate-500">
+            Selecting a file does not change the live website. The document is
+            uploaded together with the tender only after you click save.
+          </p>
+        </fieldset>
+
         <button
           type="submit"
-          disabled={saving || uploading}
+          disabled={saving}
           className="inline-flex items-center justify-center rounded-xl bg-cicBlue px-5 py-3 font-semibold text-white transition hover:bg-blue-900 disabled:cursor-not-allowed disabled:bg-slate-400"
         >
           {saving
@@ -2241,6 +2373,229 @@ function TenderManager({
               ? "Update Tender"
               : "Float New Tender"}
         </button>
+      </form>
+    </div>
+  );
+}
+
+function formatResourceSize(size = 0) {
+  if (size < 1024) return `${size} B`;
+  if (size < 1024 * 1024) return `${(size / 1024).toFixed(1)} KB`;
+  return `${(size / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+function ResourcesManager({ adminToken, setMessage }) {
+  const [resources, setResources] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState("");
+  const [selectedKey, setSelectedKey] = useState("");
+  const [replacementFile, setReplacementFile] = useState(null);
+  const [displayName, setDisplayName] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [inputKey, setInputKey] = useState(() => createId("resource-file"));
+
+  const loadResources = useCallback(async () => {
+    setLoading(true);
+    try {
+      const items = await apiRequest("/admin/resources", { token: adminToken });
+      setResources(Array.isArray(items) ? items : []);
+    } catch (error) {
+      setMessage({ type: "error", text: error.message });
+    } finally {
+      setLoading(false);
+    }
+  }, [adminToken, setMessage]);
+
+  useEffect(() => {
+    loadResources();
+  }, [loadResources]);
+
+  const filteredResources = useMemo(() => {
+    const query = searchText.trim().toLowerCase();
+    if (!query) return resources;
+    return resources.filter((resource) =>
+      `${resource.displayName} ${resource.key} ${resource.mediaType}`
+        .toLowerCase()
+        .includes(query),
+    );
+  }, [resources, searchText]);
+
+  const selectedResource = resources.find(
+    (resource) => resource.key === selectedKey,
+  );
+
+  const selectResource = (resource) => {
+    setSelectedKey(resource.key);
+    setDisplayName(resource.displayName);
+    setReplacementFile(null);
+    setInputKey(createId("resource-file"));
+    setMessage(null);
+  };
+
+  const handleReplace = async (event) => {
+    event.preventDefault();
+    if (!selectedResource || !replacementFile) {
+      setMessage({
+        type: "error",
+        text: "Select a managed resource and its replacement file.",
+      });
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", replacementFile);
+    formData.append("displayName", displayName.trim() || replacementFile.name);
+    setSaving(true);
+    setMessage(null);
+    try {
+      const updated = await apiRequest(
+        `/admin/resources/${encodeURIComponent(selectedResource.key)}`,
+        {
+          method: "PUT",
+          token: adminToken,
+          body: formData,
+        },
+      );
+      setResources((currentResources) =>
+        currentResources.map((resource) =>
+          resource.key === updated.key ? updated : resource,
+        ),
+      );
+      setReplacementFile(null);
+      setDisplayName(updated.displayName);
+      setInputKey(createId("resource-file"));
+      setMessage({
+        type: "success",
+        text: `Resource replaced safely. Its public URL is unchanged and it is now version ${updated.version}.`,
+      });
+    } catch (error) {
+      setMessage({ type: "error", text: error.message });
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const expectedExtension = selectedResource?.displayName
+    ?.split(".")
+    .pop()
+    ?.toLowerCase();
+
+  return (
+    <div className="grid gap-6 xl:grid-cols-[0.95fr_1.2fr]">
+      <section className="rounded-3xl border border-slate-200 bg-slate-50 p-6">
+        <h3 className="text-xl font-bold text-slate-900">Managed Resources</h3>
+        <p className="mt-2 text-sm leading-6 text-slate-600">
+          Find an existing PDF, image, video, or reference by its readable name
+          or developer key. Tender documents are managed in the Tenders tab.
+        </p>
+        <input
+          type="search"
+          value={searchText}
+          onChange={(event) => setSearchText(event.target.value)}
+          placeholder="Search by filename or key"
+          className="mt-5 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition focus:border-cicBlue"
+        />
+
+        {loading ? (
+          <p className="mt-5 text-sm text-slate-500">Loading resources...</p>
+        ) : (
+          <div className="mt-5 max-h-[560px] space-y-2 overflow-y-auto pr-1">
+            {filteredResources.map((resource) => (
+              <button
+                key={resource.key}
+                type="button"
+                onClick={() => selectResource(resource)}
+                className={`w-full rounded-xl border p-3 text-left transition ${
+                  resource.key === selectedKey
+                    ? "border-cicBlue bg-blue-50"
+                    : "border-slate-200 bg-white hover:border-blue-300"
+                }`}
+              >
+                <span className="block break-words text-sm font-semibold text-slate-900">
+                  {resource.displayName}
+                </span>
+                <span className="mt-1 block break-all text-xs text-slate-500">
+                  {resource.key}
+                </span>
+              </button>
+            ))}
+            {!filteredResources.length ? (
+              <p className="py-8 text-center text-sm text-slate-500">
+                No matching resources.
+              </p>
+            ) : null}
+          </div>
+        )}
+      </section>
+
+      <form
+        onSubmit={handleReplace}
+        className="h-fit rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
+      >
+        <h3 className="text-xl font-bold text-slate-900">Replace Resource</h3>
+        {!selectedResource ? (
+          <p className="mt-4 rounded-2xl border border-dashed border-slate-300 bg-slate-50 p-5 text-sm text-slate-500">
+            Select a resource from the list to replace it.
+          </p>
+        ) : (
+          <div className="mt-5 grid gap-4">
+            <div className="rounded-2xl bg-slate-50 p-4 text-sm text-slate-700">
+              <p className="font-semibold text-slate-900">
+                {selectedResource.displayName}
+              </p>
+              <p className="mt-1 break-all text-xs text-slate-500">
+                {selectedResource.key}
+              </p>
+              <div className="mt-3 flex flex-wrap gap-2 text-xs">
+                <span className="rounded-full bg-white px-3 py-1">
+                  Version {selectedResource.version}
+                </span>
+                <span className="rounded-full bg-white px-3 py-1">
+                  {formatResourceSize(selectedResource.size)}
+                </span>
+                <span className="rounded-full bg-white px-3 py-1">
+                  {selectedResource.mediaType}
+                </span>
+              </div>
+            </div>
+
+            <label className="grid gap-2 text-sm font-medium text-slate-700">
+              Display filename
+              <input
+                value={displayName}
+                onChange={(event) => setDisplayName(event.target.value)}
+                className="rounded-xl border border-slate-300 px-4 py-3 outline-none transition focus:border-cicBlue"
+              />
+            </label>
+
+            <label className="grid gap-2 text-sm font-medium text-slate-700">
+              Replacement file
+              <input
+                key={inputKey}
+                type="file"
+                accept={expectedExtension ? `.${expectedExtension}` : undefined}
+                onChange={(event) =>
+                  setReplacementFile(event.target.files?.[0] ?? null)
+                }
+                className="rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm outline-none transition file:mr-3 file:rounded-lg file:border-0 file:bg-blue-100 file:px-3 file:py-2 file:font-semibold file:text-cicBlue hover:file:bg-blue-200 focus:border-cicBlue"
+              />
+            </label>
+
+            <p className="text-xs leading-5 text-slate-500">
+              The replacement must use the same file format. The old bytes are
+              retained until the new file and registry metadata are ready. The
+              opaque public URL will not change.
+            </p>
+
+            <button
+              type="submit"
+              disabled={saving || !replacementFile}
+              className="inline-flex items-center justify-center rounded-xl bg-cicBlue px-5 py-3 font-semibold text-white transition hover:bg-blue-900 disabled:cursor-not-allowed disabled:bg-slate-400"
+            >
+              {saving ? "Replacing..." : "Replace Resource Safely"}
+            </button>
+          </div>
+        )}
       </form>
     </div>
   );
@@ -2403,6 +2758,8 @@ function SafeguardsManager({ adminToken, setMessage }) {
 }
 
 function AdminPanel() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const {
     notices,
     events,
@@ -2443,12 +2800,24 @@ function AdminPanel() {
       { id: "notices", label: "Notices" },
       { id: "events", label: "Events" },
       { id: "services", label: "Services" },
+      { id: "software", label: "Software Manager" },
       { id: "teams", label: "Teams" },
       { id: "tenders", label: "Tenders" },
+      { id: "resources", label: "Resources" },
       { id: "safeguards", label: "Safeguards" },
     ],
     [],
   );
+
+  useEffect(() => {
+    if (authLoading) return;
+
+    if (isAuthenticated && location.pathname === "/admin/login") {
+      navigate("/admin", { replace: true });
+    } else if (!isAuthenticated && location.pathname === "/admin") {
+      navigate("/admin/login", { replace: true });
+    }
+  }, [authLoading, isAuthenticated, location.pathname, navigate]);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -2504,6 +2873,7 @@ function AdminPanel() {
       try {
         await login(loginDraft);
         setLoginDraft({ username: "", password: "" });
+        navigate("/admin", { replace: true });
       } catch (error) {
         setMessage({
           type: "error",
@@ -2603,8 +2973,8 @@ function AdminPanel() {
               Manage website content
             </h1>
             <p className="mt-3 max-w-3xl leading-7 text-slate-600">
-              Publish notices, update events, and manage service pages from one
-              place.
+              Publish notices, update events, manage tenders, and safely replace
+              website resources from one place.
             </p>
           </div>
 
@@ -2752,6 +3122,15 @@ function AdminPanel() {
             />
           ) : null}
 
+          {activeTab === "software" ? (
+            <SoftwareManager
+              services={services}
+              setServices={setServices}
+              adminToken={adminUser?.token ?? ""}
+              setMessage={setMessage}
+            />
+          ) : null}
+
           {activeTab === "teams" ? (
             <TeamManager
               teams={teams}
@@ -2771,6 +3150,13 @@ function AdminPanel() {
               setDraft={setTenderDraft}
               setMessage={setMessage}
               adminToken={adminUser?.token ?? ""}
+            />
+          ) : null}
+
+          {activeTab === "resources" ? (
+            <ResourcesManager
+              adminToken={adminUser?.token ?? ""}
+              setMessage={setMessage}
             />
           ) : null}
 

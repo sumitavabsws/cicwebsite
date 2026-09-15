@@ -8,7 +8,7 @@ function Footer() {
   const [softwareRepositoryUrl, setSoftwareRepositoryUrl] = useState("");
   const closeIpModal = useCallback(() => setIsIpModalOpen(false), []);
   const itPolicyUrl = getDocumentViewerUrl(
-    "/resources/policies/IIT_Kharagpur_IT_Security_Policy.pdf",
+    "/api/assets/r_bsweey0mFIn267NH",
     "IT Policy Document",
   );
 

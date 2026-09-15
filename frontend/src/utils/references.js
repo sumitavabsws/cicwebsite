@@ -6,7 +6,7 @@ export function isHtmlReference(reference) {
   return reference?.type === "html";
 }
 
-export function getDocumentViewerUrl(url, title = "Document") {
+export function getDocumentViewerUrl(url, title = "Document", type = "") {
   if (!url) {
     return "#";
   }
@@ -15,6 +15,9 @@ export function getDocumentViewerUrl(url, title = "Document") {
     url,
     title,
   });
+  if (type) {
+    parameters.set("type", type);
+  }
 
   return `/document?${parameters.toString()}`;
 }

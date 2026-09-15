@@ -1,6 +1,22 @@
 {
   "notices": [
     {
+      "id": "notice-1789363165139-cvnygs",
+      "title": "NEW SOFTWARE AVAILABLE",
+      "date": "11-09-2026",
+      "description": "Abaqus (300 Perpetual License) and CST Studio (25 Perpetual License) are now available for use.",
+      "reference": {
+        "type": "pdf",
+        "url": "",
+        "label": "Open reference"
+      },
+      "attachment": {
+        "type": "pdf",
+        "url": "",
+        "label": "View attached PDF"
+      }
+    },
+    {
       "id": "notice-1787318952900-9oxk96",
       "title": "CYBERSECURITY AWARENESS CIRCULAR",
       "date": "18-08-2026",
@@ -12,7 +28,7 @@
       },
       "attachment": {
         "type": "pdf",
-        "url": "/resources/notice/cybersecurityawarenesscircular (2).pdf",
+        "url": "/api/assets/r_HK1R7vMw61TuJSLl",
         "label": "View attached PDF"
       }
     },
@@ -40,7 +56,7 @@
       "description": "A hands-on workshop introducing researchers and students to Paramshakti HPC usage workflows.",
       "reference": {
         "type": "html",
-        "url": "/references/paramshakti-workshop.html",
+        "url": "/api/assets/r_txBIlxcRPdiFBhT",
         "label": "View workshop details"
       }
     },
@@ -50,7 +66,7 @@
       "description": "Scheduled maintenance for core network devices with temporary interruption windows in selected buildings.",
       "reference": {
         "type": "pdf",
-        "url": "/files/network-core-maintenance.pdf",
+        "url": "/api/assets/r_8ZEPwCbmLEqs6OSu",
         "label": "Open maintenance circular"
       }
     }
@@ -60,29 +76,21 @@
       "id": "internet-access",
       "slug": "internet-access",
       "title": "Internet Access",
-      "description": "Captive portal authentication for wired and wireless internet access using ERP login and campus network password.",
+      "description": "Guidance for wired and wireless internet access using ERP login and campus network password.",
       "linkLabel": "Explore service",
       "iconKey": "globe",
       "eyebrow": "Network Services",
-      "summary": "Internet access at IIT Kharagpur requires web-based authentication through a Captive Portal using a specific network password that users must first generate via their ERP account. This authentication is required for both wired and wireless connections and must be renewed every 45 days due to a session timeout. While local resources like Zimbra mail do not require login, users are solely responsible for any activity associated with their credentials.",
+      "summary": "Internet access guidance for IIT Kharagpur's wired and wireless networks, including ERP network-password setup and device-specific connection steps.",
       "details": [
-        {
-          "title": "General Information",
-          "items": [
-            ""
-          ]
-        },
         {
           "title": "Authentication Requirement",
           "items": [
-            ""
-          ]
-        },
-        {
-          "title": "Session Timeout",
-          "items": [
-            ""
-          ]
+            "The campus network password is created in ERP and should be different from the ERP password.",
+            "This same campus network password is used for both internet access and Wi-Fi authentication.",
+            "You have to create this password only once unless you want to change it later. It can be changed anytime from ERP in the same manner."
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         }
       ],
       "instructions": [
@@ -90,103 +98,153 @@
           "title": "To access the internet from wired network",
           "items": [
             {
+              "id": "software-item-1789049458637-y1i0tm",
               "text": "Create your network access password in ERP.",
+              "status": "published",
               "children": [
                 {
+                  "id": "software-item-1789049458637-1r065m",
                   "text": "Log in to your ERP account.",
+                  "status": "published",
                   "references": [
                     {
+                      "id": "reference-1789049458637-hm3596",
                       "label": "Open ERP",
                       "url": "https://erp.iitkgp.ac.in/",
-                      "type": "link"
+                      "type": "link",
+                      "inline": false,
+                      "resourceKey": ""
                     }
                   ]
                 },
                 {
-                  "text": "Click on the link \"Set Campus Network Password\" under menu item \"Other Actions\"."
+                  "id": "software-item-1789049458637-4vbbbt",
+                  "text": "Click on the link \"Set Campus Network Password\" under menu item \"Other Actions\".",
+                  "status": "published"
                 },
                 {
-                  "text": "Set a password you will use for internet access. It should be different from your ERP password. This same password will also be used for WiFi Authentication."
+                  "id": "software-item-1789049458637-o2cz5j",
+                  "text": "Set a password you will use for internet access. It should be different from your ERP password. This same password will also be used for WiFi Authentication.",
+                  "status": "published"
                 }
               ]
             },
             {
+              "id": "software-item-1789049458637-v71exk",
               "text": "Authenticate your device for internet access using the guide for your location.",
+              "status": "published",
               "children": [
                 {
+                  "id": "software-item-1789049458637-3zl665",
                   "text": "Academic areas, offices, hostels, and guest houses.",
+                  "status": "published",
                   "references": [
                     {
+                      "id": "reference-1789049458637-zyh47a",
                       "label": "Authentication Steps for Academic areas/Offices/Hostels/Guest houses",
-                      "url": "/resources/Captive_Portal_Autentication_for_internet_access.pdf",
-                      "type": "pdf"
+                      "url": "/api/assets/r_tHLSE70p0nTiXi5I",
+                      "type": "pdf",
+                      "inline": false,
+                      "resourceKey": ""
                     }
                   ]
                 },
                 {
+                  "id": "software-item-1789049458637-gudjtc",
                   "text": "Residential areas.",
+                  "status": "published",
                   "references": [
                     {
+                      "id": "reference-1789049458637-dibupk",
                       "label": "Authentication Steps for Residential areas",
-                      "url": "/resources/residential-captive-portal-authentication.pdf",
-                      "type": "pdf"
+                      "url": "/api/assets/r_Sx8WGVelL8EPLYl",
+                      "type": "pdf",
+                      "inline": false,
+                      "resourceKey": ""
                     }
                   ]
                 }
               ]
             },
             {
-              "text": "Connect to the internet using your ERP login as user id and the network password that you set in ERP. It may take 5-10 seconds for connection, please be patient."
+              "id": "software-item-1789049458637-malw3i",
+              "text": "Connect to the internet using your ERP login as user id and the network password that you set in ERP. It may take 5-10 seconds for connection, please be patient.",
+              "status": "published"
             }
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         },
         {
           "title": "To access the internet from wireless network",
           "items": [
             {
+              "id": "software-item-1789049458637-cx98ud",
               "text": "Connect your device to secured SSIDs for wireless network access.",
+              "status": "published",
               "children": [
                 {
+                  "id": "software-item-1789049458637-9b2was",
                   "text": "Use the Wi-Fi Authentication manuals to configure your device.",
+                  "status": "published",
                   "references": [
                     {
+                      "id": "reference-1789049458637-krgoxd",
                       "label": "Open Wi-Fi Authentication manuals",
                       "url": "/services/wifi-authentication",
-                      "type": "link"
+                      "type": "link",
+                      "inline": false,
+                      "resourceKey": ""
                     }
                   ]
                 }
               ]
             },
             {
+              "id": "software-item-1789049458637-sxwxcl",
               "text": "Authenticate your device for internet access using the guide for your location.",
+              "status": "published",
               "children": [
                 {
+                  "id": "software-item-1789049458637-6bbm41",
                   "text": "Academic areas, offices, hostels, and guest houses.",
+                  "status": "published",
                   "references": [
                     {
+                      "id": "reference-1789049458637-pbatd8",
                       "label": "Authentication Steps for Academic areas/Offices/Hostels/Guest houses",
-                      "url": "/resources/Captive_Portal_Autentication_for_internet_access.pdf",
-                      "type": "pdf"
+                      "url": "/api/assets/r_tHLSE70p0nTiXi5I",
+                      "type": "pdf",
+                      "inline": false,
+                      "resourceKey": ""
                     }
                   ]
                 },
                 {
+                  "id": "software-item-1789049458637-o20fcm",
                   "text": "Residential areas.",
+                  "status": "published",
                   "references": [
                     {
+                      "id": "reference-1789049458637-i3l7l1",
                       "label": "Authentication Steps for Residential areas",
-                      "url": "/resources/residential-captive-portal-authentication.pdf",
-                      "type": "pdf"
+                      "url": "/api/assets/r_Sx8WGVelL8EPLYl",
+                      "type": "pdf",
+                      "inline": false,
+                      "resourceKey": ""
                     }
                   ]
                 }
               ]
             },
             {
-              "text": "Connect to the internet using your ERP login as user id and the network password that you set in ERP. It may take 5-10 seconds for connection, please be patient."
+              "id": "software-item-1789049458637-g0iadp",
+              "text": "Connect to the internet using your ERP login as user id and the network password that you set in ERP. It may take 5-10 seconds for connection, please be patient.",
+              "status": "published"
             }
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         }
       ],
       "documents": [
@@ -201,14 +259,14 @@
           "title": "Authentication Steps for Academic Areas, Offices, Hostels, and Guest Houses",
           "description": "Official CIC PDF for regular internet access authentication.",
           "assetName": "internet-access-captive-portal.pdf",
-          "fallbackUrl": "/resources/Captive_Portal_Autentication_for_internet_access.pdf",
+          "fallbackUrl": "/api/assets/r_tHLSE70p0nTiXi5I",
           "kind": "Open PDF"
         },
         {
           "title": "Authentication Steps for Residential Areas",
           "description": "Official CIC PDF for residential-area internet access authentication.",
           "assetName": "internet-access-residential.pdf",
-          "fallbackUrl": "/resources/residential-captive-portal-authentication.pdf",
+          "fallbackUrl": "/api/assets/r_Sx8WGVelL8EPLYl",
           "kind": "Open PDF"
         },
         {
@@ -221,22 +279,18 @@
       ],
       "importantNotes": [
         "There will be no authentication or password required for accessing the IITKGP local resources like Zimbra mail, Apna, IITKGP websites etc. from wired network.",
-        "If user is already logged in, do not refresh the captive portal page or open the captive portal page again. It will be logged out and the user will need to login again to get the institute internet service.",
-        "New WiFi user need to authenticate two times to gain internet access. One for the first time WiFi access and second for the usual internet access. Second time onwards the WiFi user need to login only in captive portal to get the internet service.",
-        "There is no browser dependency for captive portal authentication but it is always recommended to use an updated browser for best user experience.",
         "Faculty and staff may share their password with their family members for internet access. However, in order to avoid password misuse, there will be a limit for number of simultaneous connections.",
         "The user with the user id used for logging in is solely responsible for any misuse of the internet when connected with that user id."
       ],
       "highPriorityNotes": [
-        "Do not refresh or reopen the captive portal page while already logged in; it can log the user out.",
         "The user id used for login is solely responsible for any misuse of internet access through that session."
       ],
       "contact": {
         "name": "CIC Internet Access Support",
-        "role": "Primary contact persons for internet access authentication",
-        "email": "debnathp@cc.iitkgp.ac.in",
-        "phone": "82378",
-        "note": "Please contact CIC to report problems or for any other queries. Primary contact persons are Mr. Debnath Pramanik (debnathp@cc.iitkgp.ac.in, Ph: 82378), Mr. Uddipan Tunga (uddipan@cc.iitkgp.ac.in, Ph: 83047), and Mr. Alokes Chattopadhyay (alokes@cc.iitkgp.ac.in, Ph: 82376)."
+        "role": "Internet access support",
+        "email": "helpdesk@cc.iitkgp.ac.in",
+        "phone": "",
+        "note": ""
       }
     },
     {
@@ -253,7 +307,9 @@
           "title": "General Information",
           "items": [
             "Wireless network access in IIT Kharagpur will use 802.1x based authentication. All users of the Wi-Fi network must finally connect using a valid user id and password. At this time, users with ERP login are requested to connect to the secured SSIDs for all wireless network access."
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         },
         {
           "title": "Secured SSIDs",
@@ -263,7 +319,9 @@
             "CAMPUS_SECURED",
             "GUEST_SECURED",
             "TGH"
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         },
         {
           "title": "Authentication Requirement",
@@ -271,7 +329,9 @@
             "The campus network password is created in ERP and should be different from the ERP password.",
             "This same campus network password is also used for Internet Access Authentication.",
             "You have to create this password only once unless you want to change it later. It can be changed anytime from ERP in the same manner."
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         }
       ],
       "instructions": [
@@ -279,98 +339,147 @@
           "title": "To access the wireless network",
           "items": [
             {
+              "id": "software-item-1789049458637-d1glsb",
               "text": "Create your network access password in ERP.",
+              "status": "published",
               "children": [
                 {
+                  "id": "software-item-1789049458637-a9066v",
                   "text": "Log in to your ERP account.",
+                  "status": "published",
                   "references": [
                     {
+                      "id": "reference-1789049458637-m9vrds",
                       "label": "Open ERP",
                       "url": "https://erp.iitkgp.ac.in/",
-                      "type": "link"
+                      "type": "link",
+                      "inline": false,
+                      "resourceKey": ""
                     }
                   ]
                 },
                 {
-                  "text": "Click on the link \"Set Campus Network Password\" under menu item \"Other Actions\"."
+                  "id": "software-item-1789049458637-d5r6f9",
+                  "text": "Click on the link \"Set Campus Network Password\" under menu item \"Other Actions\".",
+                  "status": "published"
                 },
                 {
-                  "text": "Set a password you will use for network access. It should be different from your ERP password. This same password will also be used for Internet Access Authentication."
+                  "id": "software-item-1789049458637-humfkq",
+                  "text": "Set a password you will use for network access. It should be different from your ERP password. This same password will also be used for Internet Access Authentication.",
+                  "status": "published"
                 }
               ]
             },
             {
+              "id": "software-item-1789049458637-icrrjd",
               "text": "Configure your device for Wi-Fi authentication using the relevant instruction guide.",
+              "status": "published",
               "children": [
                 {
+                  "id": "software-item-1789049458637-pj1tle",
                   "text": "Android devices.",
+                  "status": "published",
                   "references": [
                     {
+                      "id": "reference-1789049458637-stvtew",
                       "label": "Configuration Instruction for Android devices",
-                      "url": "/resources/AndroidConfigurationWiFi.pdf",
-                      "type": "pdf"
+                      "url": "/api/assets/r_zPyr4C9kkQvlfOJ0",
+                      "type": "pdf",
+                      "inline": false,
+                      "resourceKey": ""
                     }
                   ]
                 },
                 {
+                  "id": "software-item-1789049458637-05cezc",
                   "text": "Windows 10 machines.",
+                  "status": "published",
                   "references": [
                     {
+                      "id": "reference-1789049458637-nnc4xf",
                       "label": "Configuration Instruction for Windows 10 machines (pdf)",
-                      "url": "/resources/wifiauthentication/Windows10ConfigurationWiFi.pdf",
-                      "type": "pdf"
+                      "url": "/api/assets/r_ja3G3PIGNadLPI6",
+                      "type": "pdf",
+                      "inline": false,
+                      "resourceKey": ""
                     }
                   ]
                 },
                 {
+                  "id": "software-item-1789049458637-hxlota",
                   "text": "Linux machines.",
+                  "status": "published",
                   "references": [
                     {
+                      "id": "reference-1789049458637-belfzi",
                       "label": "Configuration Instruction for Linux machines",
-                      "url": "/resources/wifiauthentication/LinuxConfigurationWiFi.pdf",
-                      "type": "pdf"
+                      "url": "/api/assets/r_R6abfXJ2hjJ3lPWS",
+                      "type": "pdf",
+                      "inline": false,
+                      "resourceKey": ""
                     }
                   ]
                 },
                 {
+                  "id": "software-item-1789049458637-co9pea",
                   "text": "Windows 7 machines.",
+                  "status": "published",
                   "references": [
                     {
+                      "id": "reference-1789049458637-2rvel9",
                       "label": "Configuration Instruction for Windows 7 machines",
-                      "url": "/resources/wifiauthentication/Windows7ConfigurationWiFim2.pdf",
-                      "type": "pdf"
+                      "url": "/api/assets/r_xhvawutH9aAJtDj0",
+                      "type": "pdf",
+                      "inline": false,
+                      "resourceKey": ""
                     }
                   ]
                 },
                 {
+                  "id": "software-item-1789049458637-gu3d49",
                   "text": "Windows Lumia based phones.",
+                  "status": "published",
                   "references": [
                     {
+                      "id": "reference-1789049458637-ewa7l1",
                       "label": "Configuration Instruction for Windows Lumia based phones",
-                      "url": "/resources/wifiauthentication/LumiaConfigurationWiFi.pdf",
-                      "type": "pdf"
+                      "url": "/api/assets/r_KFgp5lLjAj4t4DN",
+                      "type": "pdf",
+                      "inline": false,
+                      "resourceKey": ""
                     }
                   ]
                 },
                 {
+                  "id": "software-item-1789049458637-tptzys",
                   "text": "Mac devices.",
+                  "status": "published",
                   "references": [
                     {
+                      "id": "reference-1789049458637-u8skpn",
                       "label": "Configuration Instruction for Mac devices",
-                      "url": "/resources/MacConfigurationWiFi.pdf",
-                      "type": "pdf"
+                      "url": "/api/assets/r_eIRFJb5xBG5ghmpA",
+                      "type": "pdf",
+                      "inline": false,
+                      "resourceKey": ""
                     }
                   ]
                 }
               ]
             },
             {
-              "text": "You have to do this configuration only once on a device or machine per secured SSID unless you change your password or want to login with another user id."
+              "id": "software-item-1789049458637-7wg3kb",
+              "text": "You have to do this configuration only once on a device or machine per secured SSID unless you change your password or want to login with another user id.",
+              "status": "published"
             },
             {
-              "text": "Connect to the desired SSID using your ERP login as user id and the network password that you set in ERP. It may take 10-15 seconds for connection the first time you configure and connect, so please be patient. Normally the device will remember the user id and password and will automatically connect with this in future."
+              "id": "software-item-1789049458637-cvhsd4",
+              "text": "Connect to the desired SSID using your ERP login as user id and the network password that you set in ERP. It may take 10-15 seconds for connection the first time you configure and connect, so please be patient. Normally the device will remember the user id and password and will automatically connect with this in future.",
+              "status": "published"
             }
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         }
       ],
       "documents": [
@@ -378,42 +487,42 @@
           "title": "Configuration Instruction for Android devices",
           "description": "Configuration instruction for Android devices.",
           "assetName": "",
-          "fallbackUrl": "/resources/AndroidConfigurationWiFi.pdf",
+          "fallbackUrl": "/api/assets/r_zPyr4C9kkQvlfOJ0",
           "kind": "Open PDF"
         },
         {
           "title": "Configuration Instruction for Windows 10 machines (pdf)",
           "description": "Configuration instruction for Windows 10 machines.",
           "assetName": "",
-          "fallbackUrl": "/resources/wifiauthentication/Windows10ConfigurationWiFi.pdf",
+          "fallbackUrl": "/api/assets/r_ja3G3PIGNadLPI6",
           "kind": "Open PDF"
         },
         {
           "title": "Configuration Instruction for Linux machines",
           "description": "Configuration instruction for Linux machines.",
           "assetName": "",
-          "fallbackUrl": "/resources/wifiauthentication/LinuxConfigurationWiFi.pdf",
+          "fallbackUrl": "/api/assets/r_R6abfXJ2hjJ3lPWS",
           "kind": "Open PDF"
         },
         {
           "title": "Configuration Instruction for Windows 7 machines",
           "description": "Configuration instruction for Windows 7 machines.",
           "assetName": "",
-          "fallbackUrl": "/resources/wifiauthentication/Windows7ConfigurationWiFim2.pdf",
+          "fallbackUrl": "/api/assets/r_xhvawutH9aAJtDj0",
           "kind": "Open PDF"
         },
         {
           "title": "Configuration Instruction for Windows Lumia based phones",
           "description": "Configuration instruction for Windows Lumia based phones.",
           "assetName": "",
-          "fallbackUrl": "/resources/wifiauthentication/LumiaConfigurationWiFi.pdf",
+          "fallbackUrl": "/api/assets/r_KFgp5lLjAj4t4DN",
           "kind": "Open PDF"
         },
         {
           "title": "Configuration Instruction for Mac devices",
           "description": "Configuration instruction for Mac devices.",
           "assetName": "",
-          "fallbackUrl": "/resources/MacConfigurationWiFi.pdf",
+          "fallbackUrl": "/api/assets/r_eIRFJb5xBG5ghmpA",
           "kind": "Open PDF"
         }
       ],
@@ -448,14 +557,18 @@
           "items": [
             "The institute provides mail services to faculty, staff, and students using Zimbra, an enterprise class email, calendar, and collaboration solution, and G-Suite for students from the 2020-21 Autumn session onward.",
             "The mail messaging facility is centrally managed by CIC."
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         },
         {
           "title": "Mail Platform Split",
           "items": [
             "Faculty, staff, and students enrolled before 2020-21 use the institute Zimbra mail workflow.",
             "Students enrolled from the 2020-21 Autumn session onward use the Google mail workflow."
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         }
       ],
       "instructions": [
@@ -463,41 +576,61 @@
           "title": "Web Based Mail Access",
           "items": [
             {
+              "id": "software-item-1789049458637-69d73p",
               "text": "Faculty, staff, and students enrolled before 2020-21 can access institute webmail through the Zimbra mail service.",
+              "status": "published",
               "references": [
                 {
+                  "id": "reference-1789049458637-mkyy23",
                   "label": "Open Zimbra webmail",
                   "url": "https://iitkgpmail.iitkgp.ac.in",
-                  "type": "link"
+                  "type": "link",
+                  "inline": false,
+                  "resourceKey": ""
                 }
               ]
             },
             {
+              "id": "software-item-1789049458637-b88kkd",
               "text": "Students enrolled from the 2020-21 Autumn session onward can access mail through Google Mail.",
+              "status": "published",
               "references": [
                 {
+                  "id": "reference-1789049458637-8bz3tw",
                   "label": "Open Google Mail",
                   "url": "https://mail.google.com",
-                  "type": "link"
+                  "type": "link",
+                  "inline": false,
+                  "resourceKey": ""
                 }
               ]
             },
             {
+              "id": "software-item-1789049458637-jxcir6",
               "text": "Outlook users can follow the setup and archiving references.",
+              "status": "published",
               "references": [
                 {
+                  "id": "reference-1789049458637-lfo8sd",
                   "label": "Outlook mail client setup",
-                  "url": "/resources/mailaccess/Microsoft_Outlook_Setup.pdf",
-                  "type": "pdf"
+                  "url": "/api/assets/r_3kpenzxQRuDldje",
+                  "type": "pdf",
+                  "inline": false,
+                  "resourceKey": ""
                 },
                 {
+                  "id": "reference-1789049458637-88e1qt",
                   "label": "Archiving emails using Outlook",
-                  "url": "/resources/mailaccess/MicrosoftOutlookArchiving.pdf",
-                  "type": "pdf"
+                  "url": "/api/assets/r_hKsMCz8iuCPI1aE",
+                  "type": "pdf",
+                  "inline": false,
+                  "resourceKey": ""
                 }
               ]
             }
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         },
         {
           "title": "Third Party Mail Client Configuration",
@@ -548,7 +681,8 @@
                 ]
               ]
             }
-          ]
+          ],
+          "highPriorityNotes": []
         }
       ],
       "documents": [
@@ -570,14 +704,14 @@
           "title": "Outlook mail client setup",
           "description": "Reference PDF for setting up Outlook as a mail client.",
           "assetName": "",
-          "fallbackUrl": "/resources/mailaccess/Microsoft_Outlook_Setup.pdf",
+          "fallbackUrl": "/api/assets/r_3kpenzxQRuDldje",
           "kind": "Open PDF"
         },
         {
           "title": "Archiving emails using Outlook",
           "description": "Reference PDF for archiving emails using Outlook.",
           "assetName": "",
-          "fallbackUrl": "/resources/mailaccess/MicrosoftOutlookArchiving.pdf",
+          "fallbackUrl": "/api/assets/r_hKsMCz8iuCPI1aE",
           "kind": "Open PDF"
         }
       ],
@@ -586,6 +720,7 @@
         "Use SSL-enabled IMAP, POP, and SMTP settings when configuring third-party mail utilities or mobile clients.",
         "Outgoing SMTP requires authentication, and TLS/STARTTLS should be used where available."
       ],
+      "highPriorityNotes": [],
       "contact": {
         "name": "CIC Mail Support",
         "role": "Institute mail and client configuration support",
@@ -610,14 +745,18 @@
             "CIC manages more than 450 PCs in software labs.",
             "Both Windows and Linux environments are available.",
             "Labs are used for classes, workshops, conferences, and placement-related activities."
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         },
         {
           "title": "Usage Scope",
           "items": [
             "The labs are intended primarily for academics and approved institute activities.",
             "Commercial software is made available where required and where licensing permits."
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         }
       ],
       "instructions": [
@@ -626,19 +765,25 @@
           "items": [
             "Check that the requirement is aligned with classes, workshops, placements, conferences, or another approved institute purpose.",
             {
+              "id": "software-item-1789049458637-oppcm0",
               "text": "Complete the relevant lab booking form found",
+              "status": "published",
               "references": [
                 {
+                  "id": "reference-1789049458637-2iko0u",
                   "label": "here",
                   "url": "/forms-downloads",
                   "type": "link",
-                  "inline": true
+                  "inline": true,
+                  "resourceKey": ""
                 }
               ]
             },
             "Route the request to CIC for approval.",
             "Coordinate software, timing, and operational requirements with CIC after approval."
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         }
       ],
       "documents": [
@@ -662,6 +807,7 @@
         "Commercial software availability depends on institute licenses and academic needs.",
         "Lab access is controlled through approval rather than direct self-service reservation."
       ],
+      "highPriorityNotes": [],
       "contact": {
         "name": "CIC PC Lab Booking",
         "role": "Lab booking support",
@@ -684,90 +830,183 @@
           "title": "Supported Software Families",
           "items": [
             {
+              "id": "software-item-1789049458637-z7yn0z",
               "text": "Antivirus",
+              "status": "published",
               "children": [
                 {
+                  "id": "software-item-1789049458637-1tvzzl",
                   "text": "Trend Micro Apex One antivirus",
-                  "references": [
+                  "status": "published",
+                  "children": [
                     {
-                      "label": "Open installation guide",
-                      "url": "/resources/softwaresupport/antivirus/Trend_Micro_ApexOne_Installation_Guide.pdf",
-                      "type": "pdf"
+                      "id": "software-link-1789050490577-0v1e7h",
+                      "text": "Open installation guide",
+                      "status": "published",
+                      "references": [
+                        {
+                          "id": "reference-1789049458637-3zo6ms",
+                          "label": "Open installation guide",
+                          "url": "/api/assets/r_tf9fBwDcr3JHHUg1",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
+                        }
+                      ]
                     }
                   ]
                 }
               ]
             },
             {
+              "id": "software-item-1789049458637-gd55i9",
               "text": "Abaqus",
+              "status": "published",
+              "moreText": "300 Perpetual License",
               "children": [
                 {
+                  "id": "software-item-1789049458637-84y6h7",
                   "text": "CLI Support",
-                  "references": [
+                  "status": "published",
+                  "children": [
                     {
-                      "label": "Open command line installation guide",
-                      "url": "/resources/softwaresupport/abaqus/abaquscommandlinesupport/Abaqus21_command_line_installation.pdf",
-                      "type": "pdf"
+                      "id": "software-link-1789050490577-krjrbk",
+                      "text": "Open command line installation guide",
+                      "status": "published",
+                      "references": [
+                        {
+                          "id": "reference-1789049458637-4l9sj5",
+                          "label": "Open command line installation guide",
+                          "url": "/api/assets/r_ndqjnclClGEjP7f",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
+                        }
+                      ]
                     }
                   ]
                 },
                 {
+                  "id": "software-item-1789049458637-2wluvv",
                   "text": "Abaqus 6.14",
-                  "references": [
+                  "status": "published",
+                  "children": [
                     {
-                      "label": "Open Abaqus 6.14 installation guide",
-                      "url": "/resources/softwaresupport/abaqus/abaqus614/Abaqus_614_Installation_Guide_Windows.pdf",
-                      "type": "pdf"
+                      "id": "software-link-1789050490577-8tw6e1",
+                      "text": "Open Abaqus 6.14 installation guide",
+                      "status": "published",
+                      "references": [
+                        {
+                          "id": "reference-1789049458637-pgwja6",
+                          "label": "Open Abaqus 6.14 installation guide",
+                          "url": "/api/assets/r_G3SdEROPQfaQeeLA",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
+                        }
+                      ]
                     }
                   ]
                 },
                 {
+                  "id": "software-item-1789049458637-lnkmls",
                   "text": "Abaqus 2021",
-                  "references": [
+                  "status": "published",
+                  "children": [
                     {
-                      "label": "Open Abaqus 2021 professional guide",
-                      "url": "/resources/softwaresupport/abaqus/abaqus21/Abaqus_2021_Professional_Guide.pdf",
-                      "type": "pdf"
+                      "id": "software-link-1789050490577-ldnesw",
+                      "text": "Open Abaqus 2021 professional guide",
+                      "status": "published",
+                      "references": [
+                        {
+                          "id": "reference-1789049458637-hljb9r",
+                          "label": "Open Abaqus 2021 professional guide",
+                          "url": "/api/assets/r_YZRQAjDAMsjf6f",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
+                        }
+                      ]
                     }
                   ]
                 },
                 {
+                  "id": "software-item-1789049458637-h829dh",
                   "text": "Abaqus 2022",
-                  "references": [
+                  "status": "published",
+                  "children": [
                     {
-                      "label": "Open Abaqus 2022 professional guide",
-                      "url": "/resources/softwaresupport/abaqus/abaqus22/Abaqus_2022_Professional_Guide.pdf",
-                      "type": "pdf"
+                      "id": "software-link-1789050490577-yfklsa",
+                      "text": "Open Abaqus 2022 professional guide",
+                      "status": "published",
+                      "references": [
+                        {
+                          "id": "reference-1789049458637-vusx32",
+                          "label": "Open Abaqus 2022 professional guide",
+                          "url": "/api/assets/r_VQiYcNJvaJgBUR",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
+                        }
+                      ]
                     }
                   ]
                 },
                 {
+                  "id": "software-item-1789049458637-l5nu69",
                   "text": "Abaqus 2025",
-                  "references": [
+                  "status": "published",
+                  "children": [
                     {
-                      "label": "Open Abaqus 2025 professional guide",
-                      "url": "/resources/softwaresupport/abaqus/abaqus25/Abaqus_2025_Professional_Guide.pdf",
-                      "type": "pdf"
+                      "id": "software-link-1789050490577-ep7s3h",
+                      "text": "Open Abaqus 2025 professional guide",
+                      "status": "published",
+                      "references": [
+                        {
+                          "id": "reference-1789049458637-scjn1v",
+                          "label": "Open Abaqus 2025 professional guide",
+                          "url": "/api/assets/r_ABT07ymuXERt1EfU",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
+                        }
+                      ]
                     }
                   ]
                 },
                 {
+                  "id": "software-item-1789049458637-lqq2os",
                   "text": "Linking Abaqus with a Fortran compiler",
-                  "references": [
+                  "status": "published",
+                  "children": [
                     {
-                      "label": "Open Fortran compiler integration guide",
-                      "url": "/resources/softwaresupport/abaqus/abaqusFortran/Abaqus_Fortran_Compiler_Integration_Guide.pdf",
-                      "type": "pdf"
+                      "id": "software-link-1789050490577-qnw8it",
+                      "text": "Open Fortran compiler integration guide",
+                      "status": "published",
+                      "references": [
+                        {
+                          "id": "reference-1789049458637-9tlk7x",
+                          "label": "Open Fortran compiler integration guide",
+                          "url": "/api/assets/r_oJ3uCyZbjWC68TBN",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
+                        }
+                      ]
                     }
                   ]
                 }
               ]
             },
             {
+              "id": "software-item-1789049458637-d2rbgu",
               "text": "Matlab",
+              "status": "published",
               "children": [
                 {
+                  "id": "software-item-1789049458637-bqab9v",
                   "text": "Matlab Campus License",
+                  "status": "published",
                   "moreText": "CIC provides a Matlab Campus License centrally as a facility for the students and faculty members of the Institute. For latest version of Matlab, check CIC software repo (http://swrepo.iitkgp.ac.in). This product should not be used for any of the following applications:",
                   "moreItems": [
                     "Chemical or Biogological Weapons of Mass Destruction",
@@ -775,58 +1014,6 @@
                     "Nuclear End Users",
                     "Civil or Military Satellite projects",
                     "Maritime Nuclear Propulsion Projects"
-                  ],
-                  "children": [
-                    {
-                      "text": "Click here for a list of products on the R2023a campus-wide licenses",
-                      "references": [
-                        {
-                          "label": "Open R2023a campus-wide license products list",
-                          "url": "/resources/softwaresupport/matlab/campus-wide-license-products-R2023A.pdf",
-                          "type": "pdf"
-                        }
-                      ]
-                    },
-                    {
-                      "text": "Click here for Matlab Installation Instructions on Windows (From Campus Network)",
-                      "references": [
-                        {
-                          "label": "Open Windows installation instructions",
-                          "url": "/resources/softwaresupport/matlab/MATLAB_2024a_Windows_Installation_Guide.pdf",
-                          "type": "pdf"
-                        }
-                      ]
-                    },
-                    {
-                      "text": "Click here for Matlab Installation Instructions on Linux (From Campus Network)",
-                      "references": [
-                        {
-                          "label": "Open Linux installation instructions",
-                          "url": "/resources/softwaresupport/matlab/MATLAB_Linux_Installation_Guide.pdf",
-                          "type": "pdf"
-                        }
-                      ]
-                    },
-                    {
-                      "text": "Click here for Matlab Installation Instructions (From outside Network)",
-                      "references": [
-                        {
-                          "label": "Open MathWorks IIT Kharagpur portal",
-                          "url": "https://in.mathworks.com/academia/tah-portal/indian-institute-of-technology-kharagpur-40524247.html",
-                          "type": "link"
-                        }
-                      ]
-                    },
-                    {
-                      "text": "Click here for MATLAB Academy",
-                      "references": [
-                        {
-                          "label": "Open MATLAB Academy",
-                          "url": "https://matlabacademy.mathworks.com/",
-                          "type": "link"
-                        }
-                      ]
-                    }
                   ],
                   "modal": {
                     "title": "Products on Campus License",
@@ -942,10 +1129,89 @@
                       "LTE HDL Toolbox",
                       "Wireless Testbench"
                     ]
-                  }
+                  },
+                  "children": [
+                    {
+                      "id": "software-item-1789049458637-8d1o4a",
+                      "text": "Click here for a list of products on the R2023a campus-wide licenses",
+                      "status": "published",
+                      "references": [
+                        {
+                          "id": "reference-1789049458637-oo8t92",
+                          "label": "Open R2023a campus-wide license products list",
+                          "url": "/api/assets/r_osFJlEcWSUryyXnU",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
+                        }
+                      ]
+                    },
+                    {
+                      "id": "software-item-1789049458637-lgttyl",
+                      "text": "Click here for Matlab Installation Instructions on Windows (From Campus Network)",
+                      "status": "published",
+                      "references": [
+                        {
+                          "id": "reference-1789049458637-bj5vor",
+                          "label": "Open Windows installation instructions",
+                          "url": "/api/assets/r_hmupHgQHJEhVDP",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
+                        }
+                      ]
+                    },
+                    {
+                      "id": "software-item-1789049458637-4xcpds",
+                      "text": "Click here for Matlab Installation Instructions on Linux (From Campus Network)",
+                      "status": "published",
+                      "references": [
+                        {
+                          "id": "reference-1789049458637-ewsqng",
+                          "label": "Open Linux installation instructions",
+                          "url": "/api/assets/r_bdQjuykRqi5f7ey",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
+                        }
+                      ]
+                    },
+                    {
+                      "id": "software-item-1789049458637-rb78ps",
+                      "text": "Click here for Matlab Installation Instructions (From outside Network)",
+                      "status": "published",
+                      "references": [
+                        {
+                          "id": "reference-1789049458637-d8bn2l",
+                          "label": "Open MathWorks IIT Kharagpur portal",
+                          "url": "https://in.mathworks.com/academia/tah-portal/indian-institute-of-technology-kharagpur-40524247.html",
+                          "type": "link",
+                          "inline": false,
+                          "resourceKey": ""
+                        }
+                      ]
+                    },
+                    {
+                      "id": "software-item-1789049458637-bxdjqk",
+                      "text": "Click here for MATLAB Academy",
+                      "status": "published",
+                      "references": [
+                        {
+                          "id": "reference-1789049458637-dh27r8",
+                          "label": "Open MATLAB Academy",
+                          "url": "https://matlabacademy.mathworks.com/",
+                          "type": "link",
+                          "inline": false,
+                          "resourceKey": ""
+                        }
+                      ]
+                    }
+                  ]
                 },
                 {
+                  "id": "software-item-1789049458637-re7aly",
                   "text": "Steps to update MATLAB license",
+                  "status": "published",
                   "moreText": "Campus-wide licenses for MATLAB and Simulink have been renewed. For continued access to MATLAB, update the license file by following these steps:",
                   "moreItems": [
                     "Open MATLAB. If the license has already expired, the activation client will launch and you can skip the next step.",
@@ -957,140 +1223,243 @@
                   "moreItemsOrdered": true,
                   "children": [
                     {
+                      "id": "software-item-1789049458637-9ze9f3",
                       "text": "For more information on the MATLAB Campus-Wide License, refer to the IIT Kharagpur MATLAB Portal.",
+                      "status": "published",
                       "references": [
                         {
+                          "id": "reference-1789049458637-rdhh2j",
                           "label": "Open MATLAB Portal",
                           "url": "https://in.mathworks.com/academia/tah-portal/indian-institute-of-technology-kharagpur-40524247.html",
-                          "type": "link"
+                          "type": "link",
+                          "inline": false,
+                          "resourceKey": ""
                         }
                       ]
                     },
                     {
+                      "id": "software-item-1789049458637-1x455q",
                       "text": "For issues related to your MATLAB installation, contact MathWorks Support.",
+                      "status": "published",
                       "references": [
                         {
+                          "id": "reference-1789049458637-ddyw6t",
                           "label": "Open MathWorks Support",
                           "url": "https://in.mathworks.com/support/contact_us.html?s_tid=tah_po_helpbutton",
-                          "type": "link"
+                          "type": "link",
+                          "inline": false,
+                          "resourceKey": ""
                         }
                       ]
                     },
                     {
-                      "text": "If the installation had already expired, you will be prompted to activate when attempting to launch MATLAB. Proceed by reactivating MATLAB using your MathWorks account credentials."
+                      "id": "software-item-1789049458637-4uww0j",
+                      "text": "If the installation had already expired, you will be prompted to activate when attempting to launch MATLAB. Proceed by reactivating MATLAB using your MathWorks account credentials.",
+                      "status": "published"
                     }
                   ]
                 }
               ]
             },
             {
+              "id": "software-item-1789049458637-cwvblb",
               "text": "SolidWorks",
+              "status": "published",
               "children": [
                 {
+                  "id": "software-item-1789049458637-whka7s",
                   "text": "SolidWorks 2015 SP02",
-                  "references": [
+                  "status": "published",
+                  "children": [
                     {
-                      "label": "Open SolidWorks 2015 SP02 installation guide",
-                      "url": "/resources/softwaresupport/solidworks/SolidWorks_2015_SP2_Installation_Guide.pdf",
-                      "type": "pdf"
+                      "id": "software-link-1789050490577-7nck4r",
+                      "text": "Open SolidWorks 2015 SP02 installation guide",
+                      "status": "published",
+                      "references": [
+                        {
+                          "id": "reference-1789049458637-ge6lrt",
+                          "label": "Open SolidWorks 2015 SP02 installation guide",
+                          "url": "/api/assets/r_GiJ01x2IQmFqld1v",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
+                        }
+                      ]
                     }
                   ]
                 },
                 {
+                  "id": "software-item-1789049458637-goo08t",
                   "text": "SolidWorks 2020 SP04",
-                  "references": [
+                  "status": "published",
+                  "children": [
                     {
-                      "label": "Open SolidWorks 2020 SP04 installation guide",
-                      "url": "/resources/softwaresupport/solidworks/SolidWorks_2020_SP4_Installation_Guide.pdf",
-                      "type": "pdf"
+                      "id": "software-link-1789050490577-tseqge",
+                      "text": "Open SolidWorks 2020 SP04 installation guide",
+                      "status": "published",
+                      "references": [
+                        {
+                          "id": "reference-1789049458637-n9xh9b",
+                          "label": "Open SolidWorks 2020 SP04 installation guide",
+                          "url": "/api/assets/r_VqSUXd3FSpaVIYT",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
+                        }
+                      ]
                     }
                   ]
                 },
                 {
+                  "id": "software-item-1789049458637-cfx40v",
                   "text": "SolidWorks 2022 SP02",
-                  "references": [
+                  "status": "published",
+                  "children": [
                     {
-                      "label": "Open SolidWorks 2022 SP02 installation guide",
-                      "url": "/resources/softwaresupport/solidworks/SolidWorks_2022_SP02_Installation_Guide.pdf",
-                      "type": "pdf"
+                      "id": "software-link-1789050490577-ulht8m",
+                      "text": "Open SolidWorks 2022 SP02 installation guide",
+                      "status": "published",
+                      "references": [
+                        {
+                          "id": "reference-1789049458637-lerts1",
+                          "label": "Open SolidWorks 2022 SP02 installation guide",
+                          "url": "/api/assets/r_lYGDIanOEtDy0Tmu",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
+                        }
+                      ]
                     }
                   ]
                 }
               ]
             },
             {
+              "id": "software-item-1789049458637-xpd66i",
               "text": "Ansys",
+              "status": "published",
               "children": [
                 {
+                  "id": "software-item-1789049458637-zyhlmz",
                   "text": "Ansys 18",
-                  "references": [
+                  "status": "published",
+                  "children": [
                     {
-                      "label": "Open Ansys 18 installation guide",
-                      "url": "/resources/softwaresupport/ansys/2018/ANSYS_18.1_Windows_Installation_Guide.pdf",
-                      "type": "pdf"
+                      "id": "software-link-1789050490577-cm19nf",
+                      "text": "Open Ansys 18 installation guide",
+                      "status": "published",
+                      "references": [
+                        {
+                          "id": "reference-1789049458637-7mepuv",
+                          "label": "Open Ansys 18 installation guide",
+                          "url": "/api/assets/r_S1WqPzjF7kFbT8FE",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
+                        }
+                      ]
                     }
                   ]
                 },
                 {
+                  "id": "software-item-1789049458637-g5vr3z",
                   "text": "Ansys 23",
-                  "references": [
+                  "status": "published",
+                  "children": [
                     {
-                      "label": "Open Ansys 23 installation guide",
-                      "url": "/resources/softwaresupport/ansys/2023/ANSYS_2023_R2_Windows_Installation_Guide.pdf",
-                      "type": "pdf"
+                      "id": "software-link-1789050490577-5y3fqo",
+                      "text": "Open Ansys 23 installation guide",
+                      "status": "published",
+                      "references": [
+                        {
+                          "id": "reference-1789049458637-j1vltz",
+                          "label": "Open Ansys 23 installation guide",
+                          "url": "/api/assets/r_8ABnA271J3hmgdyz",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
+                        }
+                      ]
                     }
                   ]
                 },
                 {
+                  "id": "software-item-1789049458637-az1mpf",
                   "text": "Ansys 2025",
+                  "status": "published",
                   "children": [
                     {
+                      "id": "software-item-1789049458637-z909k4",
                       "text": "Electronics",
+                      "status": "published",
                       "references": [
                         {
+                          "id": "reference-1789049458637-h8uqwu",
                           "label": "Open Ansys Electronics 2025 R2 installation guide",
-                          "url": "/resources/softwaresupport/ansys/2025/Ansys_Electronics_2025R2_Installation_Guide.pdf",
-                          "type": "pdf"
+                          "url": "/api/assets/r_ytNOGljIIls9cP7",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
                         }
                       ]
                     },
                     {
+                      "id": "software-item-1789049458637-bqeqj8",
                       "text": "Fluid Structures",
+                      "status": "published",
                       "references": [
                         {
+                          "id": "reference-1789049458637-sjc95g",
                           "label": "Open Ansys Fluid Structures 2025 R2 installation guide",
-                          "url": "/resources/softwaresupport/ansys/2025/Ansys_FluidStructures_2025_R2_Installation_Guide.pdf",
-                          "type": "pdf"
+                          "url": "/api/assets/r_rEIU2RfY0waRqke",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
                         }
                       ]
                     },
                     {
+                      "id": "software-item-1789049458637-wdmrnb",
                       "text": "Motorcad",
+                      "status": "published",
                       "references": [
                         {
+                          "id": "reference-1789049458637-oorbkn",
                           "label": "Open Ansys MotorCAD 2025 R2 installation guide",
-                          "url": "/resources/softwaresupport/ansys/2025/Ansys_MotorCAD_2025_R2_Installation_Guide.pdf",
-                          "type": "pdf"
+                          "url": "/api/assets/r_opk0nSYMwovzSDC",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
                         }
                       ]
                     },
                     {
+                      "id": "software-item-1789049458637-44cd67",
                       "text": "Lumerical",
+                      "status": "published",
                       "references": [
                         {
+                          "id": "reference-1789049458637-6catnf",
                           "label": "Open Ansys Lumerical 2025 R2 installation guide",
-                          "url": "/resources/softwaresupport/ansys/2025/Ansys_Lumerical_2025_R2_Installation_Guide.pdf",
-                          "type": "pdf"
+                          "url": "/api/assets/r_6M6TKunYS8qcic",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
                         }
                       ]
                     },
                     {
+                      "id": "software-item-1789049458637-qf4k1a",
                       "text": "Scade",
+                      "status": "published",
                       "references": [
                         {
+                          "id": "reference-1789049458637-qs459y",
                           "label": "Open Ansys SCADE 2025 R2 installation guide",
-                          "url": "/resources/softwaresupport/ansys/2025/Ansys_SCADE_2025_R2_Installation_Guide.pdf",
-                          "type": "pdf"
+                          "url": "/api/assets/r_v3u84vTLlp85WMu",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
                         }
                       ]
                     }
@@ -1099,93 +1468,160 @@
               ]
             },
             {
+              "id": "software-item-1789049458637-s7y7cw",
               "text": "CST Studio",
+              "status": "published",
+              "moreText": "25 Perpetual License",
               "children": [
                 {
+                  "id": "software-item-1789049458637-2ysrua",
                   "text": "Ubuntu",
-                  "references": [
+                  "status": "published",
+                  "children": [
                     {
-                      "label": "Open CST Studio Ubuntu installation guide",
-                      "url": "/resources/softwaresupport/cststudio/ubuntu/CST_Ubuntu_Installation_Guide.pdf",
-                      "type": "pdf"
+                      "id": "software-link-1789050490577-xtamv6",
+                      "text": "Open CST Studio Ubuntu installation guide",
+                      "status": "published",
+                      "references": [
+                        {
+                          "id": "reference-1789049458637-tika75",
+                          "label": "Open CST Studio Ubuntu installation guide",
+                          "url": "/api/assets/r_kP6uHm5bLl05hpNL",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
+                        }
+                      ]
                     }
                   ]
                 },
                 {
+                  "id": "software-item-1789049458637-upg6zy",
                   "text": "Windows",
-                  "references": [
+                  "status": "published",
+                  "children": [
                     {
-                      "label": "Open CST Studio Windows installation guide",
-                      "url": "/resources/softwaresupport/cststudio/windows/CST_Windows_Installation_Guide.pdf",
-                      "type": "pdf"
+                      "id": "software-link-1789050490577-qejnom",
+                      "text": "Open CST Studio Windows installation guide",
+                      "status": "published",
+                      "references": [
+                        {
+                          "id": "reference-1789049458637-zwfhvq",
+                          "label": "Open CST Studio Windows installation guide",
+                          "url": "/api/assets/r_tK6bQmLamuohspC8",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
+                        }
+                      ]
                     }
                   ]
                 }
               ]
             },
             {
+              "id": "software-item-1789049458637-hl5vtf",
               "text": "IBM SPSS",
+              "status": "published",
               "children": [
                 {
+                  "id": "software-item-1789049458637-zh9z52",
                   "text": "IBM SPSS 29",
-                  "references": [
+                  "status": "published",
+                  "children": [
                     {
-                      "label": "Open IBM SPSS 29 installation guide",
-                      "url": "/resources/softwaresupport/ibmspss/IBM_SPSS_Statistics_29_and_Amos_29_Installation_Guide.pdf",
-                      "type": "pdf"
+                      "id": "software-link-1789050490577-3012g4",
+                      "text": "Open IBM SPSS 29 installation guide",
+                      "status": "published",
+                      "references": [
+                        {
+                          "id": "reference-1789049458637-ygaw8g",
+                          "label": "Open IBM SPSS 29 installation guide",
+                          "url": "/api/assets/r_q5CnhjZPOLHtcYRW",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
+                        }
+                      ]
                     }
                   ]
                 }
               ]
             },
             {
+              "id": "software-item-1789049458637-jnwjsb",
               "text": "Microsoft Office",
+              "status": "published",
               "children": [
                 {
+                  "id": "software-item-1789049458637-c1t96t",
                   "text": "Windows",
+                  "status": "published",
                   "children": [
                     {
+                      "id": "software-item-1789049458637-nibzo7",
                       "text": "Microsoft Office 2024 Installation and Activation",
+                      "status": "published",
                       "references": [
                         {
+                          "id": "reference-1789049458637-p4o7qn",
                           "label": "Open Microsoft Office 2024 installation and activation guide",
-                          "url": "/resources/softwaresupport/microsoftoffice/windows/Microsoft_Office_2024_Installation_Activation_Guide.pdf",
-                          "type": "pdf"
+                          "url": "/api/assets/r_n8XHhpXpWsixQkk",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
                         }
                       ]
                     },
                     {
+                      "id": "software-item-1789049458637-r2m7op",
                       "text": "Microsoft Office 2019 and 2021 Installation and Activation",
+                      "status": "published",
                       "references": [
                         {
+                          "id": "reference-1789049458637-rk6sv3",
                           "label": "Open Microsoft Office 2019 and 2021 installation and activation guide",
-                          "url": "/resources/softwaresupport/microsoftoffice/windows/Microsoft_Office_2019_2021_Installation_Activation_Guide.pdf",
-                          "type": "pdf"
+                          "url": "/api/assets/r_QqtWyEA8datOATtN",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
                         }
                       ]
                     },
                     {
+                      "id": "software-item-1789049458637-7hkmd2",
                       "text": "Microsoft Office 2013, 2016 Activation",
+                      "status": "published",
                       "references": [
                         {
+                          "id": "reference-1789049458637-7ii481",
                           "label": "Open Microsoft Office 2013, 2016 KMS activation instructions",
-                          "url": "/resources/softwaresupport/microsoftoffice/windows/Microsoft_Office_2013_2016_KMS_Activation_Instructions.pdf",
-                          "type": "pdf"
+                          "url": "/api/assets/r_kNGHeGtqesg307B",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
                         }
                       ]
                     }
                   ]
                 },
                 {
+                  "id": "software-item-1789049458637-rzmi3k",
                   "text": "Mac OS",
+                  "status": "published",
                   "children": [
                     {
+                      "id": "software-item-1789049458637-o746a2",
                       "text": "Microsoft Office installation and activation for macOS",
+                      "status": "published",
                       "references": [
                         {
+                          "id": "reference-1789049458637-9pke0s",
                           "label": "Open Microsoft Office macOS installation and activation guide",
-                          "url": "/resources/softwaresupport/microsoftoffice/macos/Install_and_Activate_Microsoft_Office_on_macOS_v1.pdf",
-                          "type": "pdf"
+                          "url": "/api/assets/r_ga3K8xk8aJ5eIpZ",
+                          "type": "pdf",
+                          "inline": false,
+                          "resourceKey": ""
                         }
                       ]
                     }
@@ -1194,16 +1630,23 @@
               ]
             },
             {
+              "id": "software-item-1789049458637-bliv9u",
               "text": "Windows Activation",
+              "status": "published",
               "references": [
                 {
+                  "id": "reference-1789049458637-b0a6hq",
                   "label": "Open Microsoft Windows KMS activation instructions",
-                  "url": "/resources/softwaresupport/microsoftoffice/windows/Microsoft_Windows_KMS_Activation_Instructions.pdf",
-                  "type": "pdf"
+                  "url": "/api/assets/r_oZVnlOkvKQkKYB",
+                  "type": "pdf",
+                  "inline": false,
+                  "resourceKey": ""
                 }
               ]
             }
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         },
         {
           "title": "Service Model",
@@ -1211,7 +1654,9 @@
             "Different software categories follow different access and activation models.",
             "Some tools use campus-license workflows while others depend on centrally managed access.",
             "Software usage is expected to remain within institutional licensing terms."
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         }
       ],
       "instructions": [
@@ -1221,7 +1666,9 @@
             "Identify whether the required software is part of the CIC-supported catalog.",
             "Check whether access requires a repository download, activation workflow, or centralized license use.",
             "Follow the software-specific instruction path issued by CIC."
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         }
       ],
       "documents": [
@@ -1245,6 +1692,7 @@
         "Commercial licenses should be used only within valid institutional terms.",
         "Software-specific deployment details may vary across departments and use cases."
       ],
+      "highPriorityNotes": [],
       "contact": {
         "name": "CIC System and Software group",
         "role": "Licensed software assistance and access guidance",
@@ -1269,7 +1717,9 @@
             "VPN access is provided to faculty for special requirements on a case-by-case basis.",
             "A VPN username and password are required before the service can be used.",
             "The VPN client should be installed and configured according to the operating system in use."
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         },
         {
           "title": "Prerequisites",
@@ -1277,48 +1727,65 @@
             "Make sure that internet is working properly on your system.",
             "Install the VPN client.",
             {
+              "id": "software-item-1789049458637-ru280i",
               "text": "Obtain a VPN username and password through the VPN access request process by filling up the particular form",
+              "status": "published",
               "references": [
                 {
+                  "id": "reference-1789049458637-cqyj74",
                   "label": "here",
                   "url": "/forms-downloads",
                   "type": "link",
-                  "inline": true
+                  "inline": true,
+                  "resourceKey": ""
                 }
               ]
             }
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         },
         {
           "title": "VPN Client Download",
-          "hideItemMarkers": true,
           "items": [
             {
+              "id": "software-item-1789049458637-icghh2",
               "text": "Download FortiClient from the Fortinet website.",
+              "status": "published",
               "references": [
                 {
+                  "id": "reference-1789049458637-irp5s7",
                   "label": "Open Fortinet VPN downloads",
                   "url": "https://www.fortinet.com/support/product-downloads#vpn",
-                  "type": "link"
+                  "type": "link",
+                  "inline": false,
+                  "resourceKey": ""
                 }
               ]
             },
             {
+              "id": "software-item-1789049458637-nr6vay",
               "text": "Download FortiClient from the IITKGP VPN website when outside IIT LAN.",
+              "status": "published",
+              "references": [
+                {
+                  "id": "reference-1789049458637-nv15jz",
+                  "label": "Open IITKGP VPN download portal",
+                  "url": "https://vpn.iitkgp.ac.in/iit",
+                  "type": "link",
+                  "inline": false,
+                  "resourceKey": ""
+                }
+              ],
               "children": [
                 "Log in with your VPN username and password.",
                 "Download FortiClient as per your operating system.",
                 "Log out after the download is complete."
-              ],
-              "references": [
-                {
-                  "label": "Open IITKGP VPN download portal",
-                  "url": "https://vpn.iitkgp.ac.in/iit",
-                  "type": "link"
-                }
               ]
             }
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         }
       ],
       "instructions": [
@@ -1326,26 +1793,38 @@
           "title": "Installation Guide",
           "items": [
             {
+              "id": "software-item-1789049458637-8z56em",
               "text": "Windows installation guide",
+              "status": "published",
               "references": [
                 {
+                  "id": "reference-1789049458637-63hio7",
                   "label": "Open Windows VPN installation guide",
-                  "url": "/resources/vpn/FortiClient_VPN_Windows_Installation_and_Configuration_Guide.pdf",
-                  "type": "pdf"
+                  "url": "/api/assets/r_FFT0CZWUT7GCANR",
+                  "type": "pdf",
+                  "inline": false,
+                  "resourceKey": ""
                 }
               ]
             },
             {
+              "id": "software-item-1789049458637-9tgljs",
               "text": "Macintosh installation guide",
+              "status": "published",
               "references": [
                 {
+                  "id": "reference-1789049458637-atcwsm",
                   "label": "Open Macintosh VPN installation guide",
-                  "url": "/resources/vpn/FortiClient_VPN_macOS_Installation_and_Configuration_Guide.pdf",
-                  "type": "pdf"
+                  "url": "/api/assets/r_5OCjxnMT2Px0Tq3",
+                  "type": "pdf",
+                  "inline": false,
+                  "resourceKey": ""
                 }
               ]
             }
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         }
       ],
       "documents": [
@@ -1383,6 +1862,7 @@
         "Use the VPN credentials only for the approved institutional requirement.",
         "Keep the issued VPN username and password secure, and log out when the VPN session is no longer required."
       ],
+      "highPriorityNotes": [],
       "contact": {
         "name": "CIC VPN Support",
         "role": "VPN request and remote-access assistance",
@@ -1407,7 +1887,9 @@
             "The NTP service is intended for use from within the IIT Kharagpur campus network.",
             "The published network time server is ntp.iitkgp.ac.in.",
             "The service is useful for servers, labs, and systems where accurate timestamps matter."
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         },
         {
           "title": "Service Information 1",
@@ -1415,7 +1897,9 @@
             "The NTPR service is intended for use from within the IIT Kharagpur campus network.",
             "The published network time server is ntp.iitkgp.ac.in.",
             "The service is useful for servers, labs, and systems where accurate timestamps matter."
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         }
       ],
       "instructions": [
@@ -1425,7 +1909,9 @@
             "Keep the device within the intended campus network context.",
             "Configure the time synchronization source as ntp.iitkgp.ac.in.",
             "Verify that the host is synchronizing correctly after configuration."
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         }
       ],
       "documents": [
@@ -1442,6 +1928,7 @@
         "Use the official CIC NTP hostname exactly as published.",
         "The NTP service is framed as a campus infrastructure utility rather than a public internet endpoint."
       ],
+      "highPriorityNotes": [],
       "contact": {
         "name": "CIC System and Software group",
         "role": "Infrastructure timing and network services support",
@@ -1466,13 +1953,17 @@
             "Meghamala was conceptualized to address the computational needs of the research community at IIT Kharagpur.",
             "The service provides cloud-based compute and storage options for approved academic and research workloads.",
             "Users can provision a virtual machine on demand and use it as a desktop environment or to run research workloads."
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         },
         {
           "title": "Services Offered",
           "items": [
             {
+              "id": "software-item-1789049458637-y3c6aw",
               "text": "VMs4U Compute Nodes",
+              "status": "published",
               "children": [
                 "Provision a virtual machine on demand and use it as a desktop or run your workload on it.",
                 "IITKGP_MEGH_VM configuration: 16 VCPUs, 32 GB RAM, and 60 GB ephemeral storage.",
@@ -1480,22 +1971,31 @@
               ]
             },
             {
+              "id": "software-item-1789049458637-bndowv",
               "text": "Storage on the House",
+              "status": "published",
               "children": [
                 "Persistent storage is provided on request."
               ]
             },
             {
+              "id": "software-item-1789049458637-pr9t50",
               "text": "Click here to request for a VM",
+              "status": "published",
               "references": [
                 {
+                  "id": "reference-1789049458637-uv5oyz",
                   "label": "Open Meghamala VM request form",
                   "url": "/services/meghamala/request",
-                  "type": "link"
+                  "type": "link",
+                  "inline": false,
+                  "resourceKey": ""
                 }
               ]
             }
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         }
       ],
       "instructions": [
@@ -1505,7 +2005,9 @@
             "Review the available VM configuration and operating system options.",
             "Submit a VM request through the Meghamala request workflow.",
             "Use the allocated VM and storage for the approved research or academic workload."
-          ]
+          ],
+          "tables": [],
+          "highPriorityNotes": []
         }
       ],
       "documents": [
@@ -1529,6 +2031,7 @@
         "Persistent storage is provided on request rather than as a default allocation.",
         "Additional services may be added over time as the platform evolves."
       ],
+      "highPriorityNotes": [],
       "contact": {
         "name": "Meghamala Cloud Support",
         "role": "Private cloud access and service assistance",
